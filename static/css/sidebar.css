@@ -1,0 +1,177 @@
+.sidebar { 
+    width: var(--sidebar-width); 
+    height: 100vh;
+    background: var(--sidebar); 
+    backdrop-filter: blur(10px); 
+    border-right: 1px solid rgba(255,255,255,0.05); 
+    padding: 2rem 1.2rem; 
+    display: flex; 
+    flex-direction: column;
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1), padding 0.3s ease;
+    flex-shrink: 0;
+    overflow: hidden; /* 전체 스크롤을 막고 내부 스크롤 활성화 */
+}
+
+.sidebar-content {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    margin: 0 -0.5rem; /* 스크롤바 공간 확보를 위해 패딩 살짝 조정 */
+    padding: 0 0.5rem;
+}
+
+/* Custom Scrollbar for Sidebar */
+.sidebar-content::-webkit-scrollbar {
+    width: 4px;
+}
+
+.sidebar-content::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.sidebar-content::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+}
+
+.sidebar-content::-webkit-scrollbar-thumb:hover {
+    background: rgba(56, 189, 248, 0.3);
+}
+
+.sidebar-header { margin-bottom: 2.5rem; white-space: nowrap; overflow: hidden; }
+
+.logo { 
+    font-size: 1.3rem; 
+    font-weight: 800; 
+    background: linear-gradient(135deg, #38bdf8, #8b5cf6); 
+    -webkit-background-clip: text; 
+    -webkit-text-fill-color: transparent; 
+    transition: opacity 0.2s; 
+}
+
+.sidebar-toggle {
+    background: none; border: none; color: var(--muted); font-size: 1.2rem; cursor: pointer;
+    padding: 5px; border-radius: 4px; transition: background 0.2s, color 0.2s;
+}
+
+.sidebar-toggle:hover { background: rgba(255,255,255,0.05); color: var(--text); }
+
+/* Navigation List */
+.nav { list-style: none; display: flex; flex-direction: column; gap: 0; }
+
+.nav li { 
+    padding: 0.25rem 0.8rem; 
+    border-radius: 4px; 
+    font-weight: 600; 
+    cursor: pointer; 
+    transition: all 0.1s ease; 
+    display: flex; 
+    align-items: center; 
+    gap: 0.6rem; 
+    color: var(--muted); 
+    font-size: 0.85rem; 
+    margin: 0;
+    border-top: 1px solid transparent;
+}
+
+.nav li:hover { background: rgba(255,255,255,0.05); color: var(--text); }
+.nav li.active { background: rgba(56, 189, 248, 0.15); color: var(--accent); }
+
+/* Navigation Dividers */
+.nav li:not(.sub-item):not(:first-child) {
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    margin-top: 0.2rem;
+    padding-top: 0.4rem;
+}
+
+.section-title { 
+    font-size: 0.7rem; 
+    font-weight: 800; 
+    color: rgba(255,255,255,0.25); 
+    margin: 0.8rem 0 0.2rem 0.8rem; 
+    text-transform: uppercase; 
+    letter-spacing: 0.05rem; 
+    list-style: none; 
+    border-top: 1px solid rgba(255, 255, 255, 0.05); 
+    padding-top: 0.5rem; 
+}
+
+.sub-item { padding-left: 2.2rem !important; border-top: none !important; margin-top: 0 !important; }
+
+/* Sidebar Footer */
+.sidebar-footer {
+    display: flex;
+    gap: 8px;
+    margin-top: auto;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255,255,255,0.05);
+}
+
+.sidebar-footer .action-btn { flex: 1; padding: 10px !important; }
+
+#settingsBtn { 
+    flex: 0 0 45px !important; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    padding: 0 !important; 
+    font-size: 1.1rem; 
+}
+
+/* Collapsed State (Desktop) */
+.sidebar.collapsed { width: var(--sidebar-collapsed-width); padding: 2rem 0.5rem; }
+.sidebar.collapsed .text { display: none !important; }
+.sidebar.collapsed .logo { width: auto; margin-right: 0; }
+.sidebar.collapsed .nav li { padding: 0.8rem 0; justify-content: center; background: none !important; border: none !important; }
+.sidebar.collapsed .nav li.active { color: var(--accent); }
+.sidebar.collapsed .nav li .icon { font-size: 1.2rem; margin: 0; }
+.sidebar.collapsed .section-title { padding: 0.5rem 0; text-align: center; border-top: 1px solid rgba(255,255,255,0.05); height: 1px; overflow: hidden; }
+.sidebar.collapsed .sub-item { padding-left: 0 !important; }
+
+/* Hide redundant sections in collapsed state */
+.sidebar.collapsed .sidebar-section:has(#calendarHeader),
+.sidebar.collapsed .sidebar-section:has(#heatmapContainer),
+.sidebar.collapsed #calendarHeader,
+.sidebar.collapsed #calendarContainer,
+.sidebar.collapsed #heatmapContainer {
+    display: none !important;
+}
+
+/* Remove boxes from buttons in collapsed state */
+.sidebar.collapsed .action-btn {
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    justify-content: center !important;
+    padding: 10px 0 !important;
+}
+
+.sidebar.collapsed .sidebar-footer { padding: 10px 0; justify-content: center; display: flex; flex-direction: column; align-items: center; border-top: 1px solid rgba(255,255,255,0.05);}
+.sidebar.collapsed #logoutBtn { padding: 8px !important; justify-content: center; }
+.sidebar.collapsed #settingsBtn { background: none !important; border: none !important; }
+
+/* Tooltips for Collapsed Sidebar */
+.sidebar.collapsed [data-tooltip] { position: relative; }
+.sidebar.collapsed [data-tooltip]::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    left: 80px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(15, 23, 42, 0.9);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.2s ease;
+    z-index: 1000;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+.sidebar.collapsed [data-tooltip]:hover::after {
+    opacity: 1;
+    left: 70px;
+}

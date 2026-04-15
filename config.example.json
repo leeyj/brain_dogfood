@@ -1,0 +1,9 @@
+{
+    "bg_color": "#0f172a",
+    "sidebar_color": "rgba(30, 41, 59, 0.7)",
+    "card_color": "rgba(30, 41, 59, 0.85)",
+    "encrypted_border": "#00f3ff",
+    "ai_accent": "#8b5cf6",
+    "enable_ai": false,
+    "lang": "en"
+}

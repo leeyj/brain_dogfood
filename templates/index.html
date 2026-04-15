@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="app_name">Brain Dogfood</title>
+    <link rel="icon" type="image/png" href="/static/favicon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    
+    <!-- Toast UI Editor -->
+    <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
+    <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/theme/toastui-editor-dark.min.css" />
+    <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+    
+    <!-- TUI Color Picker & Color Syntax Plugin -->
+    <link rel="stylesheet" href="https://uicdn.toast.com/tui-color-picker/latest/tui-color-picker.min.css" />
+    <script src="https://uicdn.toast.com/tui-color-picker/latest/tui-color-picker.min.js"></script>
+    <link rel="stylesheet" href="https://uicdn.toast.com/editor-plugin-color-syntax/latest/toastui-editor-plugin-color-syntax.min.css" />
+    <script src="https://uicdn.toast.com/editor-plugin-color-syntax/latest/toastui-editor-plugin-color-syntax.min.js"></script>
+    
+    <!-- D3.js for Knowledge Nebula -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+
+    <link rel="stylesheet" href="/static/style.css?v=1.4">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify/dist/purify.min.js"></script>
+</head>
+<body>
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 2.5rem;">
+            <h1 class="logo">🧠 <span class="text" data-i18n="app_name">Brain Dogfood</span></h1>
+            <button id="sidebarToggle" class="sidebar-toggle" data-i18n-title="nav_toggle">☰</button>
+        </div>
+        <div class="sidebar-content">
+            <ul class="nav" id="systemNav">
+                <li class="active" data-group="all" data-i18n-title="nav_all"><span class="icon">💡</span> <span class="text" data-i18n="nav_all">All Knowledge</span></li>
+                <li data-group="files" data-i18n-title="nav_files"><span class="icon">📂</span> <span class="text" data-i18n="nav_files">Files</span></li>
+                <li data-group="done" data-i18n-title="nav_done"><span class="icon">✅</span> <span class="text" data-i18n="nav_done">Done</span></li>
+            </ul>
+            
+            <div class="sidebar-section">
+                <button id="openExplorerBtn" class="action-btn explorer-btn" style="width: 100%; justify-content: flex-start; margin-top: 15px; padding: 12px 15px; background: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.2); color: var(--accent); font-weight: 600; border-radius: 12px;">
+                    <span class="icon">🔍</span> <span class="text" data-i18n="nav_explorer">Knowledge Explorer</span>
+                </button>
+            </div>
+            
+            <div class="sidebar-section">
+                <div id="calendarHeader" class="section-title" style="cursor: pointer; display: flex; align-items: center; justify-content: space-between; padding: 10px 15px; border-radius: 8px; margin-top: 10px; transition: background 0.2s;">
+                    <span style="font-size: 0.9rem; font-weight: 600; color: var(--muted);"><span class="icon">📅</span> <span class="text" data-i18n="nav_calendar">Calendar</span></span>
+                    <span id="calendarToggleIcon" style="font-size: 0.8rem; color: var(--muted);">▲</span>
+                </div>
+                <div id="calendarContainer" class="calendar-content">
+                    <!-- JS will render calendar here -->
+                </div>
+            </div>
+    
+            <div class="sidebar-section">
+                <div id="heatmapContainer">
+                    <!-- JS will render heatmap here -->
+                </div>
+            </div>
+            
+            <div class="sidebar-section">
+                <button id="openGraphBtn" class="action-btn" style="width: 100%; justify-content: flex-start; margin-top: 10px; padding: 10px 15px; background: rgba(139, 92, 246, 0.1); border: 1px solid rgba(139, 92, 246, 0.2); color: var(--ai-accent);">
+                    <span class="icon">🕸️</span> <span class="text" data-i18n="nav_nebula">Knowledge Nebula</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="sidebar-footer">
+            <button id="logoutBtn" class="action-btn" style="color: #ff4d4d;" data-i18n-tooltip="tooltip_logout">
+                <span class="icon">🚪</span> <span class="text" data-i18n="nav_logout">Logout</span>
+            </button>
+            <button id="settingsBtn" class="action-btn" data-i18n-tooltip="tooltip_settings">
+                <span class="icon">⚙️</span>
+            </button>
+        </div>
+    </aside>
+    
+    <main class="content">
+        <div class="topbar">
+            <button id="mobileMenuBtn" class="sidebar-toggle" style="display: none; margin-right: 15px;">☰</button>
+            <div class="search-bar">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="searchInput" data-i18n-placeholder="search_placeholder">
+            </div>
+        </div>
+
+        <div class="composer-wrapper">
+            <!-- Accordion default closed state -->
+            <div id="composerTrigger" class="glass-panel" style="cursor: text;">
+                <span style="color: var(--muted); font-size: 1.1rem; font-weight: 600;" data-i18n="composer_placeholder_trigger">Capture knowledge or drop files...</span>
+            </div>
+
+            <!-- Actual Composer -->
+            <form id="composer" class="glass-panel" style="display: none;">
+                <input type="hidden" id="editingMemoId" value="">
+                
+                <div style="display: flex; gap:10px; align-items:center; margin-bottom: 10px;">
+                    <input type="text" id="memoTitle" data-i18n-placeholder="composer_title" autocomplete="off" style="flex: 1;">
+                    <button type="button" id="foldBtn" class="action-btn" style="height:35px; width:35px; padding:0;" data-i18n-title="tooltip_fold">▲</button>
+                </div>
+
+                <div class="meta-inputs" style="display: flex; gap: 10px; margin-bottom: 10px; align-items: center;">
+                    <input type="text" id="memoGroup" data-i18n-placeholder="composer_group" class="meta-field" style="width: 120px;">
+                    <input type="text" id="memoTags" data-i18n-placeholder="composer_tags" class="meta-field" style="flex: 1;">
+                    <button type="button" id="encryptionToggle" class="action-btn" data-i18n-title="composer_encrypt" style="height:34px; padding:0 10px;">🔓</button>
+                    <input type="password" id="memoPassword" data-i18n-placeholder="composer_password" class="meta-field" style="width: 120px; display: none;">
+                </div>
+                
+                <div class="editor-resize-wrapper">
+                    <div id="editor"></div>
+                </div>
+                <!-- Pending Attachments list in Composer -->
+                <div id="editorAttachments" class="memo-attachments" style="margin-top: 15px;"></div>
+
+                <!-- 키보드 단축키 힌트 (토글) -->
+                <div id="shortcutHint" class="shortcut-hint-bar">
+                    <button type="button" id="shortcutToggle" class="shortcut-toggle-btn" data-i18n="shortcuts_label">⌨️ Shortcuts</button>
+                    <div id="shortcutDetails" class="shortcut-details" style="display: none;">
+                        <span class="sk"><kbd>Ctrl</kbd>+<kbd>Enter</kbd> <span data-i18n="shortcut_save">Save</span></span>
+                        <span class="sk"><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>N</kbd> / <kbd>Alt</kbd>+<kbd>`</kbd> <span data-i18n="shortcut_new">New Memo</span></span>
+                        <span class="sk"><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>G</kbd> <span data-i18n="shortcut_nebula">Nebula</span></span>
+                        <span class="sk"><kbd>/</kbd> <span data-i18n="shortcut_slash">Slash Commands</span></span>
+                        <span class="sk"><kbd>Alt</kbd>+<kbd>Click</kbd> <span data-i18n="shortcut_edit">Quick Edit</span></span>
+                    </div>
+                </div>
+
+                <div class="composer-actions" style="display: flex; gap: 10px; margin-top: 15px; justify-content: flex-end;">
+                    <button type="button" id="discardBtn" class="action-btn" style="background: rgba(255, 77, 77, 0.1); color: #ff4d4d; border-color: rgba(255, 77, 77, 0.2);" data-i18n="composer_discard">Discard (Delete)</button>
+                    <button type="submit" id="submitBtn" class="primary-btn" data-i18n="composer_save">Save Memo</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="masonry-grid" id="memoGrid">
+            <!-- Memos loaded here -->
+        </div>
+        <div id="scrollSentinel" style="height: 50px; display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 0.9rem;">
+        </div>
+    </main>
+
+    <!-- Modal for viewing memo details/links -->
+    <div id="memoModal" class="modal">
+        <div class="modal-content glass-panel" id="modalContent"></div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settingsModal" class="modal">
+        <div class="modal-content glass-panel" style="max-width: 400px; padding: 25px;">
+            <h2 style="margin-bottom: 20px; font-weight: 800; background: linear-gradient(135deg, #38bdf8, #8b5cf6); -webkit-background-clip: text; -webkit-text-fill-color: transparent;" data-i18n="settings_title">⚙️ Settings</h2>
+            
+            <div class="settings-grid">
+                <label data-i18n="settings_bg">전체 배경색</label>
+                <input type="color" id="set-bg" data-var="--bg">
+                
+                <label data-i18n="settings_sidebar">사이드바 색상</label>
+                <input type="color" id="set-sidebar" data-var="--sidebar">
+                
+                <label data-i18n="settings_card">메모지 색상</label>
+                <input type="color" id="set-card" data-var="--card">
+                
+                <label data-i18n="settings_security">보안 테두리색</label>
+                <input type="color" id="set-encrypted" data-var="--encrypted-border">
+                
+                <label data-i18n="settings_ai_accent">AI 분석 강조색</label>
+                <input type="color" id="set-ai" data-var="--ai-accent">
+
+                <label style="font-weight: 800; color: var(--ai-accent);" data-i18n="settings_ai_enable">AI 기능 활성화</label>
+                <input type="checkbox" id="set-enable-ai" style="width: 20px; height: 20px; cursor: pointer;">
+            </div>
+
+            <div class="settings-grid">
+                <label data-i18n="settings_lang">언어 설정</label>
+                <select id="set-lang" class="meta-field" style="width: 100px;">
+                    <option value="ko">한국어</option>
+                    <option value="en">English</option>
+                </select>
+            </div>
+
+            <div class="settings-actions">
+                <button id="resetThemeBtn" class="action-btn" style="font-size: 0.85rem;" data-i18n="settings_reset">Reset</button>
+                <button id="saveThemeBtn" class="primary-btn" data-i18n="settings_save">Save</button>
+                <button id="closeSettingsBtn" class="action-btn" data-i18n="settings_close">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- AI Loading Overlay (Optional but nice) -->
+    <div id="loadingOverlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); backdrop-filter:blur(5px); z-index:2000; flex-direction:column; justify-content:center; align-items:center;">
+        <div class="spinner"></div>
+        <p style="margin-top:20px; font-weight:800; color:var(--accent);" data-i18n="msg_ai_loading">AI is analyzing the memo...</p>
+    </div>
+
+    <!-- Sidebar Overlay for mobile -->
+    <div id="sidebarOverlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.4); z-index:900; backdrop-filter:blur(2px);"></div>
+
+    <!-- Graph Modal -->
+    <div id="graphModal" class="modal">
+        <div class="modal-content glass-panel" style="width: 90%; height: 90%; max-width: none; overflow: hidden; position: relative; padding: 0; background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);">
+            <div id="graphContainer" style="width: 100%; height: 100%; background-image: radial-gradient(circle, rgba(255,255,255,0.05) 1px, transparent 1px); background-size: 50px 50px;"></div>
+            <button id="closeGraphBtn" style="position: absolute; top: 20px; right: 20px; z-index: 100; background: rgba(0,0,0,0.5); border: none; color: white; border-radius: 50%; width: 40px; height: 40px; cursor: pointer; font-size: 20px;">×</button>
+        </div>
+    </div>
+
+    <!-- Knowledge Explorer Drawer -->
+    <div id="knowledgeDrawer" class="drawer">
+        <div class="drawer-header">
+            <h3 data-i18n="nav_explorer">🔍 Knowledge Explorer</h3>
+            <button id="closeDrawerBtn" class="close-btn">×</button>
+        </div>
+        <div id="drawerContent" class="drawer-body">
+            <!-- Groups/Tags will be injected here -->
+        </div>
+    </div>
+
+    <script type="module" src="/static/app.js?v=2.2"></script>
+</body>
+</html>

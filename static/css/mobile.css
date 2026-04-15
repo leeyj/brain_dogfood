@@ -1,0 +1,49 @@
+/* --- Mobile Optimization (v2.0+) --- */
+@media (max-width: 768px) {
+    body { overflow-x: hidden; }
+
+    /* Sidebar as Drawer on Mobile */
+    .sidebar {
+        position: fixed; left: 0; top: 0; height: 100vh; z-index: 1000;
+        transform: translateX(-100%); transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        width: 280px; box-shadow: 20px 0 50px rgba(0,0,0,0.5);
+    }
+    .sidebar.mobile-open { transform: translateX(0); }
+    .sidebar.collapsed { width: 280px; }
+    .sidebar.collapsed .text { display: inline !important; }
+
+    /* Mobile Content Layout */
+    .content { padding: 1rem; width: 100%; }
+    .topbar { margin-bottom: 1.5rem; flex-direction: row; align-items: center; justify-content: flex-start; gap: 0; }
+    .search-bar { flex: 1; order: 2; }
+    #mobileMenuBtn { display: block !important; order: 1; }
+    
+    .sidebar-toggle { font-size: 1.5rem; padding: 10px; }
+
+    /* Composer Adjustments */
+    .meta-inputs { flex-direction: column; align-items: stretch !important; gap: 8px !important; }
+    .meta-field { width: 100% !important; height: 44px !important; font-size: 1rem !important; }
+    #composer input[type="text"] { height: 44px; font-size: 1.1rem; }
+    .editor-resize-wrapper { height: 300px; }
+
+    /* Card Layout for Mobile */
+    .masonry-grid { columns: 1; column-gap: 0; }
+    .memo-card { max-height: none; padding-bottom: 50px; }
+    .memo-card::after { height: 40px; }
+    
+    .memo-actions { opacity: 1 !important; bottom: 8px; right: 8px; }
+    .action-btn { padding: 8px 12px; font-size: 1rem; min-width: 44px; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+
+    .modal-content { width: 95%; max-height: 90vh; border-radius: 12px; }
+    .tag-badge, .group-badge { padding: 4px 10px; font-size: 0.85rem; }
+
+    body { padding-bottom: env(safe-area-inset-bottom); }
+
+    /* Knowledge Drawer Mobile Adjustments */
+    .drawer {
+        left: 10px; right: 10px; width: auto;
+        transform: translateY(110%);
+        bottom: 10px; top: auto; height: 70vh;
+    }
+    .drawer.active { transform: translateY(0); }
+}

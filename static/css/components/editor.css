@@ -1,0 +1,98 @@
+/* Composer & Editor */
+.composer-wrapper { width: 100%; margin-bottom: 3rem; }
+
+#composer input[type="text"] { 
+    width: 100%; 
+    background: transparent; 
+    border: none; 
+    outline: none; 
+    color: white; 
+    font-family: var(--font); 
+    font-size: 1.1rem; 
+    font-weight: 800; 
+    height: 35px; 
+}
+
+.meta-field { 
+    background: rgba(0,0,0,0.3) !important; 
+    border: 1px solid rgba(255,255,255,0.1) !important; 
+    border-radius: 8px; 
+    padding: 5px 10px !important; 
+    font-size: 0.8rem !important; 
+    color: var(--muted) !important; 
+}
+
+.editor-resize-wrapper { 
+    resize: vertical; 
+    overflow: hidden; 
+    min-height: 200px; 
+    height: 350px; 
+    border-radius: 8px; 
+    margin-bottom: 10px; 
+}
+
+.toastui-editor-defaultUI { 
+    height: 100% !important; 
+    border: 1px solid rgba(255,255,255,0.1) !important; 
+    border-radius: 8px; 
+}
+
+#editorAttachments {
+    width: 100%;
+    margin-bottom: 5px;
+}
+
+/* --- 키보드 단축키 힌트 바 --- */
+.shortcut-hint-bar {
+    margin-top: 10px;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.shortcut-toggle-btn {
+    background: rgba(56, 189, 248, 0.08);
+    border: 1px solid rgba(56, 189, 248, 0.15);
+    color: var(--muted);
+    font-size: 0.75rem;
+    padding: 5px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: var(--font);
+}
+.shortcut-toggle-btn:hover {
+    background: rgba(56, 189, 248, 0.15);
+    color: var(--accent);
+}
+
+.shortcut-details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 10px 4px;
+    animation: fadeSlideIn 0.2s ease;
+}
+
+.shortcut-details .sk {
+    font-size: 0.72rem;
+    color: var(--muted);
+    white-space: nowrap;
+}
+
+.shortcut-details kbd {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 4px;
+    padding: 1px 5px;
+    font-size: 0.68rem;
+    font-family: 'Inter', monospace;
+    color: var(--accent);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    margin: 0 1px;
+}
+
+@keyframes fadeSlideIn {
+    from { opacity: 0; transform: translateY(-4px); }
+    to   { opacity: 1; transform: translateY(0); }
+}

@@ -1,0 +1,6 @@
+Flask==3.0.2
+google-genai
+python-dotenv==1.0.1
+cryptography==42.0.5
+paramiko==3.4.0
+scp==0.14.5

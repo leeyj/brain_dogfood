@@ -1,0 +1,10 @@
+# Brain Dogfood Public Repo Gitignore
+.env
+config.json
+memos.db
+__pycache__/
+*.pyc
+logs/
+data/
+.vscode/
+.idea/

@@ -1,0 +1,29 @@
+html { font-size: 15px; }
+
+:root {
+    --bg: #0f172a;
+    --sidebar: rgba(30, 41, 59, 0.7);
+    --card: rgba(30, 41, 59, 0.85);
+    --text: #f8fafc;
+    --muted: #94a3b8;
+    --accent: #38bdf8;
+    --accent-hover: #0ea5e9;
+    --ai-accent: #8b5cf6;
+    --encrypted-border: #00f3ff;
+    --sidebar-width: 260px;
+    --sidebar-collapsed-width: 70px;
+    --font: 'Inter', sans-serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    background-color: var(--bg);
+    background-image: radial-gradient(circle at 15% 50%, rgba(56, 189, 248, 0.05), transparent 25%),
+                      radial-gradient(circle at 85% 30%, rgba(139, 92, 246, 0.05), transparent 25%);
+    color: var(--text);
+    font-family: var(--font);
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+}

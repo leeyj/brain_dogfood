@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="login_title">뇌사료 | 보안 로그인</title>
+    <link rel="icon" type="image/png" href="/static/favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/login.css?v=1.0">
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-card">
+            <div class="logo-area">
+                <h1 class="logo">🧠 <span data-i18n="app_name">Brain Dogfood</span></h1>
+                <p class="tagline" data-i18n="login_welcome">Welcome to your intelligent knowledge base.</p>
+            </div>
+            
+            <div class="input-group">
+                <label for="username" data-i18n="login_id">Auth ID</label>
+                <div class="input-wrapper">
+                    <input type="text" id="username" placeholder="Username" autocomplete="username" required>
+                </div>
+            </div>
+            
+            <div class="input-group">
+                <label for="password" data-i18n="login_pw">Password</label>
+                <div class="input-wrapper">
+                    <input type="password" id="password" placeholder="••••••••" autocomplete="current-password" required>
+                </div>
+            </div>
+            
+            <button class="login-btn" id="loginBtn" data-i18n="login_btn">Login</button>
+            <div class="error-msg" id="errorMsg" data-i18n="msg_auth_failed" style="display:none;">Authentication failed.</div>
+            
+            <div class="login-card-footer">
+                &copy; 2026 개밥마스터 Personal Knowledge Base.
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { I18nManager } from '/static/js/utils/I18nManager.js';
+        
+        const lang = "{{ lang }}"; // Server-injected lang
+        await I18nManager.init(lang);
+
+        const loginBtn = document.getElementById('loginBtn');
+        const usernameInput = document.getElementById('username');
+        const passwordInput = document.getElementById('password');
+        const errorMsg = document.getElementById('errorMsg');
+
+        loginBtn.addEventListener('click', async () => {
+            const username = usernameInput.value.trim();
+            const password = passwordInput.value;
+            
+            if (!username || !password) return;
+            
+            errorMsg.style.display = 'none';
+            loginBtn.innerText = I18nManager.t('msg_authenticating');
+            loginBtn.disabled = true;
+
+            try {
+                const res = await fetch('/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+                
+                const data = await res.json();
+
+                if (res.ok) {
+                    window.location.href = '/';
+                } else {
+                    errorMsg.style.display = 'block';
+                    errorMsg.innerText = data.error || I18nManager.t('msg_auth_failed');
+                    loginBtn.innerText = I18nManager.t('login_btn');
+                    loginBtn.disabled = false;
+                }
+            } catch (err) {
+                console.error(err);
+                alert(I18nManager.t('msg_network_error'));
+                loginBtn.innerText = I18nManager.t('login_btn');
+                loginBtn.disabled = false;
+            }
+        });
+
+        // Enter key to login
+        [usernameInput, passwordInput].forEach(input => {
+            input.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') loginBtn.click();
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,104 @@
+/* Masonry Grid Layout */
+.masonry-grid { width: 100%; columns: auto 300px; column-gap: 1.5rem; }
+
+/* Memo Card Styling */
+.memo-card {
+    break-inside: avoid; margin-bottom: 1.5rem; background: rgba(30, 41, 59, 0.6);
+    border-radius: 12px; padding: 1.2rem 1.2rem 45px 1.2rem; border: 1px solid rgba(255,255,255,0.05);
+    position: relative; transition: transform 0.2s, background 0.2s;
+    max-height: 320px; overflow: hidden;
+}
+
+.memo-card:hover { transform: translateY(-4px); background: rgba(30, 41, 59, 1); }
+
+.memo-card.compact { max-height: 80px; background: rgba(30, 41, 59, 0.3); border: 1px dashed rgba(255,255,255,0.1); }
+.memo-card.compact .memo-content, 
+.memo-card.compact .memo-ai-summary, 
+.memo-card.compact .memo-backlinks { display: none; }
+.memo-card.compact .memo-title { font-size: 0.9rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 0px; margin-right: 50px; }
+.memo-card.compact::after { display: none; }
+
+.memo-card.encrypted {
+    border: 1px solid var(--encrypted-border) !important;
+    box-shadow: 0 0 15px rgba(0, 243, 255, 0.15), inset 0 0 5px rgba(0, 243, 255, 0.05);
+}
+
+/* Fade-out for long content */
+.memo-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; width: 100%; height: 60px;
+    background: linear-gradient(transparent, rgba(15, 23, 42, 0.8));
+    pointer-events: none;
+    border-radius: 0 0 12px 12px;
+}
+
+/* Memo Content Elements */
+.memo-title { font-weight: 600; font-size: 1.0rem; margin-bottom: 0.5rem; }
+.memo-content { font-size: 0.9rem; color: #cbd5e1; line-height: 1.6; }
+.memo-content img { max-width: 100%; border-radius: 8px; margin-top: 5px; }
+
+.memo-summary, .memo-ai-summary {
+    font-size: 0.8rem; 
+    font-style: italic; 
+    color: var(--ai-accent); 
+    border-left: 2px solid var(--ai-accent);
+    padding-left: 10px; 
+    margin-bottom: 15px; 
+    line-height: 1.5;
+    opacity: 0.9;
+}
+
+.memo-summary strong {
+    color: var(--ai-accent);
+    font-weight: 800;
+    text-transform: uppercase;
+    margin-right: 5px;
+}
+
+/* Meta & Badges */
+.memo-meta { margin-bottom: 12px; display: flex; flex-wrap: wrap; gap: 5px; }
+.tag-badge { padding: 2px 8px; border-radius: 12px; font-size: 0.75rem; font-weight: bold; }
+.tag-user { background: rgba(56, 189, 248, 0.2); color: var(--accent); }
+.tag-ai { background: rgba(139, 92, 246, 0.2); color: #c084fc; border: 1px solid rgba(139, 92, 246, 0.3); }
+.group-badge { background: rgba(255,255,255,0.05); color: #cbd5e1; padding: 2px 8px; border-radius: 12px; font-size: 0.75rem; font-weight: bold; }
+
+/* Links & Actions */
+.memo-backlinks { margin-top: 12px; padding-top: 8px; border-top: 1px solid rgba(255,255,255,0.05); font-size: 0.8rem; color: var(--muted); }
+.link-item { color: var(--accent); cursor: pointer; text-decoration: none; font-weight: 600; }
+.link-item:hover { text-decoration: underline; }
+
+.memo-actions { position: absolute; bottom: 10px; right: 10px; opacity: 0; transition: opacity 0.2s; display: flex; gap: 5px; }
+.memo-card:hover .memo-actions { opacity: 1; }
+
+/* Attachments */
+.memo-attachments {
+    margin-top: 15px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.file-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 6px;
+    padding: 6px 12px;
+    font-size: 0.8rem;
+    color: #cbd5e1;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+}
+
+.file-chip:hover {
+    background: rgba(255,255,255,0.1);
+    border-color: var(--accent);
+    color: white;
+    transform: translateY(-1px);
+}
