@@ -17,8 +17,9 @@ def parse_metadata(text, default_group=GROUP_DEFAULT):
     if group_match:
         group_name = group_match.group(1)
         
-    # #태그 추출 (마크다운 헤더 및 내부 링크[[#ID]] 방지)
-    tag_matches = re.finditer(r'(?<!#)(?<!\[\[)#(\w+)', text)
+    # #태그 추출 (마크다운 헤더 # , ## 및 내부 링크[[#ID]] 방지)
+    # 태그는 반드시 # 바로 뒤에 영문/숫자/한글이 붙어 있어야 하며, 앞에 다른 문자가 없어야 함
+    tag_matches = re.finditer(r'(?<!#)(?<!\[\[)(?<!\w)#([^\s\#\d\W][^\s\#]*)', text)
     for match in tag_matches:
         tags.append(match.group(1))
         
@@ -32,11 +33,12 @@ def parse_and_clean_metadata(content, ui_group=GROUP_DEFAULT, ui_tags=None):
     if not content:
         return content, ui_group, ui_tags
 
-    # 1. 기존에 생성된 푸터 블록(수평선 + 메타데이터)을 모두 제거
-    # 전후 공백을 제거한 후, 하단의 수평선(---, ***, ___)과 메타데이터 블록을 반복적으로 탐색하여 제거합니다.
+    # 1. 기존에 생성된 푸터 블록(수평선 + 메타데이터)을 제거
+    # 파일의 가장 마지막에 위치한 수평선(---, ***, ___)과 그 뒤에 따라오는 메타데이터($ , #) 줄들만 식별하여 제거합니다.
     content = content.strip()
-    # 패턴: (공백+수평선+공백 + (메타데이터 또는 공백))이 문자열 끝에 1회 이상 반복
-    content = re.sub(r'(?:\s*[\*\-\_]{3,}\s*(?:[\$\#][\s\S]*?)?\s*)+$', '', content).strip()
+    # 패턴 설명: 줄바꿈 + 수평선 + 줄바꿈 + (줄 시작이 $ 또는 #이며 뒤에 공백이 없는 줄들의 반복) + 끝
+    footer_regex = r'\n+[\*\-\_]{3,}\s*\n(?:^[\$\#][^\s\#].*$(?:\n|$))*$'
+    content = re.sub(footer_regex, '', content, flags=re.MULTILINE).strip()
 
     # 2. 본문에서 기호 정보 추출
     content_group, content_tags = parse_metadata(content)
@@ -44,8 +46,8 @@ def parse_and_clean_metadata(content, ui_group=GROUP_DEFAULT, ui_tags=None):
     # 3. 본문에서 기호 패턴 삭제
     # $그룹 삭제
     content = re.sub(r'\$\w+', '', content)
-    # #태그 삭제 (헤더 및 내부 링크 제외)
-    content = re.sub(r'(?<!#)(?<!\[\[)#\w+', '', content)
+    # #태그 삭제 (헤더 및 내부 링크 제외, 태그는 # 뒤에 바로 문자가 와야 함)
+    content = re.sub(r'(?<!#)(?<!\[\[)(?<!\w)#([^\s\#\d\W][^\s\#]*)', '', content)
     content = content.strip()
 
     # 4. 데이터 통합
@@ -75,16 +77,22 @@ def generate_auto_title(content):
     if not content:
         return ""
         
-    # 푸터 제외하고 순수 본문만 추출하여 제목 생성
-    main_content = re.split(r'\n+---\n', content)[0].strip()
+    # 푸터 제거 (마지막 수평선 블록 제거 로직과 동일)
+    footer_regex = r'\n+[\*\-\_]{3,}\s*\n(?:^[\$\#][^\s\#].*$(?:\n|$))*$'
+    main_content = re.sub(footer_regex, '', content, flags=re.MULTILINE).strip()
     if not main_content: return ""
 
     lines = main_content.split('\n')
-    first_line = lines[0].strip()
-    # 마크다운 헤더 기호(#) 제거
-    first_line = re.sub(r'^#+\s+', '', first_line).strip()
+    # 실제 내용이 있는 첫 번째 줄 찾기 (헤더 기호 제외)
+    title = ""
+    for line in lines:
+        stripped = line.strip()
+        if not stripped: continue
+        # 마크다운 헤더 기호(#) 제거
+        title = re.sub(r'^#+\s+', '', stripped).strip()
+        if title: break
     
-    return first_line[:20]
+    return title[:20]
 
 def extract_links(text):
     """
