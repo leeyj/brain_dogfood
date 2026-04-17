@@ -1,0 +1,45 @@
+# 🚀 뇌사료 (Brain Dogfood) 향후 개발 로드맵 (Roadmap)
+
+본 문서는 '뇌사료' 프로젝트의 기능 확장 아이디어와 향후 구현될 기술적 태스크들을 관리합니다.
+
+---
+
+## 🕒 1. 차세대 사용자 경험 (UX) 강화
+
+### 1.1 인터랙티브 지식 포커스 (Interactive Knowledge Focus)
+메인 그리드에서 특정 메모에 마우스를 올렸을 때, 해당 메모와 연결된(Links/Backlinks) 지식들만 강조하고 나머지는 흐리게 처리하여 맥락을 명확히 하는 기능입니다.
+
+- **수정 범위 (Scope)**:
+    - `static/js/ui.js`: `renderMemos` 루프 내에서 카드별 링크 데이터 매핑 및 `mouseenter/mouseleave` 이벤트 핸들러 추가.
+    - `static/css/components/memo.css`: `.memo-card.dimmed`, `.memo-card.focused` 클래스 정의 및 부드러운 `opacity`, `filter: blur` 트랜지션 추가.
+- **구현 난이도**: **낮음(Low) ~ 중간(Mid)**
+    - 데이터는 이미 API 응답에 포함되어 있으므로 스타일 연출과 DOM 성능 최적화가 핵심입니다.
+- **주의사항**:
+    - **성능**: 수백 개의 메모가 화면에 있을 때 빈번한 DOM 클래스 조작이 퍼포먼스 저하를 일으키지 않도록 `requestAnimationFrame` 또는 효율적인 셀렉터 사용 권장.
+    - **가독성**: 다른 메모를 너무 흐리게 하거나 완전히 사라지게 하면 전체적인 위치 감각을 잃을 수 있으므로 적절한 `opacity` 값(약 0.2~0.3) 설정 필요.
+    - **모바일 대응**: 마우스가 없는 환경에서는 롱프레스(Long Press)나 터치 시 발동 여부 검토 필요.
+
+---
+
+## 🕸️ 2. 시스템 및 확장성 (Backend & Scalability)
+
+### 2.1 Obsidian 양방향 동기화 플러그인
+로컬 Obsidian 저장소와 뇌사료 서버 간의 실시간 암호화 동기화 도구 개발.
+- **참조**: [docs/obsidian_plugin_plan.md](file:///c:/project/my_util/memo_server/docs/obsidian_plugin_plan.md)
+
+### 2.2 지식 네뷸라 엔진 고도화
+- 노드 군집화(Clustering) 알고리즘 개선으로 그룹 간 경계 명확화.
+- 대규모 노드 환경에서의 렌더링 최적화.
+
+---
+
+## 🎨 3. 미적 완성도 (Aesthetics)
+
+### 3.1 하이엔드 쉐이더 배경 (v3.0)
+- 현재의 정적인 배경 대신, 지식 축적량에 따라 은은하게 움직이는 3D 레이어 배경(Three.js) 도입 검토.
+
+---
+
+> [!TIP]
+> **새로운 아이디어가 있으신가요?**
+> 제안이 있을 때마다 이 로드맵에 추가하여 프로젝트의 철학을 유지하면서 꾸준히 발전시켜 나갑시다.
