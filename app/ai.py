@@ -26,7 +26,9 @@ def analyze_memo(title, content, lang='en'):
     
     if lang == 'ko':
         prompt = f"""
-        당신은 메모 분석 전문가입니다. 아래 메모의 제목과 내용을 읽고 다음 작업을 수행하세요:
+        당심은 메모 분석 전문가입니다. 아래 메모의 제목과 내용을 읽고 다음 작업을 수행하세요.
+        **반드시 모든 응답(요약 및 태그)은 한국어로 작성해야 합니다.**
+        
         1. 내용을 1~2문장으로 아주 간결하게 요약할 것.
         2. 내용과 관련된 핵심 키워드를 태그 형태로 3~5개 추출할 것.
         
@@ -35,13 +37,15 @@ def analyze_memo(title, content, lang='en'):
         
         출력 형식(JSON):
         {{
-            "summary": "요약 내용",
-            "tags": ["태그1", "태그2", "태그3"]
+            "summary": "한국어 요약 내용",
+            "tags": ["한국어태그1", "한국어태그2", "한국어태그3"]
         }}
         """
     else:
         prompt = f"""
-        You are a memo analysis expert. Read the title and content below and perform the following:
+        You are a memo analysis expert. Read the title and content below and perform the following.
+        **All responses (summary and tags) must be in English.**
+        
         1. Summarize the content very concisely in 1-2 sentences.
         2. Extract 3-5 key keywords as tags.
         
@@ -50,8 +54,8 @@ def analyze_memo(title, content, lang='en'):
         
         Output Format (JSON):
         {{
-            "summary": "Summary text",
-            "tags": ["Tag1", "Tag2", "Tag3"]
+            "summary": "English summary text",
+            "tags": ["EnglishTag1", "EnglishTag2", "EnglishTag3"]
         }}
         """
 

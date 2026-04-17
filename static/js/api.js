@@ -2,6 +2,8 @@
  * 백엔드 API와의 통신을 관리하는 모듈
  */
 
+import { I18nManager } from './utils/I18nManager.js';
+
 export const API = {
     async request(url, options = {}) {
         const res = await fetch(url, options);
@@ -61,7 +63,8 @@ export const API = {
     },
 
     async triggerAI(id) {
-        return await this.request(`/api/memos/${id}/analyze`, { method: 'POST' });
+        const lang = I18nManager.currentLang || 'ko';
+        return await this.request(`/api/memos/${id}/analyze?lang=${lang}`, { method: 'POST' });
     },
 
     async fetchAssets() {

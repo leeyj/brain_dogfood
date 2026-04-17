@@ -15,15 +15,17 @@ def analyze_memo_route(memo_id):
     c.execute('SELECT title, content, is_encrypted FROM memos WHERE id = ?', (memo_id,))
     memo = c.fetchone()
     
+    lang = request.args.get('lang', 'ko')
     if not memo:
-        return jsonify({'error': _t('label_no_results')}), 404
+        return jsonify({'error': _t('label_no_results', lang=lang)}), 404
     
     if memo['is_encrypted']:
-        return jsonify({'error': _t('msg_encrypted_locked')}), 403
+        return jsonify({'error': _t('msg_encrypted_locked', lang=lang)}), 403
         
     current_app.logger.info(f"AI Analysis Started: ID {memo_id}, Title: '{memo['title']}'")
     
-    lang = current_app.config.get('lang', 'en')
+    # 💡 쿼리 파라미터에서 현재 언어 설정을 가져옵니다. (기본값 ko)
+    lang = request.args.get('lang', 'ko')
     summary, ai_tags = analyze_memo(memo['title'], memo['content'], lang=lang)
     
     try:
