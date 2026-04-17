@@ -27,21 +27,23 @@
 
 **뇌사료(Brain Dogfood)**는 "내가 만든 지식은 내가 먼저 소비한다"는 철학에서 시작된 개인용 메모 서버입니다. 단순한 텍스트 기록을 넘어, AI가 당신의 지식을 분석하고 유기적인 그래프(Nebula)로 연결하여 새로운 통찰을 제공합니다.
 
+또한 사용자의 정보를 절대 해독할 수 없는 암호화 방식을 지원합니다. **"모든 데이터는 유출될 수 있다. 하지만 내 머리속의 패스워드는 절대 유출될 수 없다"** 라는 신념으로, 설사 데이터가 통째로 유출당해도 '개별 암호화'된 데이터와 첨부파일은 사용자가 설정한 비밀번호 없이는 현대의 기술력으로 해독이 불가능합니다.
+
 ### ✨ 독보적인 강점
 
-*   **Intelligent Nebula & Visual Linker**: 단순하게 태그로 묶는 단계를 넘어, D3.js 기반의 그래프 시각화와 **Alt+클릭 시각적 연결** 기능을 통해 지식 간의 관계를 직관적으로 설계하세요.
-*   **AI Insight Hub (Optional)**: Gemini 2.0 Flash가 모든 메모를 실시간으로 요약하고 최적의 태그를 제안합니다. 당신은 기록에만 집중하세요.
-*   **Privacy-First Security**: 메모별로 개별 암호화를 지원합니다. 서버 관리자조차도 당신의 비밀번호 없이는 지식을 엿볼 수 없습니다.
-*   **High-End UX**: 글래스모피즘 기반의 모던한 UI와 하이엔드 셰이더 효과, 그리고 빠른 생산성을 위한 풍부한 단축키 시스템을 제공합니다.
+*   **지능형 지식 네트워크 (Nebula & Visual Linker)**: 단순한 기록을 넘어, D3.js 기반의 '지식 성단' 시각화와 **시각적 와이어링(Alt+클릭)** 기능을 통해 파편화된 정보를 유기적인 지능체로 연결하세요. 인간의 사고 흐름을 물리적인 선으로 가시화하는 혁신적인 UX를 제공합니다.
+*   **지식 허브 & 무제한 다중 연결 (N:N Multi-Link)**: 하나의 메모를 수백 개의 아이디어와 잇는 '지식 허브(Hub)'를 구축하세요. AI의 기계적 연결이 아닌, 사람의 의도적인 큐레이션으로 기억의 지도를 완성합니다.
+*   **Privacy-First Security**: 메모별로 개별 암호화를 지원하여 절대적인 보안을 보장합니다. 서버 관리자조차도 당신의 마스터 비밀번호 없이는 지식을 엿볼 수 없습니다.
+*   **High-End UX & Aesthetics**: 글래스모피즘 기반의 모던한 UI와 하이엔드 셰이더 효과, 빠른 생산성을 위한 풍부한 단축키 및 슬래시 명령어를 제공합니다.
 
 ---
 
 ### 🚀 최신 업데이트 (v2.0)
 
-*   **비주얼 노드 링커 (Visual Node Linker)**: `#ID` 배지를 `Alt + 클릭`하여 지식과 지식을 선으로 연결하세요. 가장 직관적인 지식 구조화 방식입니다.
-*   **고속 워크플로우 (Instant Edit)**: 메모 카드 위에 마우스를 올리고 `e`를 누르기만 하세요. 모달을 거치지 않고 즉시 수정 모드로 진입합니다.
-*   **드래그 앤 드롭 링크**: 메모를 작성기(Composer)로 드래그하여 즉시 참조 링크(`[[#ID]]`)를 삽입할 수 있습니다.
-*   **직관적인 행동 분리**: '작성 취소'와 '지식 삭제'를 명확히 분리하여, 실수로 지식이 유실되는 것을 방지합니다.
+*   **비주얼 노드 링커 (Visual Node Linker)**: `#ID` 배지를 `Alt + 클릭` 드래그하여 지식과 지식을 선으로 잇는 '와이어링'을 수행하세요. 지식의 선후 맥락을 가장 직관적으로 설계하는 방식입니다.
+*   **멀티링크 에코시스템 (Multi-Link Ecosystem)**: 한 메모 내에 여러 지식 링크(`[[#ID]]`)를 삽입하여 거대한 지식 클러스터를 형성할 수 있습니다.
+*   **고속 워크플로우 (Instant Edit)**: 메모 카드 위에 마우스를 올리고 `e`를 누르면 즉시 수정 모드 진입. 모달 클릭의 피로감을 제로로 만듭니다.
+*   **드래그 앤 드롭 링크**: 메모 카드를 작성기(Composer)로 드래그하여 즉시 참조 링크를 삽입하세요.
 
 ---
 
@@ -67,7 +69,15 @@
 | **슬래시 명령** | `/` | `/task`, `/ai`, `/h2` 등으로 빠른 서식 지정 |
 | **지식 탐색기** | `Ctrl + Shift + E` | 저장된 지식의 구조를 한눈에 파악 |
 | **즉시 수정** | `e` (Mouse Over) | 카드 위에서 바로 편집 모드로 진입 |
-| **비주얼 링커** | `Alt + #ID 클릭` | 지식과 지식을 선으로 잇는 시각적 연결 |
+| **비주얼 링커** | `Alt + #ID 클릭` | 지식과 지식을 선으로 잇는 '시각적 와이어링' |
+
+---
+
+## 🗺️ Vision Roadmap
+
+- [ ] **v3.0 - Neural Mind-Map Mode**: 그룹 필드를 루트 노드로 활용하여 지식의 위계를 한눈에 파악하는 마인드맵 레이아웃 도입.
+- [ ] **v4.0 - Fractal Knowledge Deep-Dive**: 무한히 깊어지는 프랙탈 구조의 시각화를 통해 방대한 지식을 입체적으로 탐험하는 인터페이스 구축.
+- [ ] **Obsidian Plugin**: 로컬 옵시디언 환경과 뇌사료 서버 간의 실시간 지식 동기화 브릿지.
 
 ---
 
@@ -91,7 +101,9 @@ python brain.py
 <h2 id="english">🌐 English Description</h2>
 
 ### What is Brain Dogfood?
-**Brain Dogfood** is a minimalist yet powerful personal knowledge server built for those who value privacy and deep insights. It’s not just a memo app; it’s an **intelligent knowledge ecosystem** that grows with you.
+**Brain Dogfood** is a minimalist yet powerful personal knowledge server built on the philosophy: "I consume the knowledge I create." It’s not just a memo app; it’s an **intelligent knowledge ecosystem** that grows with you.
+
+We provide a security model where user data is practically undecipherable. Built on the conviction that **"Data can be leaked, but the password in my head cannot be,"** even if the entire database is compromised, any "grain-level encrypted" notes and attachments remain impossible to decrypt without the specific password known only to you.
 
 > [!IMPORTANT]
 > **Security Notice**: 
@@ -102,17 +114,18 @@ python brain.py
 > All core features (Memos, Heatmap, Knowledge Nebula, Encryption) work perfectly **without an AI API key**. The `GEMINI_API_KEY` is only required for automated summarization and AI tagging.
 
 ### Key Features
-- **AI-Driven Insights**: Powered by Gemini 2.0 Flash for instant summarization and smart tagging (Optional).
-- **Knowledge Nebula**: Explore your thoughts through a dynamic D3.js-based interactive knowledge graph.
-- **Advanced Security**: Grain-level encryption for individual memos – your data is for your eyes only.
-- **Premium Aesthetics**: Sleek glassmorphism UI with smooth micro-animations and production-ready UX.
+- **Intelligent Knowledge Network**: Beyond simple notes, build a "Biological Intelligence" through D3.js-powered **Nebula Maps** and **Visual Wiring (Alt+Click)**.
+- **Human-Centric Linking**: While AI assists in analysis, *you* define the connections. Build high-density **Knowledge Hubs** that mirror your own cognitive patterns.
+- **N:N Multi-Link ecosystem**: Support for unlimited bidirectional links between notes, allowing for complex, fractal-like knowledge growth.
+- **Grain-level Encryption**: Advanced security for individual memos – your thoughts are encrypted with your master key, invisible even to server admins.
+- **Premium Aesthetics**: High-end Glassmorphism UI with smooth micro-animations and production-ready shortcuts.
 
 ### 🆕 What's New in v2.0
 
-- **Visual Node Linker**: Connect memos visually by `Alt + Clicking` the #ID badge. The most intuitive way to build your knowledge web.
-- **Instant Edit (e-key)**: Hover over a memo and press `e` to jump straight into editing mode. No extra clicks required.
-- **Drag & Drop Linking**: Drag any memo card into the composer to instantly insert a reference link (`[[#ID]]`).
-- **Refined UX**: Clearly separated 'Discard' and 'Delete' actions to prevent accidental data loss.
+- **Visual Node Linker**: Wire your ideas by `Alt + Clicking` the #ID badge. The most intuitive way to bridge text and visual structure.
+- **Multi-Link Support**: Insert multiple internal links (`[[#ID]]`) to create clusters of networked thought.
+- **Instant Edit (e-key)**: Hover over a memo and press `e` to jump straight into editing mode. Zero-click productivity.
+- **Drag & Drop Workflow**: Drag memo cards into the composer to instantly insert a semantic reference.
 
 ### Quick Start
 1. Install dependencies: `pip install -r requirements.txt`
