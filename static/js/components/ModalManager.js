@@ -164,21 +164,10 @@ export const ModalManager = {
         const memo = memos.find(m => m.id == id);
         if (!memo) return;
         
-        import('../utils.js').then(({ parseInternalLinks, fixImagePaths }) => {
-            // 메모 본문과 메타데이터 푸터 분리 렌더링
-            let content = memo.content || '';
-            const footerIndex = content.lastIndexOf('\n\n---\n');
-            let html;
-            
-            if (footerIndex !== -1) {
-                const mainBody = content.substring(0, footerIndex);
-                const footerPart = content.substring(footerIndex + 5).trim(); // '---' 이후
-                
-                html = DOMPurify.sanitize(marked.parse(mainBody));
-                html += `<div class="memo-metadata-footer"><hr style="border:none; border-top:1px dashed rgba(255,255,255,0.1); margin-bottom:15px;">${DOMPurify.sanitize(marked.parse(footerPart))}</div>`;
-            } else {
-                html = DOMPurify.sanitize(marked.parse(content));
-            }
+        import('../utils.js').then(({ parseInternalLinks, fixImagePaths, stripMetadata }) => {
+            // 렌더링 시에는 태그와 그룹명을 시각적으로 가립니다 (원본 보존 정책)
+            const displayContent = stripMetadata(memo.content || '');
+            let html = DOMPurify.sanitize(marked.parse(displayContent));
 
             html = parseInternalLinks(html);
             html = fixImagePaths(html);

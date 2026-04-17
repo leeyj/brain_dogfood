@@ -1,7 +1,7 @@
 /**
  * 메모 카드 컴포넌트
  */
-import { escapeHTML, parseInternalLinks, fixImagePaths } from '../utils.js';
+import { escapeHTML, parseInternalLinks, fixImagePaths, stripMetadata } from '../utils.js';
 import { renderAttachmentBox } from './AttachmentBox.js';
 import { Constants } from '../utils/Constants.js';
 import { I18nManager } from '../utils/I18nManager.js';
@@ -36,10 +36,8 @@ export function createMemoCardHtml(memo, isDone) {
                 </div>
             `;
         } else {
-            // 본문에서 하단 메타데이터 블록(--- 이후)을 제외하고 렌더링 (중복 표시 방지)
-            let content = memo.content || '';
-            const footerIndex = content.lastIndexOf('\n\n---\n');
-            const displayContent = footerIndex !== -1 ? content.substring(0, footerIndex) : content;
+            // 렌더링 시에는 태그와 그룹명을 시각적으로 가립니다 (원본 보존 정책)
+            const displayContent = stripMetadata(memo.content || '');
 
             // marked로 파싱한 후 DOMPurify로 살균하여 XSS 방지
             htmlContent = DOMPurify.sanitize(marked.parse(displayContent));

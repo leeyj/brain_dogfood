@@ -27,48 +27,28 @@ def parse_metadata(text, default_group=GROUP_DEFAULT):
 
 def parse_and_clean_metadata(content, ui_group=GROUP_DEFAULT, ui_tags=None):
     """
-    본문에서 메타데이터($ , #)를 추출하고 삭제한 뒤, UI 입력값과 합쳐 최하단에 재배치합니다.
+    [비파괴적 버전] 본문에서 메타데이터를 추출하되, 본문의 내용은 훼손하지 않습니다.
+    단, 이전에 자동 생성되었던 푸터 블록만 식별하여 제거합니다.
     """
     if ui_tags is None: ui_tags = []
     if not content:
         return content, ui_group, ui_tags
 
-    # 1. 기존에 생성된 푸터 블록(수평선 + 메타데이터)을 제거
-    # 파일의 가장 마지막에 위치한 수평선(---, ***, ___)과 그 뒤에 따라오는 메타데이터($ , #) 줄들만 식별하여 제거합니다.
+    # 1. 기존에 자동 생성되었던 푸터 블록만 제거 (원본 본문 보호를 위함)
     content = content.strip()
-    # 패턴 설명: 줄바꿈 + 수평선 + 줄바꿈 + (줄 시작이 $ 또는 #이며 뒤에 공백이 없는 줄들의 반복) + 끝
     footer_regex = r'\n+[\*\-\_]{3,}\s*\n(?:^[\$\#][^\s\#].*$(?:\n|$))*$'
     content = re.sub(footer_regex, '', content, flags=re.MULTILINE).strip()
 
-    # 2. 본문에서 기호 정보 추출
+    # 2. 본문에서 기호 정보 추출 (추출만 수행하고 본문에서 삭제는 하지 않음)
     content_group, content_tags = parse_metadata(content)
     
-    # 3. 본문에서 기호 패턴 삭제
-    # $그룹 삭제
-    content = re.sub(r'\$\w+', '', content)
-    # #태그 삭제 (헤더 및 내부 링크 제외, 태그는 # 뒤에 바로 문자가 와야 함)
-    content = re.sub(r'(?<!#)(?<!\[\[)(?<!\w)#([^\s\#\d\W][^\s\#]*)', '', content)
-    content = content.strip()
-
-    # 4. 데이터 통합
-    # 본문에 적힌 그룹이 있다면 UI 선택값보다 우선함
+    # 3. 데이터 통합
+    # 본문에 적힌 태그와 UI에서 선택된 태그를 합칩니다.
     final_group = content_group if content_group != GROUP_DEFAULT else ui_group
-    # 태그는 모두 합침
     final_tags = list(set(ui_tags + content_tags))
 
-    # 5. 푸터 재생성
-    footer_parts = []
-    if final_group and final_group != GROUP_DEFAULT:
-        footer_parts.append(f"${final_group}")
-    if final_tags:
-        footer_tags = " ".join([f"#{t}" for t in sorted(final_tags)])
-        footer_parts.append(footer_tags)
-
-    final_content = content
-    if footer_parts:
-        final_content += "\n\n---\n" + "\n".join(footer_parts)
-
-    return final_content, final_group, final_tags
+    # 이제 본문에서 태그를 삭제(re.sub)하거나 최하단에 수평선 + 태그를 붙이지 않습니다.
+    return content, final_group, final_tags
 
 def generate_auto_title(content):
     """

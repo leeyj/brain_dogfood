@@ -41,3 +41,31 @@ export function fixImagePaths(html) {
         return `<img src="/api/download/${filename}"`;
     });
 }
+
+/**
+ * 본문에서 메타데이터 기능어($그룹, #태그)를 시각적으로 가립니다.
+ * 원본 보존 정책에 따라 렌더링 시에만 필터링 용도로 사용됩니다.
+ */
+export function stripMetadata(text) {
+    if (!text) return '';
+    
+    let processed = text;
+
+    // 1. 기존 자동생성 푸터 블록(--- 및 하단 메타데이터) 시각적 제거
+    const footerRegex = /\n+[\*\-\_]{3,}\s*\n(?:^[\$\#][^\s\#].*$(?:\n|$))*/gm;
+    processed = processed.replace(footerRegex, '');
+
+    // 태그/그룹 구성에서 제외할 특수문자들 (한글 및 유니코드 지원을 위해 제외 문자 방식 사용)
+    const excludeChars = "\\s\\#\\!\\@\\%\\^\\&\\*\\(\\)\\=\\+\\[\\]\\{\\}\\;\\:\\'\\\"\\,\\<\\.\\>\\/\\?\\-";
+
+    // 2. 본문 내 $그룹 제거
+    const groupRegex = new RegExp("\\$[^" + excludeChars + "]+", "g");
+    processed = processed.replace(groupRegex, '');
+    
+    // 3. 본문 내 #태그 제거 (마크다운 헤더 및 내부 링크 제외)
+    // 패턴 설명: 공백 또는 줄 시작 뒤의 #로 시작하고, 뒤에 숫자가 아닌 문자가 오는 태그 매칭
+    const tagRegex = new RegExp("(^|\\s)#[^" + excludeChars + "0-9]+[^" + excludeChars + "]*", "g");
+    processed = processed.replace(tagRegex, '$1');
+    
+    return processed.trim();
+}
