@@ -45,6 +45,11 @@
 *   **고속 워크플로우 (Instant Edit)**: 메모 카드 위에 마우스를 올리고 `e`를 누르면 즉시 수정 모드 진입. 모달 클릭의 피로감을 제로로 만듭니다.
 *   **드래그 앤 드롭 링크**: 메모 카드를 작성기(Composer)로 드래그하여 즉시 참조 링크를 삽입하세요.
 
+### 🛠️ 패치 노트 (2026-04-19)
+*   **파일 첨부 접근성 개선**: 지식 작성기(Composer)에 명시적인 파일 첨부(📎) 버튼을 추가했습니다. (드래그 앤 드롭과 병행 가능)
+*   **모바일 UX 최적화**: 모바일 기기에서도 조작이 편리하도록 "파일추가" 텍스트 레이블을 추가했습니다.
+*   **다국어 지원 안정화**: 첨부파일 관련 툴팁 및 레이블에 한/영 i18n을 적용했습니다.
+
 ---
 
 ## 🆚 memos vs 뇌사료 (Comparison)
@@ -126,6 +131,11 @@ We provide a security model where user data is practically undecipherable. Built
 - **Multi-Link Support**: Insert multiple internal links (`[[#ID]]`) to create clusters of networked thought.
 - **Instant Edit (e-key)**: Hover over a memo and press `e` to jump straight into editing mode. Zero-click productivity.
 - **Drag & Drop Workflow**: Drag memo cards into the composer to instantly insert a semantic reference.
+
+### 🛠️ Patch Notes (2026-04-19)
+- **Improved Attachment Accessibility**: Added a dedicated Attach File (📎) button to the Composer.
+- **Mobile UI Optimization**: Added an "Add File" text label next to the icon on mobile devices for better touch usability.
+- **I18n Stabilization**: Implemented full Korean/English translation for all attachment-related UI elements.
 
 ---
 

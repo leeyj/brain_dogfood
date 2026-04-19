@@ -104,6 +104,7 @@
 }
 
 .action-btn:hover { background: rgba(184, 59, 94, 0.8); }
+.btn-label { display: none; }
 .ai-btn:hover { background: var(--ai-accent); color: white; }
 
 /* Memo Footer Metadata Styling */

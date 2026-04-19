@@ -147,35 +147,44 @@ export const EditorManager = {
             if (!files || files.length === 0) return;
 
             // 에디터가 닫혀있다면 상위에서 열어줘야 함
-            onDropComplete(true); 
+            if (onDropComplete) onDropComplete(true); 
 
-            for (let file of files) {
-                try {
-                    const data = await API.uploadFile(file);
-                    if (data.url) {
-                        const filename = data.url.split('/').pop();
-                        const isImg = ['png','jpg','jpeg','gif','webp','svg'].includes(data.ext?.toLowerCase());
-                        const name = data.name || 'file';
-                        
-                        // Ensure editor is focused before inserting
-                        this.editor.focus();
-
-                        if (isImg) {
-                            this.editor.exec('addImage', { altText: name, imageUrl: data.url });
-                        }
-
-                        // 공통: 첨부 파일 목록에 추가 및 UI 갱신
-                        this.attachedFiles.push({
-                            filename: filename,
-                            original_name: name,
-                            file_type: file.type
-                        });
-                        this.sessionFiles.add(filename); // 세션 트래킹 추가
-                        this.refreshAttachmentUI();
-                    }
-                } catch (err) { console.error(err); }
-            }
+            await this.handleFiles(files);
         });
+    },
+
+    /**
+     * 다중 파일을 처리(업로드 및 UI 반영)함
+     */
+    async handleFiles(files) {
+        if (!files || files.length === 0) return;
+
+        for (let file of files) {
+            try {
+                const data = await API.uploadFile(file);
+                if (data.url) {
+                    const filename = data.url.split('/').pop();
+                    const isImg = ['png','jpg','jpeg','gif','webp','svg'].includes(data.ext?.toLowerCase());
+                    const name = data.name || 'file';
+                    
+                    // Ensure editor is focused before inserting
+                    this.editor.focus();
+
+                    if (isImg) {
+                        this.editor.exec('addImage', { altText: name, imageUrl: data.url });
+                    }
+
+                    // 공통: 첨부 파일 목록에 추가 및 UI 갱신
+                    this.attachedFiles.push({
+                        filename: filename,
+                        original_name: name,
+                        file_type: file.type
+                    });
+                    this.sessionFiles.add(filename); // 세션 트래킹 추가
+                    this.refreshAttachmentUI();
+                }
+            } catch (err) { console.error('[Editor] File process error:', err); }
+        }
     },
 
     getAttachedFilenames() {

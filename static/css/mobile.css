@@ -33,6 +33,7 @@
     
     .memo-actions { opacity: 1 !important; bottom: 8px; right: 8px; }
     .action-btn { padding: 8px 12px; font-size: 1rem; min-width: 44px; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    .btn-label { display: inline; margin-left: 5px; font-size: 0.9rem; font-weight: bold; }
 
     .modal-content { width: 95%; max-height: 90vh; border-radius: 12px; }
     .tag-badge, .group-badge { padding: 4px 10px; font-size: 0.85rem; }

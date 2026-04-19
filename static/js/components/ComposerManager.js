@@ -28,7 +28,9 @@ export const ComposerManager = {
             foldBtn: document.getElementById('foldBtn'),
             discardBtn: document.getElementById('discardBtn'),
             deleteBtn: document.getElementById('deleteMemoBtn'), // NEW
-            categoryBar: document.getElementById('composerCategoryBar')
+            categoryBar: document.getElementById('composerCategoryBar'),
+            attachBtn: document.getElementById('attachBtn'),
+            fileInput: document.getElementById('composerFileInput')
         };
         
         if (!this.DOM.composer || !this.DOM.trigger) return;
@@ -70,6 +72,18 @@ export const ComposerManager = {
 
         this.DOM.encryptionToggle.onclick = () => this.toggleEncryption();
         this.initShortcutHint();
+
+        // 💡 파일 첨부 버튼 연동
+        if (this.DOM.attachBtn && this.DOM.fileInput) {
+            this.DOM.attachBtn.onclick = () => this.DOM.fileInput.click();
+            this.DOM.fileInput.onchange = (e) => {
+                const files = e.target.files;
+                if (files.length > 0) {
+                    EditorManager.handleFiles(files);
+                    e.target.value = ''; // 같은 파일 다시 올릴 수 있게 초기화
+                }
+            };
+        }
 
         // 2. 자동 임시저장 및 키보드 리스너 등록
         this.draftTimer = setInterval(() => this.saveDraft(), 3000);

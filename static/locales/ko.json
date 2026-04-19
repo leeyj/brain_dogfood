@@ -23,6 +23,8 @@
     "composer_save": "메모 저장",
     "composer_discard": "취소 (삭제)",
     "composer_encrypt": "암호화",
+    "composer_attach_file": "파일 첨부",
+    "composer_attach_label": "파일추가",
     "composer_password": "비밀번호",
     "tooltip_fold": "창 접기 (내용 보존)",
     
