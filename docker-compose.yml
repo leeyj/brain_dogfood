@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  memo-server:
+    build: .
+    container_name: brain-dogfood
+    restart: always
+    ports:
+      - "5093:5093"
+    env_file:
+      - .env
+    volumes:
+      - ./data:/app/data
+      - ./static/uploads:/app/static/uploads
+      - ./logs:/app/logs
+      - ./config.json:/app/config.json
+    environment:
+      - TZ=Asia/Seoul
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"

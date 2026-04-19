@@ -86,7 +86,11 @@
 
 ---
 
-## 🛠️ 시작하기
+## 🛠️ 시작하기 (Quick Start)
+
+사용자의 환경에 맞춰 두 가지 방법 중 하나를 선택하여 실행할 수 있습니다.
+
+### 방법 1: 네이티브 직접 실행 (권장)
 
 ```bash
 # 1. 저장소 복제 및 종속성 설치
@@ -98,6 +102,18 @@ cp .env.example .env
 # 3. 서버 실행
 python brain.py
 ```
+
+### 방법 2: Docker로 실행 (컨테이너)
+
+도커가 설치되어 있다면 아래 명령어로 즉시 서버를 구축할 수 있습니다.
+
+```bash
+# 1. .env 설정 완료 후
+docker-compose up -d
+```
+*데이터베이스와 업로드 파일은 호스트의 `data/`, `static/uploads/` 디렉토리에 안전하게 저장됩니다.*
+
+---
 
 ## 🌐 접속 방법
 
@@ -181,9 +197,25 @@ We provide a security model where user data is practically undecipherable. Built
 ---
 
 ### Quick Start
+
+Choose one of the methods below to launch the server based on your environment.
+
+#### Method 1: Native Execution (Recommended)
+
 1. Install dependencies: `pip install -r requirements.txt`
 2. Create your `.env` from `.env.example` and update your master credentials.
-3. Launch the server: `python brain.py` (Default port: 5050 on Windows, 5093 on Linux).
+3. Launch the server: `python brain.py`
+
+#### Method 2: Docker Deployment (Container)
+
+If you have Docker installed, you can launch the server instantly:
+
+```bash
+docker-compose up -d
+```
+*Your data and uploads are persistently stored in the `data/` and `static/uploads/` directories on the host.*
+
+---
 
 ### 🌐 How to Access
 Once the server is running, you can access it via your web browser:
