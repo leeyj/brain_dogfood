@@ -99,6 +99,21 @@ cp .env.example .env
 python brain.py
 ```
 
+## 🌐 접속 방법
+
+서버가 실행되면 브라우저를 통해 다음 주소로 접속할 수 있습니다:
+
+- **로컬 접속 (동일 PC)**: `http://localhost:5093`
+- **외부 접속 (타 기기/모바일)**: `http://<서버 IP>:5093`
+
+> [!TIP]
+> **포트 설정 변경**:
+> 기본 포트(윈도우: 5050, 리눅스: 5093) 외의 다른 포트를 사용하려면 `.env` 파일에서 `PORT=원하는포트` 설정을 추가하세요.
+
+> [!TIP]
+> **리눅스에서 서버 IP 확인하기**:
+> 터미널에서 `hostname -I` 명령어를 입력하면 현재 서버의 내부 IP 주소를 확인할 수 있습니다.
+
 *`.env` 파일에서 관리자 아이디와 비밀번호를 꼭 수정하고, 필요한 경우에만 `GEMINI_API_KEY`를 등록하세요.*
 
 ---
@@ -169,6 +184,20 @@ We provide a security model where user data is practically undecipherable. Built
 1. Install dependencies: `pip install -r requirements.txt`
 2. Create your `.env` from `.env.example` and update your master credentials.
 3. Launch the server: `python brain.py` (Default port: 5050 on Windows, 5093 on Linux).
+
+### 🌐 How to Access
+Once the server is running, you can access it via your web browser:
+
+- **Local Access**: `http://localhost:5093`
+- **Remote Access (Mobile/Other PCs)**: `http://<Server IP>:5093`
+
+> [!TIP]
+> **Changing the Port**:
+> To use a port other than the default (Windows: 5050, Linux: 5093), add `PORT=your_port` to your `.env` file.
+
+> [!TIP]
+> **Check IP on Linux**:
+> Run `hostname -I` in the terminal to find your server's internal IP address.
 
 ---
 <div align="center">
