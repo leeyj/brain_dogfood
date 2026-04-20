@@ -45,6 +45,11 @@
 *   **고속 워크플로우 (Instant Edit)**: 메모 카드 위에 마우스를 올리고 `e`를 누르면 즉시 수정 모드 진입. 모달 클릭의 피로감을 제로로 만듭니다.
 *   **드래그 앤 드롭 링크**: 메모 카드를 작성기(Composer)로 드래그하여 즉시 참조 링크를 삽입하세요.
 
+### 🛠️ 패치 노트 (2026-04-20)
+*   **세션 타임아웃 카운트다운**: 로그아웃 버튼에 실시간 세션 남은 시간을 표시하는 타이머를 추가하여 예기치 않은 로그아웃으로 인한 데이터 유실을 방지합니다.
+*   **버튼 UI 최적화**: 타이머 표시 공간을 확보하기 위해 로그아웃 버튼 텍스트를 "종료" / "EXIT"로 축약하였습니다.
+*   **지능형 세션 연장**: 클릭이나 키보드 입력 등 사용자 활동이 감지되면 타이머가 자동으로 초기화되어 세션이 유지됩니다.
+
 ### 🛠️ 패치 노트 (2026-04-19)
 *   **파일 첨부 접근성 개선**: 지식 작성기(Composer)에 명시적인 파일 첨부(📎) 버튼을 추가했습니다. (드래그 앤 드롭과 병행 가능)
 *   **모바일 UX 최적화**: 모바일 기기에서도 조작이 편리하도록 "파일추가" 텍스트 레이블을 추가했습니다.
@@ -162,6 +167,11 @@ We provide a security model where user data is practically undecipherable. Built
 - **Multi-Link Support**: Insert multiple internal links (`[[#ID]]`) to create clusters of networked thought.
 - **Instant Edit (e-key)**: Hover over a memo and press `e` to jump straight into editing mode. Zero-click productivity.
 - **Drag & Drop Workflow**: Drag memo cards into the composer to instantly insert a semantic reference.
+
+### 🛠️ Patch Notes (2026-04-20)
+- **Session Timeout Countdown**: Added a real-time countdown timer to the logout button to prevent unexpected data loss from session expiration.
+- **UI Optimization**: Shortened the logout label to "EXIT" / "종료" to minimize button size and accommodate the countdown timer.
+- **Active Session Reset**: The timer automatically resets upon user activity (clicks, key presses), keeping your session active while you work.
 
 ### 🛠️ Patch Notes (2026-04-19)
 - **Improved Attachment Accessibility**: Added a dedicated Attach File (📎) button to the Composer.

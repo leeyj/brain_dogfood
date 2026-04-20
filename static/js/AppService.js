@@ -146,5 +146,26 @@ export const AppService = {
         if (changed) {
             await this.refreshData(onUpdateSidebar);
         }
+    },
+
+    /**
+     * 세션 유지 확인을 위한 Heartbeat 시작 (1~2분 간격)
+     */
+    startSessionHeartbeat() {
+        if (this.heartbeatInterval) return; // 이미 실행 중이면 무시
+        
+        console.log('[AppService] Session heartbeat started.');
+        
+        // 초기 실행 후 인터벌 설정
+        API.checkAuthStatus().catch(() => {});
+
+        this.heartbeatInterval = setInterval(async () => {
+            try {
+                await API.checkAuthStatus();
+            } catch (err) {
+                console.warn('[AppService] Session expired or server error during heartbeat.');
+                // API.request에서 401 발생 시 이미 리다이렉트 처리함
+            }
+        }, 120000); // 120,000ms = 2분
     }
 };

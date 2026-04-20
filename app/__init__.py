@@ -88,11 +88,17 @@ def create_app():
     init_db()
     
     # Session and Security configurations
+    # config.json에서 타임아웃 로드 (기본 60분, 최소 10분 강제)
+    session_timeout = cfg.get('session_timeout', 60)
+    if not isinstance(session_timeout, int) or session_timeout < 10:
+        session_timeout = 10
+
+    from datetime import timedelta
     app.config.update(
         SESSION_COOKIE_HTTPONLY=True,
         SESSION_COOKIE_SAMESITE='Lax',
         SESSION_COOKIE_SECURE=os.getenv('SESSION_COOKIE_SECURE', 'False').lower() == 'true',
-        PERMANENT_SESSION_LIFETIME=3600 # 60 minutes (1 hour) session
+        PERMANENT_SESSION_LIFETIME=timedelta(minutes=session_timeout)
     )
     
     @app.after_request

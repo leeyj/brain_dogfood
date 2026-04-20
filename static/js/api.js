@@ -80,16 +80,23 @@ export const API = {
         return await this.request(`/api/attachments/${filename}`, { method: 'DELETE' });
     },
     // 설정 관련
-    fetchSettings: async () => {
-        const res = await fetch('/api/settings');
-        return await res.json();
+    fetchSettings: async function() {
+        return await this.request('/api/settings');
     },
-    saveSettings: async (data) => {
-        const res = await fetch('/api/settings', {
+    saveSettings: async function(data) {
+        return await this.request('/api/settings', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data)
         });
-        return await res.json();
+    },
+    // 인증 상태 확인 (Heartbeat용)
+    checkAuthStatus: async function() {
+        try {
+            return await this.request('/api/auth/status');
+        } catch (err) {
+            // API.request 내부에서 401 발생 시 이미 리다이렉트 처리함
+            throw err;
+        }
     }
 };

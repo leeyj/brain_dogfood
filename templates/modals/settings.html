@@ -26,12 +26,15 @@
             <input type="checkbox" id="set-enable-categories" style="width: 20px; height: 20px; cursor: pointer;">
         </div>
 
-        <div class="settings-grid">
+        <div class="settings-grid" style="grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px;">
             <label data-i18n="settings_lang">언어 설정</label>
-            <select id="set-lang" class="meta-field" style="width: 100px;">
+            <select id="set-lang" class="meta-field" style="width: 100%;">
                 <option value="ko">한국어</option>
                 <option value="en">English</option>
             </select>
+
+            <label data-i18n="settings_session_timeout">세션 유지 시간 (분, 최소 10분)</label>
+            <input type="number" id="set-session-timeout" class="meta-field" min="10" step="1" style="width: 100%;">
         </div>
 
         <div class="settings-actions">

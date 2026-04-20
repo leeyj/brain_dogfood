@@ -65,10 +65,22 @@ export const ThemeManager = {
                 data['enable_ai'] = document.getElementById('set-enable-ai').checked;
                 data['enable_categories'] = document.getElementById('set-enable-categories').checked;
                 
-                // 언어 설정이 UI에 있다면 추가 (현재는 config.json 수동 명시 권장이나 대비책 마련)
+                // 언어 설정 처리
                 const langSelect = document.getElementById('set-lang');
                 const newLang = langSelect ? langSelect.value : (this.initialLang || 'ko');
                 if (langSelect) data['lang'] = newLang;
+
+                // 세션 타임아웃 검증
+                const timeoutInput = document.getElementById('set-session-timeout');
+                let sessionTimeout = timeoutInput ? parseInt(timeoutInput.value) : 60;
+                
+                if (sessionTimeout < 10) {
+                    alert(I18nManager.t('msg_session_timeout_min') || '세션 타임아웃은 최소 10분 이상이어야 합니다.');
+                    sessionTimeout = 10;
+                    timeoutInput.value = 10;
+                    return;
+                }
+                data['session_timeout'] = sessionTimeout;
                 
                 try {
                     await API.saveSettings(data);
@@ -97,7 +109,8 @@ export const ThemeManager = {
                         encrypted_border: "#00f3ff",
                         ai_accent: "#8b5cf6",
                         lang: "ko",
-                        enable_categories: false
+                        enable_categories: false,
+                        session_timeout: 60
                     };
                     this.applyTheme(defaults);
                 }
@@ -152,6 +165,23 @@ export const ThemeManager = {
         await I18nManager.init(lang);
         const langSelect = document.getElementById('set-lang');
         if (langSelect) langSelect.value = lang;
+
+        // 5. 세션 타임아웃 UI 반영 및 Heartbeat 시작
+        const sessionTimeout = settings.session_timeout || 60;
+        const timeoutInput = document.getElementById('set-session-timeout');
+        if (timeoutInput) timeoutInput.value = sessionTimeout;
+
+        // 세션 타이머(종료/EXIT) 즉시 반영
+        import('./SessionManager.js').then(({ SessionManager }) => {
+            if (SessionManager && typeof SessionManager.updateTimeout === 'function') {
+                SessionManager.updateTimeout(sessionTimeout);
+            }
+        });
+
+        // 세션 체크 시작 (Heartbeat) - AppService에 위임하거나 여기서 직접 실행
+        if (window.AppService && typeof window.AppService.startSessionHeartbeat === 'function') {
+            window.AppService.startSessionHeartbeat();
+        }
     },
 
     rgbaToHex(rgba) {

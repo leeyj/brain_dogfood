@@ -16,9 +16,10 @@ DEFAULT_SETTINGS = {
     "ai_accent": "#8b5cf6",
     "enable_ai": True,
     "lang": "ko",
-    "enable_categories": False,    # 카테고리 기능 활성화 여부 (고급 옵션)
-    "categories": [],           # 무제한 전체 목록
-    "pinned_categories": []    # 최대 3개 (Alt+2~4 할당용)
+    "enable_categories": False,
+    "categories": [],
+    "pinned_categories": [],
+    "session_timeout": 60      # 기본 60분
 }
 
 @settings_bp.route('/api/settings', methods=['GET'])
@@ -32,6 +33,9 @@ def get_settings():
             data = json.load(f)
             # 기본값과 병합하여 신규 필드 등 누락 방지
             full_data = {**DEFAULT_SETTINGS, **data}
+            # 최소 10분 강제 적용
+            if full_data.get('session_timeout', 0) < 10:
+                full_data['session_timeout'] = 10
             return jsonify(full_data)
     except Exception as e:
         return jsonify(DEFAULT_SETTINGS)
@@ -50,12 +54,28 @@ def save_settings():
             with open(CONFIG_PATH, 'r', encoding='utf-8') as f:
                 current_data = json.load(f)
         
+        # 세션 타임아웃 검증 및 보정
+        session_timeout = data.get('session_timeout')
+        if session_timeout is not None:
+            try:
+                session_timeout = int(session_timeout)
+                if session_timeout < 10:
+                    session_timeout = 10
+                data['session_timeout'] = session_timeout
+            except (ValueError, TypeError):
+                data.pop('session_timeout', None)
+
         updated_data = {**current_data, **data}
         
         with open(CONFIG_PATH, 'w', encoding='utf-8') as f:
             json.dump(updated_data, f, indent=4, ensure_ascii=False)
             
-        current_app.logger.info(f"System Settings Updated: {list(data.keys())}")
-        return jsonify({'message': 'Settings saved successfully'})
+        # Flask 설정 즉시 반영
+        if 'session_timeout' in updated_data:
+            from datetime import timedelta
+            current_app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=updated_data['session_timeout'])
+            
+        current_app.logger.info(f"System Settings Updated: {list(data.keys())} (Session Timeout: {updated_data.get('session_timeout')} min)")
+        return jsonify({'message': 'Settings saved successfully', 'session_timeout': updated_data.get('session_timeout')})
     except Exception as e:
         return jsonify({'error': str(e)}), 500

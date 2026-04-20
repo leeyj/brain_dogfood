@@ -23,3 +23,10 @@ def login():
 def logout():
     session.pop('logged_in', None)
     return redirect(url_for('main.login_page'))
+
+@auth_bp.route('/api/auth/status')
+def auth_status():
+    """프론트엔드 세션 체크(Heartbeat)용 엔드포인트"""
+    if session.get('logged_in'):
+        return jsonify({'status': 'ok', 'logged_in': True})
+    return jsonify({'error': 'Unauthorized', 'logged_in': False}), 401

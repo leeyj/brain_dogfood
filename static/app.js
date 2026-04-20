@@ -16,6 +16,8 @@ import { CategoryManager } from './js/components/CategoryManager.js';
 import { ModalManager } from './js/components/ModalManager.js';
 import { I18nManager } from './js/utils/I18nManager.js';
 import { Constants } from './js/utils/Constants.js';
+import { SessionManager } from './js/components/SessionManager.js';
+
 
 document.addEventListener('DOMContentLoaded', async () => {
     UI.initSidebarToggle();
@@ -244,6 +246,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     // --- 🔹 App Start ---
     AppService.refreshData(updateSidebarCallback);
     VisualLinker.init(); // 💡 연결 도구 초기화
+    SessionManager.init(); // ⏱️ 세션 타이머 초기화 (종료/EXIT)
+
 
     // 💡 전역 취소 리스너 (시각적 연결용)
     window.addEventListener('keydown', (e) => {
