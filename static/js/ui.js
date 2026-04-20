@@ -292,6 +292,18 @@ export const UI = {
             DOM.scrollSentinel.style.visibility = hasMore ? 'visible' : 'hidden';
             DOM.scrollSentinel.innerText = hasMore ? I18nManager.t('msg_loading') : I18nManager.t('msg_last_memo');
         }
+    },
+
+    /**
+     * 💡 무한 스크롤 보조: 센티넬이 현재 화면에 보이는지 확인
+     */
+    isSentinelVisible() {
+        if (!DOM.scrollSentinel) return false;
+        const rect = DOM.scrollSentinel.getBoundingClientRect();
+        return (
+            rect.top >= 0 &&
+            rect.top <= (window.innerHeight || document.documentElement.clientHeight)
+        );
     }
 };
 

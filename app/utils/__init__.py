@@ -17,9 +17,9 @@ def parse_metadata(text, default_group=GROUP_DEFAULT):
     if group_match:
         group_name = group_match.group(1)
         
-    # #태그 추출 (마크다운 헤더 # , ## 및 내부 링크[[#ID]] 방지)
-    # 태그는 반드시 # 바로 뒤에 영문/숫자/한글이 붙어 있어야 하며, 앞에 다른 문자가 없어야 함
-    tag_matches = re.finditer(r'(?<!#)(?<!\[\[)(?<!\w)#([^\s\#\d\W][^\s\#]*)', text)
+    # 태그 추출 (공백이나 줄 시작 뒤의 #만 인정하며, HTML 속성(: 또는 =) 뒤의 #은 무시)
+    tag_regex = r'(?<![:=])(?<![:=]\s)(?:(?<=\s)|(?<=^))#([^\s\#\d\W][\w가-힣-]*)'
+    tag_matches = re.finditer(tag_regex, text)
     for match in tag_matches:
         tags.append(match.group(1))
         

@@ -16,7 +16,8 @@ export const AppService = {
         offset: 0,
         limit: 20,
         hasMore: true,
-        isLoading: false
+        isLoading: false,
+        autoLoadCount: 0 // 💡 큰 화면 대응 자동 로딩 횟추 추적
     },
 
     /**
@@ -27,6 +28,7 @@ export const AppService = {
         this.state.memosCache = [];
         this.state.hasMore = true;
         this.state.isLoading = false;
+        this.state.autoLoadCount = 0; // 초기화
         
         // 히트맵 데이터 새로고침
         if (HeatmapManager && HeatmapManager.refresh) {
@@ -77,6 +79,21 @@ export const AppService = {
             
             UI.setHasMore(this.state.hasMore);
             UI.renderMemos(newMemos, {}, window.memoEventHandlers, isAppend);
+            
+            // 💡 [개선] 큰 화면 대응: 렌더링 후에도 센티넬이 보이면(스크롤바가 아직 안 생겼으면) 추가 로드
+            // 사용자 요청에 따라 자동 로딩은 최대 3회(총 80개 분량)까지만 진행
+            if (this.state.hasMore && this.state.autoLoadCount < 3) {
+                setTimeout(() => {
+                    if (UI.isSentinelVisible()) {
+                        console.log(`[AppService] Auto-loading (${this.state.autoLoadCount + 1}/3)...`);
+                        this.state.autoLoadCount++;
+                        this.loadMore(onUpdateSidebar, true);
+                    }
+                }, 100);
+            } else if (!UI.isSentinelVisible()) {
+                // 스크롤바가 생겼거나 센티넬이 가려지면 카운트 리셋 (다음번 수동 스크롤 트리거를 위해)
+                this.state.autoLoadCount = 0;
+            }
             
         } catch (err) {
             console.error('[AppService] loadMore failed:', err);
