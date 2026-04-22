@@ -32,6 +32,7 @@
 ### ✨ 독보적인 강점
 
 *   **지능형 지식 네트워크 (Nebula & Visual Linker)**: 단순한 기록을 넘어, D3.js 기반의 '지식 성단' 시각화와 **시각적 와이어링(Alt+클릭)** 기능을 통해 파편화된 정보를 유기적인 지능체로 연결하세요. 인간의 사고 흐름을 물리적인 선으로 가시화하는 혁신적인 UX를 제공합니다.
+*   **관계 포커스 모드 (Relation Focus Mode)**: `Ctrl + Alt + 클릭` 한 번으로 특정 메모와 연결된 모든 지식을 하이라이트하고 화살표로 연결하세요. 그리드 뷰에서도 지식의 맥락을 잃지 않고 탐색할 수 있습니다.
 *   **지식 허브 & 무제한 다중 연결 (N:N Multi-Link)**: 하나의 메모를 수백 개의 아이디어와 잇는 '지식 허브(Hub)'를 구축하세요. AI의 기계적 연결이 아닌, 사람의 의도적인 큐레이션으로 기억의 지도를 완성합니다.
 *   **Privacy-First Security**: 메모별로 개별 암호화를 지원하여 절대적인 보안을 보장합니다. 서버 관리자조차도 당신의 마스터 비밀번호 없이는 지식을 엿볼 수 없습니다.
 *   **High-End UX & Aesthetics**: 글래스모피즘 기반의 모던한 UI와 하이엔드 셰이더 효과, 빠른 생산성을 위한 풍부한 단축키 및 슬래시 명령어를 제공합니다.
@@ -44,6 +45,14 @@
 *   **멀티링크 에코시스템 (Multi-Link Ecosystem)**: 한 메모 내에 여러 지식 링크(`[[#ID]]`)를 삽입하여 거대한 지식 클러스터를 형성할 수 있습니다.
 *   **고속 워크플로우 (Instant Edit)**: 메모 카드 위에 마우스를 올리고 `e`를 누르면 즉시 수정 모드 진입. 모달 클릭의 피로감을 제로로 만듭니다.
 *   **드래그 앤 드롭 링크**: 메모 카드를 작성기(Composer)로 드래그하여 즉시 참조 링크를 삽입하세요.
+
+### 🛠️ 패치 노트 (2026-04-23) - v6.0 (Relation Insight Update)
+*   **[신규 기능] 관계 포커스 모드 (Relation Focus Mode) 도입**:
+    *   `Ctrl + Alt + 클릭` 시 선택한 메모와 상호 참조(`[[#ID]]`) 관계에 있는 메모들만 하이라이트하고 나머지는 블러 처리하는 기능 추가.
+    *   **SVG 화살표 시각화**: 카드 간의 방향성(나가는 링크/들어오는 링크)을 외곽선 기반 화살표로 연결하여 지식의 흐름을 가시화.
+    *   스크롤 및 리사이즈 시 실시간 좌표 재계산으로 안정적인 시각 피드백 제공.
+*   **[UX 개선] 통합 도움말 업데이트**:
+    *   도움말 모달 내 단축키 리스트에 관계 포커스 모드(`Ctrl+Alt+Click`) 정보 추가 및 다국어 반영.
 
 ### 🛠️ 패치 노트 (2026-04-22) - v5.0 (Weekly Review & Layout Update)
 *   **[UI 혁신] 메인 영역 슬롯화 및 레이아웃 엔진 도입**:
@@ -100,6 +109,7 @@
 | **주간 뷰 토글** | `Alt + W` | 📅 검색창 하단 주간 선택기 영역 토글 |
 | **즉시 수정** | `e` (Mouse Over) | 카드 위에서 바로 편집 모드로 진입 |
 | **비주얼 링커** | `Alt + #ID 클릭` | 지식과 지식을 선으로 잇는 '시각적 와이어링' |
+| **관계 포커스** | `Ctrl + Alt + Click` | 🧠 특정 메모와 연결된 지식들만 강조 및 화살표 표시 |
 | **도움말** | `?` | ⌨️ 단축키 가이드 모달 열기 |
 
 ---
@@ -177,6 +187,7 @@ We provide a security model where user data is practically undecipherable. Built
 
 ### Key Features
 - **Intelligent Knowledge Network**: Beyond simple notes, build a "Biological Intelligence" through D3.js-powered **Nebula Maps** and **Visual Wiring (Alt+Click)**.
+- **Relation Focus Mode**: Highlight all knowledge connected to a specific memo with a single `Ctrl + Alt + Click`. Visualize the flow of information with directional arrows.
 - **Human-Centric Linking**: While AI assists in analysis, *you* define the connections. Build high-density **Knowledge Hubs** that mirror your own cognitive patterns.
 - **N:N Multi-Link ecosystem**: Support for unlimited bidirectional links between notes, allowing for complex, fractal-like knowledge growth.
 - **Grain-level Encryption**: Advanced security for individual memos – your thoughts are encrypted with your master key, invisible even to server admins.
@@ -236,6 +247,7 @@ We provide a security model where user data is practically undecipherable. Built
 | **Toggle Weekly** | `Alt + W` | Toggle the weekly review bar |
 | **New Memo** | `Alt + N` | Call the composer from anywhere |
 | **Visual Linker** | `Alt + #ID Click` | Connect notes visually via 'Visual Wiring' |
+| **Relation Focus** | `Ctrl + Alt + Click` | 🧠 Highlight & arrow connections for specific notes |
 
 ---
 

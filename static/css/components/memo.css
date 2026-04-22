@@ -227,3 +227,34 @@ body.linker-active .copy-id-btn {
     50% { transform: scale(1.2); text-shadow: 0 0 10px var(--accent); }
     100% { transform: scale(1); text-shadow: 0 0 0px var(--accent); }
 }
+/* 💡 관계 포커스 모드 (Relation Focus) 스타일 */
+.memo-card.relation-focused {
+    z-index: 100;
+    border: 2px solid var(--accent) !important;
+    box-shadow: 0 0 20px rgba(56, 189, 248, 0.4);
+    transform: scale(1.02) translateY(-5px);
+    opacity: 1 !important;
+    filter: none !important;
+}
+
+.memo-card.relation-neighbor {
+    z-index: 90;
+    border: 1.5px solid rgba(251, 191, 36, 0.5) !important; /* Amber-ish border for related */
+    box-shadow: 0 0 15px rgba(251, 191, 36, 0.2);
+    opacity: 1 !important;
+    filter: none !important;
+}
+
+.memo-card.relation-dimmed {
+    opacity: 0.15 !important;
+    filter: blur(1px) grayscale(0.5);
+    pointer-events: none; /* 흐릿한 카드는 클릭 방지 (해제는 배경 클릭으로) */
+    transform: scale(0.98);
+}
+
+.memo-card {
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
+                opacity 0.3s ease, 
+                filter 0.3s ease, 
+                box-shadow 0.3s ease;
+}
