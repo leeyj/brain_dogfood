@@ -26,8 +26,17 @@
     #composer input[type="text"] { height: 44px; font-size: 1.1rem; }
     .editor-resize-wrapper { height: 300px; }
 
-    /* Card Layout for Mobile */
-    .masonry-grid { columns: 1; column-gap: 0; }
+    /* Card Layout for Mobile (Masonry Flex-column 지원) */
+    .masonry-grid { 
+        flex-direction: column; 
+        gap: 0.5rem; 
+        padding: 0.5rem; 
+    }
+    .masonry-column { 
+        flex: 1 1 100% !important; 
+        min-width: 0 !important; 
+        max-width: none !important; 
+    }
     .memo-card { max-height: none; padding-bottom: 50px; }
     .memo-card::after { height: 40px; }
     

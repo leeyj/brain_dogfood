@@ -24,9 +24,21 @@ export const Visualizer = {
         console.log(`[Visualizer] Init - Size: ${this.width}x${this.height}`);
     },
 
-    render(memos, onNodeClick) {
-        console.log(`[Visualizer] Rendering ${memos.length} memos...`);
+    async render(onNodeClick) {
         if (!this.container) return;
+        
+        // 0. API 통신을 통해 전체 데이터를 가져옴 (파편화 방지)
+        let memos = [];
+        try {
+            const { API } = await import('../api.js');
+            console.log('[Visualizer] Fetching all memos (limit=-1) strictly from endpoint...');
+            memos = await API.fetchMemos({ limit: -1 });
+        } catch (e) {
+            console.error('[Visualizer] Failed to fetch graph data:', e);
+            return;
+        }
+        
+        console.log(`[Visualizer] Rendering ${memos.length} memos...`);
         
         // 모달이 열리는 중이라 크기가 0일 경우 대비 재측정
         if (this.width === 0 || this.height === 0) {

@@ -1,0 +1,51 @@
+ID,Category,Feature,Scenario,Expected Result,Priority,Type
+TC-001,Auth,Login,정확한 아이디와 비밀번호로 로그인 시도,메인 페이지로 리다이렉트 및 세션 쿠키 생성,High,Normal
+TC-002,Auth,Login,잘못된 비밀번호로 로그인 시도,403 Forbidden 에러 메시지 출력 및 로그인 차단,High,Edge
+TC-003,Auth,Login,존재하지 않는 아이디로 로그인 시도,403 Forbidden 에러 메시지 출력,High,Edge
+TC-004,Auth,Session,세션 상시 확인 (Heartbeat) 로직 검증,로그인 상태 시 주기적으로 세션 유효성 확인,Medium,Normal
+TC-005,Auth,Session,설정된 타임아웃(10분+) 경과 시 자동 로그아웃,화면에 종료 안내 후 로그인 페이지로 강제 리다이렉트,High,Normal
+TC-006,Auth,Session,타임아웃 카운트다운 도중 마우스/키보드 입력,타임아웃 시간이 초기화되고 카운트다운 재시작,High,Normal
+TC-007,Memo,CRUD,신규 메모 작성 (텍스트만 입력),그리드 최상단에 메모가 즉시 추가됨,High,Normal
+TC-008,Memo,CRUD,메모 내용 없이 제목만 입력하여 저장,정상 저장되며 그리드에 표시됨,Low,Edge
+TC-009,Memo,CRUD,제목 없이 내용만 입력하여 저장,정상 저장되며 목록에 '무제' 또는 본문 일부 표시,Low,Edge
+TC-010,Memo,CRUD,기존 메모 내용 수정 후 저장,수정된 내용이 그리드 및 상세 모달에 즉시 반영됨,High,Normal
+TC-011,Memo,CRUD,메모 삭제 클릭 후 확인창에서 승인,메모가 그리드에서 제거되고 DB에서 삭제됨,High,Normal
+TC-012,Memo,Grid,브라우저 너비 축소 (모바일 뷰),메모 카드가 1열로 재배치되고 너비가 100%로 확장됨,High,Normal
+TC-013,Memo,Grid,브라우저 너비 확장 (데스크탑 뷰),Masonry 방식에 따라 다중 컬럼으로 메모 재배치,High,Normal
+TC-014,Memo,Grid,무한 스크롤 (센티넬 가시성 확인),바닥까지 스크롤 시 '로딩 중' 표시 후 다음 20개 메모 로드,Medium,Normal
+TC-015,Memo,Grid,메모가 하나도 없는 상태에서 로드,데이터 없음 안내 메시지 또는 빈 그리드 표시,Medium,Edge
+TC-016,Memo,Animation,신규 메모 추가 시 애니메이션 효과,페이드인 및 위로 솟아오르는 애니메이션 정상 작동,Low,Normal
+TC-017,Security,Encryption,메모 작성 시 암호화 체크박스 및 비번 입력,DB에 본문이 암호화되어 저장되고 목록에는 자물쇠 표시,High,Normal
+TC-018,Security,Encryption,암호화된 사용중인 메모 수정 시도 (미해독 상태),수정 불가 안내(403) 및 해독 유도,High,Edge
+TC-019,Security,Encryption,암호화된 사용중인 메모 삭제 시도 (미해독 상태),삭제 불가 안내(403) 및 해독 유도,High,Edge
+TC-020,Security,Decryption,정확한 비밀번호로 메모 해독 시도,메모 카드의 본문이 즉시 해독되어 표시됨,High,Normal
+TC-021,Security,Decryption,잘못된 비밀번호로 메모 해독 시도,비밀번호 불일치 메시지(403) 출력 및 해독 실패,High,Edge
+TC-022,Security,Decryption,비밀번호 입력 창에서 취소 클릭,아무런 변화 없이 입력 창 닫힘,Low,Normal
+TC-023,Search,Filter,검색어 입력 후 엔터 또는 300ms 대기,입력된 단어가 포함된 메모들만 필터링되어 표시,High,Normal
+TC-024,Search,Filter,사이드바에서 카테고리(그룹) 필터 선택,해당 그룹에 속한 메모들만 표시,High,Normal
+TC-025,Search,Filter,달력 모달에서 특정 날짜 선택,해당 일자에 작성/수정된 메모들만 표시,Medium,Normal
+TC-026,Search,Filter,검색 결과가 없는 검색어 입력,검색 결과 없음 안내 표시 및 그리드 비움,Medium,Edge
+TC-027,File,Upload,정상적인 이미지 파일(png/jpg) 업로드,업로드 성공 후 본문에 미리보기 또는 링크 삽입,High,Normal
+TC-028,File,Upload,금지 파일 확장자(.exe) 업로드 시도,403 에러와 함께 업로드 차단 메시지 발생,High,Edge
+TC-029,File,Upload,여러 파일 동시 드랍 (컴포저),모든 파일이 업로드 큐에 추가되고 제목/링크 자동 삽입,Medium,Normal
+TC-030,File,Download,일반 첨부파일 클릭하여 다운로드,브라우저 표준 다운로드 대화상자 표시 및 저장,High,Normal
+TC-031,File,Download,암호화된 메모의 파일 URL에 비로그인으로 접근,로그인 필요 안내(403) 및 다운로드 차단,High,Edge
+TC-032,File,AssetLibrary,자산 라이브러리 열기 및 파일 검색,현재 서버에 저장된 모든 자산(암호화 제외) 목록 표시,Medium,Normal
+TC-033,AI,Summary,메모 상세 모달에서 AI 요약 버튼 클릭,Gemini API를 통해 생성된 요약문이 전용 박스에 표시,Medium,Normal
+TC-034,AI,TagExtract,AI를 통한 태그 자동 추출,본문 기반 추천 태그가 배지로 자동 추가됨,Low,Normal
+TC-035,AI,Error,AI API 키가 잘못되거나 서버 오류 시 동작,오류 메시지 출력 및 로딩 인디케이터 종료,Medium,Edge
+TC-036,Setting,Theme,모드/배경색 변경 및 저장,즉시 UI에 반영되며 새로고침 후에도 유지됨,Medium,Normal
+TC-037,Setting,I18n,언어 설정을 'English'로 변경,전체 사이드바, 메시지, 툴팁이 영어로 즉시 전환됨,High,Normal
+TC-038,Stats,Heatmap,히트맵 상의 특정 칸(일자) 클릭,해당 날짜의 메모 목록으로 이동(필터 적용),Medium,Normal
+TC-039,Stats,Nebula,지식 지도(그래프) 모달 열기,메모 간 연결 관계가 D3.js 노드로 가시화됨,Medium,Normal
+TC-040,Composer,Draft,작성 중 창 닫기 시도 시 확인 창,변경 사항 폐기 여부를 묻는 확인 창 발생,Medium,Normal
+TC-041,Composer,Draft,비정상 종료 후 재접속 시 초안 복구,이전에 저장된 초안 존재 시 복구 여부 팝업 발생,High,Normal
+TC-042,Security,Headers,브라우저 개발자 도구에서 보안 헤더 확인,X-Frame-Options, CSP, nosniff 등이 적용되어 있음,Medium,Normal
+TC-043,Security,CSP,외부 CDN 외의 비인가 스크립트 삽입 테스트,브라우저 레벨에서 실행 차단 및 콘솔 경고 발생,High,Edge
+TC-044,UI,Sidebar,사이드바 접기/표시 기능 (토글),사이드바 영역이 사라지고 메인 그리드 영역 확장됨,Medium,Normal
+TC-045,Category,Manage,카테고리 이름 수정 및 삭제,카테고리 바 및 사이드바에 즉시 반영됨,Medium,Normal
+TC-046,Global,Crash,서버가 다운된 상태에서 요청 발송,네트워크 오류 안내 메시지 표시,Medium,Edge
+TC-047,Global,Performance,1000개 이상의 메모 로드 시 성능,Masonry 배치의 버벅임 없이 렌더링 유지 확인,Medium,Edge
+TC-048,UI,Scroll,메모 상세 모달 내부에서 긴 본문 스크롤,모달 배경은 고정되고 본문 영역만 부드럽게 스크롤됨,Low,Normal
+TC-049,Auth,Heartbeat,서버 연결 유실 시 자동 감지,오프라인 상태 안내 바 또는 메시지 발생,Medium,Edge
+TC-050,File,Attachment,컴포저에서 업로드된 파일의 X 버튼 클릭,서버에서 물리 파일 영구 삭제 및 큐에서 제거,Medium,Normal

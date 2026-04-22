@@ -15,7 +15,14 @@ export const ModalManager = {
             modalContent: document.getElementById('modalContent'),
             loadingOverlay: document.getElementById('loadingOverlay'),
             explorerModal: document.getElementById('explorerModal'),
-            explorerContent: document.getElementById('explorerContent')
+            explorerContent: document.getElementById('explorerContent'),
+            passwordPromptModal: document.getElementById('passwordPromptModal'),
+            passwordPromptInput: document.getElementById('passwordPromptInput'),
+            passwordPromptTitle: document.getElementById('passwordPromptTitle'),
+            passwordPromptLabel: document.getElementById('passwordPromptLabel'),
+            confirmPasswordBtn: document.getElementById('confirmPasswordPromptBtn'),
+            cancelPasswordBtn: document.getElementById('cancelPasswordPromptBtn'),
+            closePasswordBtn: document.getElementById('closePasswordPromptBtn')
         };
     },
 
@@ -159,9 +166,18 @@ export const ModalManager = {
     /**
      * 개별 메모 상세 모달 열기
      */
-    openMemoModal(id, memos) {
+    async openMemoModal(id) {
         const dom = this.getDOM();
-        const memo = memos.find(m => m.id == id);
+        
+        let memo = null;
+        try {
+            const { API } = await import('../api.js');
+            memo = await API.fetchMemo(id);
+        } catch(e) {
+            console.error('[Modal] failed to load memo:', e);
+            return;
+        }
+        
         if (!memo) return;
         
         import('../utils.js').then(({ parseInternalLinks, fixImagePaths, stripMetadata }) => {
@@ -209,6 +225,51 @@ export const ModalManager = {
             dom.modalContent.querySelectorAll('.internal-link').forEach(l => {
                 l.onclick = () => this.openMemoModal(l.dataset.id, memos);
             });
+        });
+    },
+
+    /**
+     * 커스텀 패스워드 입력 모달 (브라우저 prompt 대체)
+     * @param {string} label 안내 문구
+     * @returns {Promise<string|null>} 입력된 패스워드 또는 취소 시 null
+     */
+    promptPassword(label) {
+        const dom = this.getDOM();
+        if (!dom.passwordPromptModal) return Promise.resolve(null);
+
+        return new Promise((resolve) => {
+            dom.passwordPromptLabel.textContent = label || I18nManager.t('prompt_password');
+            dom.passwordPromptInput.value = '';
+            dom.passwordPromptModal.classList.add('active');
+            dom.passwordPromptInput.focus();
+
+            const cleanup = () => {
+                dom.passwordPromptModal.classList.remove('active');
+                dom.confirmPasswordBtn.onclick = null;
+                dom.cancelPasswordBtn.onclick = null;
+                dom.closePasswordBtn.onclick = null;
+                dom.passwordPromptInput.onkeydown = null;
+            };
+
+            const handleConfirm = () => {
+                const val = dom.passwordPromptInput.value;
+                cleanup();
+                resolve(val || null);
+            };
+
+            const handleCancel = () => {
+                cleanup();
+                resolve(null);
+            };
+
+            dom.confirmPasswordBtn.onclick = handleConfirm;
+            dom.cancelPasswordBtn.onclick = handleCancel;
+            dom.closePasswordBtn.onclick = handleCancel;
+            
+            dom.passwordPromptInput.onkeydown = (e) => {
+                if (e.key === 'Enter') handleConfirm();
+                if (e.key === 'Escape') handleCancel();
+            };
         });
     }
 };

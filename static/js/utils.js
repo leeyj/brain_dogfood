@@ -69,3 +69,14 @@ export function stripMetadata(text) {
     
     return processed.trim();
 }
+
+/**
+ * 디바운스 (Debounce) 유틸리티: 연속된 이벤트 발생 시 마지막 호출 후 특정 시간 뒤에 실행
+ */
+export function debounce(fn, delay) {
+    let timeout;
+    return function(...args) {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => fn.apply(this, args), delay);
+    };
+}

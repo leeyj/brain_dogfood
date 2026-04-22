@@ -23,15 +23,21 @@ export const CalendarManager = {
         this.render();
     },
 
-    updateMemoDates(memos) {
-        this.memoDates.clear();
-        memos.forEach(memo => {
-            if (memo.created_at) {
-                const dateStr = memo.created_at.split('T')[0];
-                this.memoDates.add(dateStr);
-            }
-        });
-        this.render();
+    async refresh() {
+        try {
+            const { API } = await import('../api.js');
+            // 달력은 해당 월의 점을 찍기 위해 기본적으로 최근 365일을 가져옴
+            const stats = await API.fetchHeatmapData(365);
+            this.memoDates.clear();
+            stats.forEach(stat => {
+                if (stat.count > 0) {
+                    this.memoDates.add(stat.date);
+                }
+            });
+            this.render();
+        } catch (error) {
+            console.error('[Calendar] Failed to fetch dates:', error);
+        }
     },
 
     setSelectedDate(date) {

@@ -66,10 +66,18 @@ export const DrawerManager = {
         });
     },
 
-    open(memos = [], activeFilter, onFilterCallback) {
+    async open(activeFilter, onFilterCallback) {
         if (!this.DOM.drawer || !this.DOM.drawerContent) return;
 
-        // 0. 데이터 유효성 검사
+        // 0. API를 통해 전체 데이터를 직접 호출 (디커플링)
+        let memos = [];
+        try {
+            const { API } = await import('../api.js');
+            memos = await API.fetchMemos({ limit: -1 }); // 전체 데이터
+        } catch (e) {
+            console.error('[Drawer] Failed to fetch data:', e);
+        }
+
         if (!memos || memos.length === 0) {
             this.DOM.drawerContent.innerHTML = `<p style="color:var(--muted); text-align:center; padding:20px;">${I18nManager.t('label_no_results')}</p>`;
             this.DOM.drawer.classList.add('active');

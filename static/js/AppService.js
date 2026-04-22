@@ -8,11 +8,11 @@ import { HeatmapManager } from './components/HeatmapManager.js';
 
 export const AppService = {
     state: {
-        memosCache: [],
         currentFilterGroup: 'all',
-        currentFilterCategory: null, // NEW: 카테고리 필터
+        currentFilterCategory: null,
         currentFilterDate: null,
         currentSearchQuery: '',
+        unlockedMemos: new Map(), // 🔑 해독된 메모 임시 저장소 (ID -> {content, tempPassword})
         offset: 0,
         limit: 20,
         hasMore: true,
@@ -25,7 +25,6 @@ export const AppService = {
      */
     async refreshData(onUpdateSidebar) {
         this.state.offset = 0;
-        this.state.memosCache = [];
         this.state.hasMore = true;
         this.state.isLoading = false;
         this.state.autoLoadCount = 0; // 초기화
@@ -62,19 +61,16 @@ export const AppService = {
                 this.state.hasMore = false;
             }
 
-            if (isAppend) {
-                this.state.memosCache = [...this.state.memosCache, ...newMemos];
-            } else {
-                this.state.memosCache = newMemos;
-            }
-            window.allMemosCache = this.state.memosCache;
-
             this.state.offset += newMemos.length;
 
-            CalendarManager.updateMemoDates(this.state.memosCache);
+            if(!isAppend) {
+                // 새 필터시 달력 등 갱신 트리거
+                CalendarManager.refresh();
+            }
             
             if (onUpdateSidebar) {
-                onUpdateSidebar(this.state.memosCache, this.state.currentFilterGroup, this.state.currentFilterCategory);
+                // UI 단에 필터 상태만 전달
+                onUpdateSidebar(this.state.currentFilterGroup, this.state.currentFilterCategory);
             }
             
             UI.setHasMore(this.state.hasMore);
@@ -83,17 +79,19 @@ export const AppService = {
             // 💡 [개선] 큰 화면 대응: 렌더링 후에도 센티넬이 보이면(스크롤바가 아직 안 생겼으면) 추가 로드
             // 사용자 요청에 따라 자동 로딩은 최대 3회(총 80개 분량)까지만 진행
             if (this.state.hasMore && this.state.autoLoadCount < 3) {
+                // 💡 애니메이션 시간을 고려하여 지연 시간 상향 (100ms -> 300ms)
                 setTimeout(() => {
                     if (UI.isSentinelVisible()) {
                         console.log(`[AppService] Auto-loading (${this.state.autoLoadCount + 1}/3)...`);
                         this.state.autoLoadCount++;
                         this.loadMore(onUpdateSidebar, true);
                     }
-                }, 100);
+                }, 300);
             } else if (!UI.isSentinelVisible()) {
                 // 스크롤바가 생겼거나 센티넬이 가려지면 카운트 리셋 (다음번 수동 스크롤 트리거를 위해)
                 this.state.autoLoadCount = 0;
             }
+
             
         } catch (err) {
             console.error('[AppService] loadMore failed:', err);

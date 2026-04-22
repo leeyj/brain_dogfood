@@ -1,7 +1,6 @@
 {
     "app_name": "Brain Dogfood",
     "app_tagline": "Welcome to your intelligent knowledge base.",
-    
     "nav_all": "All Knowledge",
     "nav_files": "Files",
     "nav_done": "Done",
@@ -13,7 +12,6 @@
     "nav_toggle": "Toggle Sidebar",
     "nav_categories": "Categories",
     "nav_category_manage": "Manage Categories",
-    
     "search_placeholder": "Search memos... (Title, Content, Tag)",
     "composer_placeholder": "Leave a fragment of knowledge...",
     "composer_placeholder_trigger": "Capture knowledge or drop files...",
@@ -25,7 +23,6 @@
     "composer_encrypt": "Encrypt",
     "composer_password": "Password",
     "tooltip_fold": "Fold Window (Preserve Content)",
-    
     "settings_title": "⚙️ Settings",
     "settings_bg": "Background Color",
     "settings_sidebar": "Sidebar Color",
@@ -39,21 +36,19 @@
     "settings_save": "Save Settings",
     "settings_reset": "Reset",
     "settings_close": "Close",
-    
     "msg_logout_confirm": "Are you sure you want to log out completely?",
     "msg_delete_confirm": "Are you sure you want to delete this memo? This cannot be undone.",
     "msg_save_success": "Saved successfully!",
     "msg_settings_saved": "🎨 Settings have been saved to the server!",
     "msg_session_timeout_min": "Session timeout must be at least 10 minutes.",
     "msg_ai_loading": "Gemini AI is analyzing the memo...",
-    "msg_encrypted_locked": "🚫 Encryption detected. Decrypt first to modify.",
+    "msg_encrypted_locked": "🚫 Encryption",
     "msg_auth_failed": "Invalid credentials. Please try again.",
     "msg_network_error": "Network instability or server error occurred.",
     "msg_confirm_discard": "Discard all current content and delete uploaded files from the server?",
     "msg_alert_password_required": "A password is required to encrypt this knowledge.",
     "msg_session_expired": "⌛ Session expired. Please log in again for security.",
     "msg_draft_restore_confirm": "📝 There is an auto-saved draft.\nTitle: \"{title}\"\nWould you like to restore it?",
-    
     "title_pin": "Pin to Top",
     "title_done": "Mark as Done",
     "title_undo": "Undo Done",
@@ -77,14 +72,12 @@
     "msg_permission_denied": "🚫 Access Denied. Decrypt the knowledge first.",
     "msg_download_failed": "❌ Download failed",
     "msg_download_error": "📦 Error during download",
-    
     "login_title": "Secure Login",
     "login_welcome": "Welcome to your intelligent knowledge base.",
     "login_id": "Auth ID",
     "login_pw": "Password",
     "login_btn": "Enter System",
     "msg_authenticating": "Authenticating...",
-    
     "drawer_title_groups": "📁 Groups",
     "drawer_title_tags": "🏷️ Tags",
     "label_untitled": "Untitled",
@@ -107,14 +100,12 @@
     "prompt_category_name": "Enter category name (max 10 chars):",
     "msg_confirm_delete_category": "Delete this category?",
     "msg_category_limit": "Maximum 3 categories can be pinned.",
-    
     "shortcuts_label": "⌨️ Shortcuts",
     "shortcut_save": "Save",
     "shortcut_new": "New",
     "shortcut_nebula": "Nebula",
     "shortcut_slash": "Slash commands",
     "shortcut_edit": "Quick Edit",
-
     "slash": {
         "task": "Task List",
         "bullet": "Bullet List",
@@ -130,11 +121,30 @@
         "shortcut_cat_3": "Alt+4: %s",
         "shortcut_cat_clear": "Alt+5: Clear Category"
     },
-
-    "calendar_months": ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
-    "calendar_days": ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+    "calendar_months": [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December"
+    ],
+    "calendar_days": [
+        "Sun",
+        "Mon",
+        "Tue",
+        "Wed",
+        "Thu",
+        "Fri",
+        "Sat"
+    ],
     "date_month_year": "{month} {year}",
-    
     "heatmap_ranges": {
         "365": "1 Year",
         "180": "6 Months",
@@ -142,7 +152,6 @@
         "30": "1 Month"
     },
     "label_select_range": "Select Range",
-    
     "groups": {
         "all": "All Knowledge",
         "default": "Default",

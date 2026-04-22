@@ -1,7 +1,6 @@
 {
     "app_name": "뇌사료",
     "app_tagline": "지식 창고에 오신 것을 환영합니다.",
-    
     "nav_all": "전체 지식",
     "nav_files": "파일 모음",
     "nav_done": "완료 모음",
@@ -13,7 +12,6 @@
     "nav_toggle": "사이드바 토글",
     "nav_categories": "카테고리",
     "nav_category_manage": "카테고리 관리",
-    
     "search_placeholder": "메모 검색... (제목, 내용, 태그)",
     "composer_placeholder": "지식의 파편을 남겨주세요...",
     "composer_placeholder_trigger": "메모를 기록하거나 파일을 던져보세요...",
@@ -27,7 +25,6 @@
     "composer_attach_label": "파일추가",
     "composer_password": "비밀번호",
     "tooltip_fold": "창 접기 (내용 보존)",
-    
     "settings_title": "⚙️ 환경 설정",
     "settings_bg": "전체 배경색",
     "settings_sidebar": "사이드바 색상",
@@ -41,21 +38,19 @@
     "settings_save": "저장",
     "settings_reset": "초기화",
     "settings_close": "닫기",
-    
     "msg_logout_confirm": "완전하게 로그아웃하시겠습니까?",
     "msg_delete_confirm": "이 메모를 정말 삭제할까요? 되돌릴 수 없습니다.",
     "msg_save_success": "저장되었습니다!",
     "msg_settings_saved": "🎨 테마 설정이 서버에 저장되었습니다!",
     "msg_session_timeout_min": "세션 타임아웃은 최소 10분 이상이어야 합니다.",
     "msg_ai_loading": "Gemini AI가 메모를 분석 중입니다...",
-    "msg_encrypted_locked": "🚫 암호화된 메모입니다. 먼저 해독하세요.",
+    "msg_encrypted_locked": "🚫 암호화.",
     "msg_auth_failed": "올바른 자격 증명이 아닙니다. 다시 시도해 주세요.",
     "msg_network_error": "네트워크 불안정 또는 서버 오류가 발생했습니다.",
     "msg_confirm_discard": "작성 중인 내용을 지우고 창을 닫을까요?",
     "msg_alert_password_required": "암호화하려면 비밀번호를 입력해야 합니다.",
     "msg_session_expired": "⌛ 세션이 만료되었습니다. 보안을 위해 다시 로그인해 주세요.",
     "msg_draft_restore_confirm": "📝 임시 저장된 메모가 있습니다.\n제목: \"{title}\"\n복원하시겠습니까?",
-    
     "title_pin": "중요 (상단 고정)",
     "title_done": "완료 처리",
     "title_undo": "다시 활성화",
@@ -78,14 +73,12 @@
     "msg_permission_denied": "🚫 접근 권한 부족. 먼저 지식을 해독하세요.",
     "msg_download_failed": "❌ 다운로드 실패",
     "msg_download_error": "📦 다운로드 중 오류",
-    
     "login_title": "보안 로그인",
     "login_welcome": "지능형 지식 창고에 오신 것을 환영합니다.",
     "login_id": "인증 아이디",
     "login_pw": "비밀번호",
     "login_btn": "보안 시스템 접속",
     "msg_authenticating": "인증 중...",
-    
     "drawer_title_groups": "📁 그룹",
     "drawer_title_tags": "🏷️ 태그",
     "label_untitled": "무제",
@@ -108,7 +101,6 @@
     "prompt_category_name": "새 카테고리 이름을 입력하세요 (최대 10자):",
     "msg_confirm_delete_category": "이 카테고리를 삭제할까요?",
     "msg_category_limit": "카테고리는 최대 3개까지만 핀(Pin) 고정 가능합니다.",
-    
     "shortcuts_label": "⌨️ 단축키",
     "shortcut_save": "저장",
     "shortcut_new": "새 메모",
@@ -117,7 +109,6 @@
     "shortcut_edit": "즉시 수정",
     "shortcut_cat_3": "Alt+4: %s",
     "shortcut_cat_clear": "Alt+5: 분류 해제",
-
     "slash": {
         "task": "체크박스",
         "bullet": "목록",
@@ -131,11 +122,30 @@
         "ai_summary": "AI 요약",
         "ai_tags": "AI 태그 추출"
     },
-
-    "calendar_months": ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
-    "calendar_days": ["일", "월", "화", "수", "목", "금", "토"],
+    "calendar_months": [
+        "1월",
+        "2월",
+        "3월",
+        "4월",
+        "5월",
+        "6월",
+        "7월",
+        "8월",
+        "9월",
+        "10월",
+        "11월",
+        "12월"
+    ],
+    "calendar_days": [
+        "일",
+        "월",
+        "화",
+        "수",
+        "목",
+        "금",
+        "토"
+    ],
     "date_month_year": "{year}년 {month}",
-    
     "heatmap_ranges": {
         "365": "1년",
         "180": "6개월",
@@ -143,7 +153,6 @@
         "30": "1개월"
     },
     "label_select_range": "기간 선택",
-    
     "groups": {
         "all": "전체 지식",
         "default": "기본",

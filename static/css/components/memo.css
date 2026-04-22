@@ -1,13 +1,53 @@
-/* Masonry Grid Layout */
-.masonry-grid { width: 100%; columns: auto 300px; column-gap: 1.5rem; }
+/* Multi-Column Masonry Layout (250px 수직 컬럼 방식) */
+.masonry-grid { 
+    display: flex; 
+    gap: 0.75rem; 
+    width: 100%;
+    align-items: flex-start;
+    justify-content: center; /* 중앙 정렬 */
+    padding: 0.5rem;
+}
+
+/* 수직 컬럼 컨테이너 */
+.masonry-column {
+    flex: 0 1 250px; /* 고정 너비 지향 */
+    min-width: 250px;
+    max-width: 250px; 
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
 
 /* Memo Card Styling */
 .memo-card {
-    break-inside: avoid; margin-bottom: 1.5rem; background: rgba(30, 41, 59, 0.6);
+    width: 100%; /* 부모 컬럼 너비에 맞춤 */
+    break-inside: avoid; background: rgba(30, 41, 59, 0.6);
     border-radius: 12px; padding: 1.2rem 1.2rem 45px 1.2rem; border: 1px solid rgba(255,255,255,0.05);
     position: relative; transition: transform 0.2s, background 0.2s;
-    max-height: 320px; overflow: hidden;
+    max-height: 300px; overflow: hidden;
 }
+
+
+/* 신규 메모 페이드인 애니메이션 */
+.memo-new {
+    animation: fadeIn 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* 刷新 (Refresh) 페이드 효과 - 리사이즈 및 전체 갱신용 */
+.memo-card.memo-refresh {
+    animation: memoRefresh 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes memoRefresh {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+
 
 .memo-card:hover { transform: translateY(-4px); background: rgba(30, 41, 59, 1); }
 
