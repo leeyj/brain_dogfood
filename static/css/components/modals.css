@@ -92,25 +92,111 @@ body.ai-disabled .ai-loading-overlay {
 .shortcut-item {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
     margin-bottom: 12px;
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     color: #cbd5e1;
 }
 
+.shortcut-item i {
+    width: 24px;
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.95rem;
+    opacity: 0.8;
+}
+
 kbd {
-    background-color: rgba(255, 255, 255, 0.08);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.05) 100%);
     border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 4px;
-    box-shadow: 0 2px 0 rgba(255, 255, 255, 0.1);
+    border-bottom: 3px solid rgba(0, 0, 0, 0.4);
+    border-radius: 6px;
+    box-shadow: 0 4px 0 rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1);
     color: var(--accent);
     display: inline-block;
     font-family: inherit;
-    font-size: 0.8rem;
-    font-weight: 700;
+    font-size: 0.85rem;
+    font-weight: 800;
     line-height: 1;
-    padding: 4px 8px;
+    padding: 5px 10px;
     white-space: nowrap;
-    min-width: 24px;
+    min-width: 32px;
     text-align: center;
+    margin-right: 4px;
+    transform: translateY(-2px);
+    transition: all 0.1s;
+}
+
+kbd:active {
+    transform: translateY(1px);
+    border-bottom-width: 1px;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
+}
+
+/* Help Modal Tab System (Excel Style) */
+#shortcutModal .modal-body {
+    padding: 0; /* 시트 내부에 패딩을 줌 */
+    display: flex;
+    flex-direction: column;
+    min-height: 500px;
+}
+
+.help-content-area {
+    flex: 1;
+    padding: 30px;
+    overflow-y: auto;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.help-content-area.fade-in {
+    opacity: 1;
+}
+
+.help-tab-bar {
+    display: flex;
+    background: rgba(15, 23, 42, 0.5);
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 0 20px;
+    gap: 2px;
+}
+
+.help-tab {
+    padding: 10px 20px;
+    background: rgba(255, 255, 255, 0.03);
+    color: var(--muted);
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: 0 0 8px 8px; /* 위는 막혀있고 아래가 둥근 엑셀 시트 느낌 */
+    margin-bottom: 5px;
+    transition: all 0.2s;
+    border: 1px solid transparent;
+    border-top: none;
+    position: relative;
+    top: -1px; /* 상단 경계선에 걸치게 함 */
+}
+
+.help-tab:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--text);
+}
+
+.help-tab.active {
+    background: var(--card);
+    color: var(--accent);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: 2px solid var(--accent); /* 활성 탭은 위에 강조선 */
+    border-bottom: none;
+    border-radius: 0 0 4px 4px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.help-sheet {
+    animation: slideUp 0.4s ease;
+}
+
+@keyframes slideUp {
+    from { transform: translateY(10px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
 }
