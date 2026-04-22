@@ -23,6 +23,7 @@ import { SessionManager } from './js/components/SessionManager.js';
 import { ShortcutManager } from './js/events/ShortcutManager.js';
 import { MemoActionHandler } from './js/events/MemoActionHandler.js';
 import { UIEventBinder } from './js/events/UIEventBinder.js';
+import { helpModal } from './js/components/modals/HelpModal.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
     UI.initSidebarToggle();
@@ -107,6 +108,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     ShortcutManager.init(updateSidebarCallback);
     MemoActionHandler.init(updateSidebarCallback);
     UIEventBinder.init(updateSidebarCallback);
+    helpModal.init();
     UI.initResizeHandler(updateSidebarCallback); // 📱 반응형 레이아웃 초기화
 
     // --- 🔹 App Start ---
