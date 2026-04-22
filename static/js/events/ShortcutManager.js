@@ -27,7 +27,6 @@ export const ShortcutManager = {
             }
 
             // 3. Ctrl + Shift + Key 조합들 (네비게이션)
-            // 3. Ctrl + Shift + Key 조합들 (네비게이션)
             if (isCtrl && e.shiftKey) {
                 e.preventDefault();
                 switch (key) {
@@ -52,21 +51,28 @@ export const ShortcutManager = {
                         if (ComposerManager.DOM.composer) ComposerManager.close();
                         break;
                 }
+                return;
             }
 
-            // 4. Alt 조합 (네비게이션 - 브라우저 충돌 방지)
-            if (isAlt) {
+            // 4. Alt 조합 (전역 네비게이션 - 왼손의 법칙)
+            if (isAlt && !isCtrl) {
+                if (key >= '1' && key <= '9') {
+                    e.preventDefault();
+                    this.handleGlobalNavigation(key, updateSidebarCallback);
+                    return;
+                }
+
                 switch (key) {
-                    case 'w': // 주간 뷰 토글 (Weekly)
+                    case 'w': // 주간 뷰 토글
                         e.preventDefault();
                         const toggleWeeklyBtn = document.getElementById('toggleWeeklyBtn');
                         if (toggleWeeklyBtn) toggleWeeklyBtn.click();
                         break;
-                    case 'a': // 전체 지식 이동 (All)
+                    case 'a': // 전체 지식
                         e.preventDefault();
                         AppService.setFilter({ group: 'all' }, updateSidebarCallback);
                         break;
-                    case 'n': // 새 메모 (New - Alt + N 추가 지원)
+                    case 'n': // 새 메모
                         e.preventDefault();
                         ComposerManager.openEmpty();
                         break;
@@ -75,15 +81,17 @@ export const ShortcutManager = {
                         if (ComposerManager.DOM.composer) ComposerManager.openEmpty();
                         break;
                 }
+                return;
             }
 
-            // 5. Category Slots: Alt + 1~4
-            if (isAlt && (key >= '1' && key <= '4')) {
+            // 5. Category Slots: Ctrl + Alt + 1~4 (작성기 열려있을 때)
+            if (isCtrl && isAlt && (key >= '1' && key <= '4')) {
                 if (ComposerManager.DOM.composer && ComposerManager.DOM.composer.style.display === 'block') {
                     e.preventDefault();
-                    const slotIndex = parseInt(key) - 1; // 1->0 (Done), 2->1 (Cat1)...
+                    const slotIndex = parseInt(key) - 1;
                     ComposerManager.toggleCategoryBySlot(slotIndex);
                 }
+                return;
             }
 
             // 6. 'e': 즉시 수정 (마우스 오버 상태일 때)
@@ -96,10 +104,10 @@ export const ShortcutManager = {
                 
                 if (!isInput && hoveredId && state.eventHandlers) {
                     e.preventDefault();
-                    console.log(`[ShortcutManager] Instant Edit for memo: ${hoveredId}`);
                     state.eventHandlers.onEdit(hoveredId);
                 }
             }
+
             // 7. '?': 단축키 도움말 (Input이 아닐 때)
             if (e.key === '?' && !isCtrl && !isAlt) {
                 const isInput = ['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName) || 
@@ -110,5 +118,55 @@ export const ShortcutManager = {
                 }
             }
         });
+    },
+
+    /**
+     * Alt + 1~9 전역 네비게이션 핸들러
+     */
+    handleGlobalNavigation(key, onUpdate) {
+        const today = new Date();
+        const formatDate = (d) => {
+            const y = d.getFullYear();
+            const m = String(d.getMonth() + 1).padStart(2, '0');
+            const day = String(d.getDate()).padStart(2, '0');
+            return `${y}-${m}-${day}`;
+        };
+
+        switch (key) {
+            case '1': // 전체
+                AppService.setFilter({ group: 'all' }, onUpdate);
+                break;
+            case '2': // 고정
+                AppService.setFilter({ group: 'pinned' }, onUpdate);
+                break;
+            case '3': // 오늘
+                AppService.setFilter({ date: formatDate(today) }, onUpdate);
+                break;
+            case '4': // 이번주
+                const first = today.getDate() - today.getDay();
+                const last = first + 6;
+                const start = new Date(new Date().setDate(first));
+                const end = new Date(new Date().setDate(last));
+                AppService.setFilter({ start_date: formatDate(start), end_date: formatDate(end) }, onUpdate);
+                break;
+            case '5': // 파일
+                AppService.setFilter({ group: 'files' }, onUpdate);
+                break;
+            case '6': // 완료
+                AppService.setFilter({ group: 'done' }, onUpdate);
+                break;
+            case '7': // 탐색기
+                const explorerBtn = document.getElementById('openExplorerBtn');
+                if (explorerBtn) explorerBtn.click();
+                break;
+            case '8': // 성단 (그래프)
+                const graphBtn = document.getElementById('openGraphBtn');
+                if (graphBtn) graphBtn.click();
+                break;
+            case '9': // 설정
+                const settingsBtn = document.getElementById('settingsBtn');
+                if (settingsBtn) settingsBtn.click();
+                break;
+        }
     }
 };

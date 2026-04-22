@@ -10,32 +10,46 @@
 
 <!-- ⌨️ Shortcut Help Modal -->
 <div id="shortcutModal" class="modal">
-    <div class="modal-content glass-panel" style="max-width: 600px; position: relative;">
+    <div class="modal-content glass-panel" style="max-width: 800px; position: relative;">
         <button class="close-modal-btn" onclick="document.getElementById('shortcutModal').classList.remove('active')">&times;</button>
         <div class="modal-header" style="display: flex; align-items: center; gap: 12px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 15px; margin-bottom: 20px;">
             <h2 style="margin: 0; display: flex; align-items: center; gap: 10px;">
-                <span data-i18n="title_shortcuts">Keyboard Shortcuts</span>
+                <span data-i18n="title_shortcuts">Keyboard Shortcuts (v2.2)</span>
             </h2>
         </div>
         <div class="modal-body">
-            <div class="shortcut-list-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            <div class="shortcut-list-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
                 <div class="shortcut-group">
-                    <h4 style="margin-bottom:10px; color:var(--accent);" data-i18n="label_navigation">Navigation</h4>
-                    <div class="shortcut-item"><kbd>Alt</kbd> + <kbd>A</kbd> <span data-i18n="sc_all">All Knowledge</span></div>
-                    <div class="shortcut-item"><kbd>Alt</kbd> + <kbd>W</kbd> <span data-i18n="sc_weekly">Weekly Toggle</span></div>
-                    <div class="shortcut-item"><kbd>Alt</kbd> + <kbd>N</kbd> <span data-i18n="sc_new">New Memo</span></div>
-                    <div class="shortcut-item"><kbd>Alt</kbd> + <kbd>`</kbd> <span data-i18n="sc_quake">Quake Memo</span></div>
-                    <div class="shortcut-item"><kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>G</kbd> <span data-i18n="sc_nebula">Nebula</span></div>
-                    <div class="shortcut-item"><kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>E</kbd> <span data-i18n="sc_explorer">Explorer</span></div>
+                    <h4 style="margin-bottom:15px; color:var(--accent); font-size: 1.1rem; border-left: 4px solid var(--accent); padding-left: 10px;">🚀 전역 네비게이션 (Alt + 1~9)</h4>
+                    <div class="shortcut-item"><kbd>Alt</kbd> + <kbd>1</kbd> <span>🌐 전체 지식 (All)</span></div>
+                    <div class="shortcut-item"><kbd>Alt</kbd> + <kbd>2</kbd> <span>📌 고정 메모 (Pinned)</span></div>
+                    <div class="shortcut-item"><kbd>Alt</kbd> + <kbd>3</kbd> <span>📅 오늘의 메모 (Today)</span></div>
+                    <div class="shortcut-item"><kbd>Alt</kbd> + <kbd>4</kbd> <span>🗓️ 이번주 메모 (Weekly)</span></div>
+                    <div class="shortcut-item"><kbd>Alt</kbd> + <kbd>5</kbd> <span>📎 첨부파일 모음 (Files)</span></div>
+                    <div class="shortcut-item"><kbd>Alt</kbd> + <kbd>6</kbd> <span>✅ 완료 및 보관 (Done)</span></div>
+                    <div class="shortcut-item"><kbd>Alt</kbd> + <kbd>7</kbd> <span>🔍 지식 탐색기 (Explorer)</span></div>
+                    <div class="shortcut-item"><kbd>Alt</kbd> + <kbd>8</kbd> <span>🕸️ 지식 성단 (Nebula)</span></div>
+                    <div class="shortcut-item"><kbd>Alt</kbd> + <kbd>9</kbd> <span>⚙️ 환경 설정 (Settings)</span></div>
+                    <div style="margin-top: 15px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.05);">
+                        <div class="shortcut-item"><kbd>Alt</kbd> + <kbd>W</kbd> <span>주간 뷰 영역 토글</span></div>
+                        <div class="shortcut-item"><kbd>Alt</kbd> + <kbd>N</kbd> <span>새 메모 작성</span></div>
+                    </div>
                 </div>
                 <div class="shortcut-group">
-                    <h4 style="margin-bottom:10px; color:var(--ai-accent);" data-i18n="label_editor">Editor & Action</h4>
-                    <div class="shortcut-item"><kbd>Ctrl</kbd> + <kbd>Enter</kbd> <span data-i18n="sc_save">Save / Post</span></div>
-                    <div class="shortcut-item"><kbd>/</kbd> <span data-i18n="sc_slash">Slash Command</span></div>
-                    <div class="shortcut-item"><kbd>e</kbd> <span data-i18n="sc_edit">Instant Edit (Hover)</span></div>
-                    <div class="shortcut-item"><kbd>Alt</kbd> + <kbd>Click</kbd> <span data-i18n="sc_link">Visual Link</span></div>
-                    <div class="shortcut-item"><kbd>ESC</kbd> <span data-i18n="sc_close">Close All</span></div>
-                    <div class="shortcut-item"><kbd>?</kbd> <span data-i18n="sc_help">Help Modal</span></div>
+                    <h4 style="margin-bottom:15px; color:var(--ai-accent); font-size: 1.1rem; border-left: 4px solid var(--ai-accent); padding-left: 10px;">✍️ 편집 및 동작</h4>
+                    <div class="shortcut-item"><kbd>Ctrl</kbd> + <kbd>Enter</kbd> <span>저장 및 게시 (Sync)</span></div>
+                    <div class="shortcut-item"><kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>1~4</kbd> <span>카테고리 슬롯 지정</span></div>
+                    <div class="shortcut-item"><kbd>/</kbd> <span>🪄 슬래시 명령어</span></div>
+                    <div class="shortcut-item"><kbd>e</kbd> <span>⚡ 즉시 수정 (마우스 호버)</span></div>
+                    <div class="shortcut-item"><kbd>Alt</kbd> + <kbd>Click</kbd> <span>🔗 비주얼 노드 연결</span></div>
+                    <div class="shortcut-item"><kbd>ESC</kbd> <span>🚪 모든 창 닫기</span></div>
+                    <div class="shortcut-item"><kbd>?</kbd> <span>⌨️ 도움말 모달 열기</span></div>
+                    
+                    <div style="margin-top: 25px; padding: 15px; background: rgba(255,255,255,0.03); border-radius: 8px; border: 1px solid rgba(255,255,255,0.05);">
+                        <p style="margin:0; font-size: 0.85rem; color: var(--muted); line-height: 1.5;">
+                            💡 <b>팁</b>: Alt 단축키는 왼손 엄지로 Alt를 누른 상태에서 숫자키를 누르는 방식이 가장 빠릅니다.
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
