@@ -6,11 +6,22 @@
     .sidebar {
         position: fixed; left: 0; top: 0; height: 100vh; z-index: 1000;
         transform: translateX(-100%); transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        width: 280px; box-shadow: 20px 0 50px rgba(0,0,0,0.5);
+        width: 240px; box-shadow: 20px 0 50px rgba(0,0,0,0.5);
+        padding: 1.5rem 1rem;
     }
     .sidebar.mobile-open { transform: translateX(0); }
-    .sidebar.collapsed { width: 280px; }
+    .sidebar.collapsed { width: 240px; }
     .sidebar.collapsed .text { display: inline !important; }
+
+    .sidebar-header { margin-bottom: 1.5rem; }
+    .logo { font-size: 1.1rem; }
+    
+    .nav li { 
+        padding: 0.6rem 0.8rem; 
+        font-size: 0.9rem;
+    }
+    
+    .section-title { margin-top: 1.2rem; }
 
     /* Mobile Content Layout */
     .content { padding: 1rem; width: 100%; }
