@@ -14,6 +14,8 @@ class MemoRepository:
         group = filters.get('group', 'all')
         query = filters.get('query', '')
         date = filters.get('date', '')
+        start_date = filters.get('start_date', '')
+        end_date = filters.get('end_date', '')
         category = filters.get('category', '')
         
         if group == 'done':
@@ -37,6 +39,10 @@ class MemoRepository:
         if date:
             where_clauses.append("created_at LIKE ?")
             params.append(f"{date}%")
+        elif start_date and end_date:
+            # 💡 주간 뷰 등을 위한 날짜 범위 검색 지원
+            where_clauses.append("created_at BETWEEN ? AND ?")
+            params.extend([f"{start_date} 00:00:00", f"{end_date} 23:59:59"])
             
         if category:
             where_clauses.append("category = ?")

@@ -55,6 +55,8 @@
     "title_ai": "AI Analysis",
     "title_edit": "Edit",
     "title_delete": "Delete",
+    "title_view_grid": "Grid View (Default)",
+    "title_view_list": "List View (Titles Only)",
     "btn_save": "Save Knowledge",
     "btn_discard": "Cancel",
     "btn_delete_memo": "Delete Knowledge",
@@ -156,6 +158,23 @@
         "all": "All Knowledge",
         "default": "Default",
         "files": "Files",
-        "done": "Done"
-    }
+        "done": "Done",
+        "weekly": "Weekly"
+    },
+    "title_shortcuts": "⌨️ Keyboard Shortcuts",
+    "tooltip_help": "Shortcuts (?)",
+    "label_navigation": "Navigation",
+    "label_editor": "Editor & Action",
+    "sc_all": "All Knowledge",
+    "sc_weekly": "Weekly Toggle",
+    "sc_new": "New Memo",
+    "sc_quake": "Quake Memo",
+    "sc_nebula": "Nebula",
+    "sc_explorer": "Explorer",
+    "sc_save": "Save / Post",
+    "sc_slash": "Slash Command",
+    "sc_edit": "Instant Edit (Hover)",
+    "sc_link": "Visual Link",
+    "sc_close": "Close All",
+    "sc_help": "Help Modal"
 }

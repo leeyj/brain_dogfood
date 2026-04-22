@@ -45,9 +45,19 @@
 *   **고속 워크플로우 (Instant Edit)**: 메모 카드 위에 마우스를 올리고 `e`를 누르면 즉시 수정 모드 진입. 모달 클릭의 피로감을 제로로 만듭니다.
 *   **드래그 앤 드롭 링크**: 메모 카드를 작성기(Composer)로 드래그하여 즉시 참조 링크를 삽입하세요.
 
-### 🛠️ 패치 노트 (2026-04-22)
-*   **암호 마스킹 처리 (Password Masking)**: 메모 설정 및 해독 시 입력되는 모든 패스워드를 아스테리크(`*`)로 마스킹 처리하여 보안성을 강화했습니다.
-*   **커스텀 패스워드 모달 도입**: 브라우저 기본 `prompt()` 대신 Glassmorphism 스타일의 커스텀 모달을 사용하여 보안성과 디자인 일관성을 확보했습니다.
+### 🛠️ 패치 노트 (2026-04-22) - v5.0 (Weekly Review & Layout Update)
+*   **[UI 혁신] 메인 영역 슬롯화 및 레이아웃 엔진 도입**:
+    *   `LayoutManager`를 통해 그리드 뷰와 리스트 뷰를 실시간 전환 가능. 메인 콘텐츠 영역을 동적 슬롯으로 분리하여 확장성 확보.
+*   **[신규 기능] 주간 매니저 (Weekly View)**:
+    *   검색창 하단에 "일~토" 주간 선택기 배치. 특정 날짜 필터링 및 **주간 전체 모아보기(Toggle)** 기능으로 실무적 활용도 극대화.
+*   **[신규 기능] 고밀도 리스트 레이아웃**:
+    *   제목, 태그, 날짜를 가로 한 줄에 배치하여 대량의 지식을 빠르게 훑을 수 있는 모드 추가.
+*   **[로직 개선] 지능형 필터 및 API 최적화**:
+    *   사이드바 그룹 이동 시 날짜 필터 자동 초기화. API 호출 시 `null` 값 처리 버그 해결 및 날짜 범위(`BETWEEN`) 검색 지원.
+*   **[UX 개선] 자동 완성 방지 및 시각적 보정**:
+    *   크롬 브라우저의 부적절한 자동 완성(`autocomplete="off"`) 비활성화. 리팩토링 후 유실된 `VisualLinker` 좌표 동기화 로직 복구.
+*   **[보안] 암호 마스킹 및 보호 강화**:
+    *   모든 패스워드 입력 필드 마스킹 처리 및 리스트 뷰에서도 암호화 메모의 보안 가독성 유지.
 
 ### 🛠️ 패치 노트 (2026-04-20)
 *   **세션 타임아웃 카운트다운**: 로그아웃 버튼에 실시간 세션 남은 시간을 표시하는 타이머를 추가하여 예기치 않은 로그아웃으로 인한 데이터 유실을 방지합니다.
@@ -81,7 +91,12 @@
 | **저장/수정** | `Ctrl + Enter` | 작성한 메모를 즉시 서버에 반영 |
 | **새 메모** | `Ctrl + Shift + N` | 언제 어디서든 즉시 작성창 호출 |
 | **슬래시 명령** | `/` | `/task`, `/ai`, `/h2` 등으로 빠른 서식 지정 |
-| **지식 탐색기** | `Ctrl + Shift + E` | 저장된 지식의 구조를 한눈에 파악 |
+| **전체 지식** | `Alt + A` | 🔄 모든 필터 초기화 및 전체 보기 |
+| **주간 뷰 토글** | `Alt + W` | 📅 검색창 하단 주간 선택기 영역 토글 |
+| **새 메모 작성** | `Alt + N` | 📝 언제 어디서든 즉시 작성창 호출 (Ctrl + Shift + N 도 가능) |
+| **지식 네뷸라** | `Ctrl + Shift + G` | 🕸️ 시각화 모달 열기 |
+| **지식 탐색기** | `Ctrl + Shift + E` | 🔍 사이드바 드로어 열기 |
+| **캘린더 토글** | `Ctrl + Shift + C` | 📅 사이드바 미니 달력 토글 |
 | **즉시 수정** | `e` (Mouse Over) | 카드 위에서 바로 편집 모드로 진입 |
 | **비주얼 링커** | `Alt + #ID 클릭` | 지식과 지식을 선으로 잇는 '시각적 와이어링' |
 
@@ -173,8 +188,10 @@ We provide a security model where user data is practically undecipherable. Built
 - **Drag & Drop Workflow**: Drag memo cards into the composer to instantly insert a semantic reference.
 
 ### 🛠️ Patch Notes (2026-04-22)
-*   **Password Masking**: All password inputs during memo encryption and decryption are now masked with asterisks (`*`) for enhanced security.
-*   **Custom Password Modal**: Replaced the native browser `prompt()` with a premium Glassmorphism modal to ensure secure input and maintain aesthetic consistency.
+*   **Component Architecture Refactoring**: Refactored `MemoCard`, `AttachmentBox`, and `ModalManager` into independent DOM components, maximizing maintainability and extensibility.
+*   **Layout Slotting & List View**: Implemented layout slotting for the main content area. Users can now toggle between **Grid** and **List** views from the top bar for quick title-based scanning.
+*   **Password Masking & Enhanced Security**: All password inputs are now masked with asterisks (`*`), and a premium Custom Modal has been introduced to replace the native browser `prompt()`.
+*   **Global Scope Cleanup**: Encapsulated global functions and state previously attached to the `window` object into modules, enhancing system stability.
 
 ### 🛠️ Patch Notes (2026-04-20)
 - **Session Timeout Countdown**: Added a real-time countdown timer to the logout button to prevent unexpected data loss from session expiration.
@@ -209,7 +226,9 @@ We provide a security model where user data is practically undecipherable. Built
 | **New Memo** | `Ctrl + Shift + N` | Call the composer from anywhere |
 | **Slash Commands** | `/` | Quickly format with `/task`, `/ai`, `/h2`, etc. |
 | **Explorer** | `Ctrl + Shift + E` | Gain an overview of the knowledge structure |
-| **Instant Edit** | `e` (Mouse Over) | Enter edit mode directly from the card |
+| **All Knowledge** | `Alt + A` | Reset all filters and view all memos |
+| **Toggle Weekly** | `Alt + W` | Toggle the weekly review bar |
+| **New Memo** | `Alt + N` | Call the composer from anywhere |
 | **Visual Linker** | `Alt + #ID Click` | Connect notes visually via 'Visual Wiring' |
 
 ---

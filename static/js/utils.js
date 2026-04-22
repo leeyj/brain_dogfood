@@ -80,3 +80,22 @@ export function debounce(fn, delay) {
         timeout = setTimeout(() => fn.apply(this, args), delay);
     };
 }
+
+/**
+ * 전역 파일 다운로드 기능
+ */
+export async function downloadFile(filename, originalName) {
+    try {
+        const res = await fetch(`/api/download/${filename}`);
+        if (!res.ok) {
+            alert(res.status === 403 ? I18nManager.t('msg_permission_denied') : `${I18nManager.t('msg_download_failed')}: ${res.statusText}`);
+            return;
+        }
+        const blob = await res.blob();
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url; a.download = originalName;
+        document.body.appendChild(a); a.click();
+        window.URL.revokeObjectURL(url); document.body.removeChild(a);
+    } catch (err) { alert(`${I18nManager.t('msg_download_error')}: ` + err.message); }
+}

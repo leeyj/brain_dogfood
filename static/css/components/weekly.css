@@ -1,0 +1,124 @@
+/* 주간 선택기 (Weekly Selector) 스타일 */
+
+.weekly-container {
+    width: 95%;
+    max-width: 1400px;
+    margin: 10px auto;
+}
+
+.weekly-selector {
+    display: flex;
+    flex-direction: column;
+    padding: 12px;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.weekly-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 12px;
+}
+
+.week-info {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-main);
+    min-width: 120px;
+    text-align: center;
+}
+
+.week-nav-btn {
+    background: none;
+    border: none;
+    color: var(--muted);
+    cursor: pointer;
+    padding: 5px 10px;
+    transition: color 0.2s;
+}
+
+.week-nav-btn:hover {
+    color: var(--accent);
+}
+
+.week-full-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-dim);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.week-full-btn:hover {
+    background: var(--accent-low);
+    color: var(--accent);
+}
+
+.week-days {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.day-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px 5px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid transparent;
+}
+
+.day-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+    transform: translateY(-2px);
+}
+
+.day-item.today {
+    background: rgba(var(--accent-rgb), 0.1);
+    border-color: rgba(var(--accent-rgb), 0.2);
+}
+
+.day-item.active {
+    background: var(--accent);
+    color: white;
+    box-shadow: 0 4px 15px rgba(var(--accent-rgb), 0.4);
+}
+
+.day-label {
+    font-size: 0.7rem;
+    color: var(--muted);
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.day-item.active .day-label {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.day-number {
+    font-size: 1.1rem;
+    font-weight: 800;
+}
+
+/* 모바일 대응 */
+@media (max-width: 768px) {
+    .week-days {
+        gap: 4px;
+    }
+    .day-number {
+        font-size: 0.9rem;
+    }
+    .day-label {
+        font-size: 0.6rem;
+    }
+}

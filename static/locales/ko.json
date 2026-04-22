@@ -57,6 +57,8 @@
     "title_ai": "AI 분석",
     "title_edit": "수정",
     "title_delete": "삭제",
+    "title_view_grid": "그리드 보기 (기본)",
+    "title_view_list": "리스트 보기 (제목 위주)",
     "btn_save": "지식 저장",
     "btn_discard": "작성 취소",
     "btn_delete_memo": "지식 삭제",
@@ -157,6 +159,23 @@
         "all": "전체 지식",
         "default": "기본",
         "files": "파일모음",
-        "done": "완료모음"
-    }
+        "done": "완료모음",
+        "weekly": "주간모음"
+    },
+    "title_shortcuts": "⌨️ 단축키 도움말",
+    "tooltip_help": "단축키 확인 (?)",
+    "label_navigation": "시스템 및 탐색",
+    "label_editor": "편집 및 동작",
+    "sc_all": "전체 지식 이동",
+    "sc_weekly": "주간 뷰 토글",
+    "sc_new": "새 메모 작성",
+    "sc_quake": "Quake 스타일 작성기",
+    "sc_nebula": "지식 맵(네뷸라)",
+    "sc_explorer": "지식 탐색기",
+    "sc_save": "저장 및 게시",
+    "sc_slash": "슬래시 명령어",
+    "sc_edit": "즉시 수정 (마우스 호버)",
+    "sc_link": "비주얼 노드 연결",
+    "sc_close": "모든 창 닫기",
+    "sc_help": "도움말 모달 열기"
 }

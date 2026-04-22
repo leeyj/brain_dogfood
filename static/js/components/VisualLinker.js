@@ -68,12 +68,59 @@ export const VisualLinker = {
         window.addEventListener('scroll', () => {
             if (this.state.isActive) this.syncCoordinates();
         }, { passive: true });
+
+        // 💡 전역 마우스 이벤트 등록 (Event Delegation)
+        this.bindGlobalEvents();
+    },
+
+    /**
+     * Alt+클릭 드래그 앤 드롭 연결 이벤트 바인딩
+     */
+    bindGlobalEvents() {
+        // 1. 마우스 누름 (연결 시작)
+        document.addEventListener('mousedown', (e) => {
+            const idBtn = e.target.closest('.copy-id-btn');
+            if (idBtn && e.altKey) {
+                e.preventDefault();
+                e.stopPropagation(); // 메모 카드 클릭 이벤트 전파 방지
+                
+                const card = idBtn.closest('.memo-card');
+                if (!card) return;
+                
+                const memoId = card.dataset.id;
+                console.log(`[VisualLinker] Starting link from memo #${memoId}`);
+                this.start(memoId, idBtn, e);
+            }
+        });
+
+        // 2. 마우스 뗌 (연결 완료)
+        document.addEventListener('mouseup', (e) => {
+            if (!this.state.isActive) return;
+
+            const targetCard = e.target.closest('.memo-card');
+            if (targetCard) {
+                const targetId = targetCard.dataset.id;
+                console.log(`[VisualLinker] Finishing link to memo #${targetId}`);
+                this.finish(targetId);
+            } else {
+                console.log('[VisualLinker] Link cancelled (no target)');
+                this.cancel();
+            }
+        });
+
+        // 3. 우클릭 시 취소
+        document.addEventListener('contextmenu', (e) => {
+            if (this.state.isActive) {
+                e.preventDefault();
+                this.cancel();
+            }
+        });
     },
 
     /**
      * 연결 모드 시작
      */
-    start(sourceId, element) {
+    start(sourceId, element, e) {
         if (!sourceId || !element) return;
         this.init();
 
@@ -82,10 +129,16 @@ export const VisualLinker = {
         this.state.sourceElement = element;
         
         this.DOM.svg.style.display = 'block';
-        document.body.classList.add('linker-active'); // 시각적 피드백용 클래스
+        document.body.classList.add('linker-active'); 
 
         this.syncCoordinates();
         
+        // 💡 시작하자마자 끝점을 마우스 위치로 강제 동기화 (선 튀는 현상 방지)
+        if (e) {
+            this.DOM.line.setAttribute('x2', e.clientX);
+            this.DOM.line.setAttribute('y2', e.clientY);
+        }
+
         // 전역 마우스 이동 이벤트 등록
         this.onMouseMove = (e) => this.handleMouseMove(e);
         window.addEventListener('mousemove', this.onMouseMove);
@@ -97,11 +150,16 @@ export const VisualLinker = {
     syncCoordinates() {
         if (!this.state.sourceElement) return;
         const rect = this.state.sourceElement.getBoundingClientRect();
-        this.state.startX = rect.left + rect.width / 2;
-        this.state.startY = rect.top + rect.height / 2;
+        
+        // 요소의 중앙 좌표 계산
+        const x = rect.left + rect.width / 2;
+        const y = rect.top + rect.height / 2;
 
-        this.DOM.line.setAttribute('x1', this.state.startX);
-        this.DOM.line.setAttribute('y1', this.state.startY);
+        this.state.startX = x;
+        this.state.startY = y;
+
+        this.DOM.line.setAttribute('x1', x);
+        this.DOM.line.setAttribute('y1', y);
     },
 
     handleMouseMove(e) {

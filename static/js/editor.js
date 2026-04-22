@@ -125,7 +125,9 @@ export const EditorManager = {
         }
         
         console.log('[Editor] Refreshing UI with:', this.attachedFiles);
-        container.innerHTML = renderAttachmentBox(this.attachedFiles);
+        container.innerHTML = '';
+        const box = renderAttachmentBox(this.attachedFiles);
+        if (box) container.appendChild(box);
     },
 
     bindDropEvent(wrapperSelector, onDropComplete) {

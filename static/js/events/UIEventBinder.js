@@ -5,16 +5,31 @@ import { DrawerManager } from '../components/DrawerManager.js';
 import { CategoryManager } from '../components/CategoryManager.js';
 
 export const UIEventBinder = {
-    init(updateSidebarCallback) {
+    async init(updateSidebarCallback) {
         // --- 🔹 Search & Graph ---
-        const searchInput = document.getElementById('searchInput');
+        const searchInput = document.getElementById('sb_query_v5');
         let searchTimer;
         if (searchInput) {
             searchInput.oninput = () => {
+                const val = searchInput.value.trim();
+                // 💡 커맨드 트릭: ? 입력 시 도움말 모달 띄우기
+                if (val === '?') {
+                    searchInput.value = ''; // 입력창 비우기
+                    document.getElementById('shortcutModal').classList.add('active');
+                    return;
+                }
+                
                 clearTimeout(searchTimer);
                 searchTimer = setTimeout(() => {
-                    AppService.setFilter({ query: searchInput.value }, updateSidebarCallback);
+                    AppService.setFilter({ query: val }, updateSidebarCallback);
                 }, 300);
+            };
+        }
+
+        const helpBtn = document.getElementById('helpBtn');
+        if (helpBtn) {
+            helpBtn.onclick = () => {
+                document.getElementById('shortcutModal').classList.add('active');
             };
         }
 
@@ -63,6 +78,34 @@ export const UIEventBinder = {
         if (openLabBtn) {
             openLabBtn.onclick = () => {
                 window.open(`/lab?group=${AppService.state.currentFilterGroup || 'all'}`, '_blank');
+            };
+        }
+
+        // --- 🔲 레이아웃 전환 이벤트 ---
+        const viewGridBtn = document.getElementById('viewGridBtn');
+        const viewListBtn = document.getElementById('viewListBtn');
+        
+        if (viewGridBtn && viewListBtn) {
+            const { LayoutManager } = await import('../components/LayoutManager.js');
+            
+            viewGridBtn.onclick = () => {
+                viewGridBtn.classList.add('active');
+                viewListBtn.classList.remove('active');
+                LayoutManager.switchLayout('masonry');
+            };
+            
+            viewListBtn.onclick = () => {
+                viewListBtn.classList.add('active');
+                viewGridBtn.classList.remove('active');
+                LayoutManager.switchLayout('list');
+            };
+        }
+
+        const toggleWeeklyBtn = document.getElementById('toggleWeeklyBtn');
+        if (toggleWeeklyBtn) {
+            const { WeeklyManager } = await import('../components/WeeklyManager.js');
+            toggleWeeklyBtn.onclick = () => {
+                WeeklyManager.toggle();
             };
         }
     }

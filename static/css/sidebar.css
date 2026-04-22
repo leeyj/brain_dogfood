@@ -109,7 +109,7 @@
 
 .sidebar-footer .action-btn { flex: 1; padding: 10px !important; }
 
-#settingsBtn { 
+#helpBtn, #settingsBtn { 
     flex: 0 0 45px !important; 
     display: flex; 
     justify-content: center; 

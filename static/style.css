@@ -13,6 +13,7 @@
 @import url('./css/components/memo.css');
 @import url('./css/components/editor.css');
 @import url('./css/components/modals.css');
+@import url('./css/components/weekly.css');
 
 /* 4. Visualization & Navigation (Calendar, Drawer, Map) */
 @import url('./css/components/visualization.css');
