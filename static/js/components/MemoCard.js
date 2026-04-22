@@ -262,6 +262,15 @@ function bindCommonEvents(card, memo, handlers) {
 
     card.onclick = (e) => {
         if (e.target.closest('.action-btn, .file-chip, .internal-link, .link-item, .copy-id-btn')) return;
+
+        // 💡 관계 포커스 모드 (Ctrl + Alt + Click)
+        if (e.ctrlKey && e.altKey) {
+            e.preventDefault();
+            e.stopPropagation();
+            if (handlers.onToggleRelationFocus) handlers.onToggleRelationFocus(memo.id);
+            return;
+        }
+
         if (handlers.onOpenModal) handlers.onOpenModal(memo.id);
     };
 

@@ -25,6 +25,7 @@
 - **LayoutManager**: 메인 화면의 `#memoGrid` 영역을 추상화된 슬롯으로 취급합니다. 설정된 레이아웃(`Grid` 또는 `List`)에 따라 동적으로 렌더링 엔진을 교체합니다.
 - **AppService (Central State)**: 모든 필터 상태(그룹, 날짜 범위, 검색어)와 메모 데이터를 중앙에서 관리하며, 상태 변경 시 레이아웃 엔진에 렌더링을 지시합니다.
 - **WeeklyManager**: 검색창 하단 슬롯에 독립적으로 주입되어 주간 일정을 관리하며 `AppService`의 날짜 필터를 제어합니다.
+- **RelationManager (Visual Insight)**: 1-depth 내부 링크(`[[#ID]]`)를 기반으로 메모 간의 상호 참조 관계를 분석합니다. SVG 오버레이와 좌표 계산 알고리즘을 사용하여 그리드 뷰 상에서 메모 간의 방향성(Incoming/Outgoing)을 시각화합니다.
 
 ### 2.3 Data Policy: English Constant Policy
 - **데이터 정합성**: DB의 `group_name` 등은 **영문 상수**로 저장하고, UI 노출 시에만 i18n 엔진을 통해 번역합니다.

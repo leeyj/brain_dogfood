@@ -3,10 +3,14 @@ import { AppService } from '../AppService.js';
 import { UI } from '../ui.js';
 import { ComposerManager } from '../components/ComposerManager.js';
 import { I18nManager } from '../utils/I18nManager.js';
+import { RelationManager } from '../components/RelationManager.js';
 
 export const MemoActionHandler = {
     init(updateSidebarCallback) {
         AppService.state.eventHandlers = {
+            onToggleRelationFocus: (id) => {
+                RelationManager.toggleFocus(id, AppService.state.allMemos);
+            },
             onEdit: async (id) => {
                 const memo = await API.fetchMemo(id);
                 if (memo && memo.is_encrypted) {

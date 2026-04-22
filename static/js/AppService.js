@@ -6,6 +6,7 @@ import { UI } from './ui.js';
 import { CalendarManager } from './components/CalendarManager.js';
 import { HeatmapManager } from './components/HeatmapManager.js';
 import { WeeklyManager } from './components/WeeklyManager.js';
+import { RelationManager } from './components/RelationManager.js';
 
 export const AppService = {
     state: {
@@ -35,6 +36,9 @@ export const AppService = {
         this.state.isLoading = false;
         this.state.autoLoadCount = 0; // 초기화
         
+        // 관계 포커스 해제
+        RelationManager.clearFocus();
+
         // 히트맵 데이터 새로고침
         if (HeatmapManager && HeatmapManager.refresh) {
             HeatmapManager.refresh();
