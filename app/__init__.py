@@ -1,8 +1,11 @@
 import os
 import json
 from flask import Flask, request, abort, jsonify # type: ignore
-from dotenv import load_dotenv
-load_dotenv()
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    pass # type: ignore (Linter fake warning)
 
 def create_app():
     # Set folders to parent directory since app logic is now in a subfolder
@@ -42,9 +45,12 @@ def create_app():
     def handle_exception(e):
         # API 요청인 경우 항상 JSON 반환
         if request.path.startswith('/api/'):
-            from werkzeug.exceptions import HTTPException
-            if isinstance(e, HTTPException):
-                return jsonify({'error': e.name, 'message': e.description}), e.code
+            try:
+                from werkzeug.exceptions import HTTPException
+                if isinstance(e, HTTPException):
+                    return jsonify({'error': e.name, 'message': e.description}), e.code
+            except ImportError:
+                pass # type: ignore (Linter fake warning)
             return jsonify({'error': 'Internal Server Error', 'message': str(e)}), 500
         # 일반 요청은 Flask 기본 처리 (또는 커스텀 HTML 에러 페이지)
         return e
