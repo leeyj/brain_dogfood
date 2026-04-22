@@ -2,10 +2,20 @@
 .content { 
     flex: 1; 
     overflow-y: auto; 
-    padding: 2rem 3rem; 
+    padding: 2rem; 
     display: flex; 
     flex-direction: column; 
     align-items: center; 
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* 콘텐츠 공통 가이드라인 (달력, 입력창, 그리드 공통) */
+.content > div, .content > section, .content > main {
+    width: 100%;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 /* Top Navigation Bar */

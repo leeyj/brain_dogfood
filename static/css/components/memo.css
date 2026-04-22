@@ -1,18 +1,18 @@
-/* Multi-Column Masonry Layout (250px 수직 컬럼 방식) */
 .masonry-grid { 
     display: flex; 
     gap: 0.75rem; 
     width: 100%;
     align-items: flex-start;
-    justify-content: center; /* 중앙 정렬 */
-    padding: 0.5rem;
+    justify-content: center;
+    padding: 0;
+    margin-top: 10px;
 }
 
-/* 수직 컬럼 컨테이너 */
+/* 수직 컬럼 컨테이너 - 유연한 너비 적용 */
 .masonry-column {
-    flex: 0 1 250px; /* 고정 너비 지향 */
+    flex: 1; /* 남는 공간 채우기 */
     min-width: 250px;
-    max-width: 250px; 
+    max-width: 350px; /* 너무 커지지 않도록 제한 */
     display: flex;
     flex-direction: column;
     gap: 0.75rem;

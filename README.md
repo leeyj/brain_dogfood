@@ -58,6 +58,11 @@
     *   크롬 브라우저의 부적절한 자동 완성(`autocomplete="off"`) 비활성화. 리팩토링 후 유실된 `VisualLinker` 좌표 동기화 로직 복구.
 *   **[보안] 암호 마스킹 및 보호 강화**:
     *   모든 패스워드 입력 필드 마스킹 처리 및 리스트 뷰에서도 암호화 메모의 보안 가독성 유지.
+*   **[디자인] 주간 달력 시각적 완성도 및 레이아웃 통일성 강화**:
+    *   **스타일 격리**: 전용 네임스페이스(`wk-`) 도입 및 외부 스타일 간섭을 완벽히 차단하여 사이드바와의 시각적 충돌 해결.
+    *   **색상 동기화**: 활동 도트 색상을 사이드바 히트맵(블루~퍼플)과 일치시키고 최고 레벨 글로우 효과 적용.
+    *   **레이아웃 정렬**: 달력-입력창-그리드 간 가로 너비(`1200px`) 및 왼쪽 끝선 일치화.
+    *   **유연한 그리드**: Masonry 컬럼이 빈 공간을 채우도록 개선하여 상단 요소들과의 통일감 완성.
 
 ### 🛠️ 패치 노트 (2026-04-20)
 *   **세션 타임아웃 카운트다운**: 로그아웃 버튼에 실시간 세션 남은 시간을 표시하는 타이머를 추가하여 예기치 않은 로그아웃으로 인한 데이터 유실을 방지합니다.
@@ -191,6 +196,10 @@ We provide a security model where user data is practically undecipherable. Built
 *   **Component Architecture Refactoring**: Refactored `MemoCard`, `AttachmentBox`, and `ModalManager` into independent DOM components, maximizing maintainability and extensibility.
 *   **Layout Slotting & List View**: Implemented layout slotting for the main content area. Users can now toggle between **Grid** and **List** views from the top bar for quick title-based scanning.
 *   **Password Masking & Enhanced Security**: All password inputs are now masked with asterisks (`*`), and a premium Custom Modal has been introduced to replace the native browser `prompt()`.
+*   **[UI/UX] Weekly View Refinement & Layout Unity**:
+    *   **Style Isolation**: Implemented `wk-` namespace to prevent CSS leakage and ensure visual independence from the sidebar.
+    *   **Heatmap Sync**: Synchronized activity dot colors with the sidebar heatmap (Blue-to-Purple) and added level-4 glow effects.
+    *   **Grid Alignment**: Achieved pixel-perfect alignment across Calendar, Composer, and Memo Grid using a unified 1200px guideline and flexible masonry columns.
 *   **Global Scope Cleanup**: Encapsulated global functions and state previously attached to the `window` object into modules, enhancing system stability.
 
 ### 🛠️ Patch Notes (2026-04-20)

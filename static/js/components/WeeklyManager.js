@@ -46,30 +46,43 @@ export const WeeklyManager = {
         const start = week[0];
         const end = week[6];
         
-        // 💡 토글 상태 확인: 현재 주간 범위 필터나 날짜 필터가 걸려있는가?
+        // 💡 토글 상태 확인
         const isDateFiltered = AppService.state.currentFilterDate !== null || AppService.state.currentStartDate !== null;
         const fullBtnText = isDateFiltered ? (I18nManager.t('groups.all') || 'All') : (I18nManager.t('groups.weekly') || 'Weekly');
         const fullBtnIcon = isDateFiltered ? '🔄' : '📅';
 
         const html = `
-            <div class="weekly-selector glass-panel">
-                <div class="weekly-header">
-                    <button class="week-nav-btn prev-week">◀</button>
-                    <span class="week-info" title="Click to show all week">${this.formatMonthYear(start)}</span>
-                    <button class="week-nav-btn next-week">▶</button>
-                    <button class="week-full-btn ${isDateFiltered ? 'active' : ''}" title="Toggle Weekly/All View">
+            <div class="wk-container glass-panel">
+                <div class="wk-header">
+                    <div class="wk-nav-group">
+                        <button class="wk-nav-btn prev-week">◀</button>
+                        <span class="wk-info" title="Click to show all week">${this.formatMonthYear(start)}</span>
+                        <button class="wk-nav-btn next-week">▶</button>
+                    </div>
+                    <button class="wk-full-btn ${isDateFiltered ? 'active' : ''}" title="Toggle Weekly/All View">
                         ${fullBtnIcon} ${fullBtnText}
                     </button>
                 </div>
-                <div class="week-days">
+                <div class="wk-days">
                     ${week.map(d => {
                         const dateStr = this.formatDate(d);
                         const isToday = d.toDateString() === new Date().toDateString();
                         const isSelected = AppService.state.currentFilterDate === dateStr;
+                        
+                        let count = 0;
+                        if (window.HeatmapManager && window.HeatmapManager.data) {
+                            const stats = window.HeatmapManager.data.find(item => item.date.split(' ')[0] === dateStr);
+                            count = stats ? stats.count : 0;
+                        }
+                        const level = this.calculateLevel(count);
+                        
                         return `
-                            <div class="day-item ${isToday ? 'today' : ''} ${isSelected ? 'active' : ''}" data-date="${dateStr}">
-                                <span class="day-label">${this.getDayLabel(d.getDay())}</span>
-                                <span class="day-number">${d.getDate()}</span>
+                            <div class="wk-item ${isToday ? 'today' : ''} ${isSelected ? 'active' : ''}" data-date="${dateStr}">
+                                <span class="wk-label">${this.getDayLabel(d.getDay())}</span>
+                                <span class="wk-number">${d.getDate()}</span>
+                                <div class="wk-activity">
+                                    <div class="wk-dot lvl-${level}" data-count="${count}"></div>
+                                </div>
                             </div>
                         `;
                     }).join('')}
@@ -82,14 +95,13 @@ export const WeeklyManager = {
     },
 
     bindEvents(start, end, isDateFiltered) {
-        // 1. 날짜 클릭 이벤트 (토글 기능 포함)
-        this.container.querySelectorAll('.day-item').forEach(el => {
+        // 1. 날짜 클릭 이벤트 (wk-item으로 수정)
+        this.container.querySelectorAll('.wk-item').forEach(el => {
             el.onclick = () => {
                 const date = el.dataset.date;
                 const isAlreadySelected = AppService.state.currentFilterDate === date;
                 
                 if (isAlreadySelected) {
-                    // 이미 선택된 날짜면 주간 전체 보기로 전환
                     const startStr = this.formatDate(start);
                     const endStr = this.formatDate(end);
                     AppService.setFilter({ start_date: startStr, end_date: endStr }, this.onUpdate);
@@ -101,7 +113,7 @@ export const WeeklyManager = {
         });
 
         // 2. 월/년도 헤더 클릭 시 주간 전체 보기
-        const weekInfo = this.container.querySelector('.week-info');
+        const weekInfo = this.container.querySelector('.wk-info');
         if (weekInfo) {
             weekInfo.style.cursor = 'pointer';
             weekInfo.onclick = () => {
@@ -113,7 +125,7 @@ export const WeeklyManager = {
         }
 
         // 3. 주간 전체 보기 <-> 전체 보기 토글 버튼 (마우스 동선 최적화)
-        const fullBtn = this.container.querySelector('.week-full-btn');
+        const fullBtn = this.container.querySelector('.wk-full-btn');
         if (fullBtn) {
             fullBtn.onclick = () => {
                 if (isDateFiltered) {
@@ -154,6 +166,14 @@ export const WeeklyManager = {
             week.push(new Date(curr.setDate(first + i)));
         }
         return week;
+    },
+
+    calculateLevel(count) {
+        if (count === 0) return 0;
+        if (count <= 1) return 1;
+        if (count <= 3) return 2;
+        if (count <= 5) return 3;
+        return 4;
     },
 
     formatDate(date) {

@@ -124,7 +124,7 @@
 .sidebar.collapsed .logo { width: auto; margin-right: 0; }
 .sidebar.collapsed .nav li { padding: 0.8rem 0; justify-content: center; background: none !important; border: none !important; }
 .sidebar.collapsed .nav li.active { color: var(--accent); }
-.sidebar.collapsed .nav li .icon { font-size: 1.2rem; margin: 0; }
+.sidebar.collapsed .nav li .icon { font-size: 1.2rem; margin: 0; font-style: normal; display: block; }
 .sidebar.collapsed .section-title { padding: 0.5rem 0; text-align: center; border-top: 1px solid rgba(255,255,255,0.05); height: 1px; overflow: hidden; }
 .sidebar.collapsed .sub-item { padding-left: 0 !important; }
 
