@@ -1,6 +1,6 @@
 import os
 import json
-from flask import Flask, request, abort # type: ignore
+from flask import Flask, request, abort, jsonify # type: ignore
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -112,8 +112,8 @@ def create_app():
         csp = (
             "default-src 'self'; "
             "script-src 'self' 'unsafe-inline' https://uicdn.toast.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://static.cloudflareinsights.com https://d3js.org; "
-            "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://uicdn.toast.com; "
-            "font-src 'self' https://fonts.gstatic.com; "
+            "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://uicdn.toast.com https://cdnjs.cloudflare.com; "
+            "font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; "
             "img-src 'self' data: blob:; "
             "connect-src 'self' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://cloudflareinsights.com https://d3js.org;"
         )

@@ -18,19 +18,21 @@ class MemoRepository:
         end_date = filters.get('end_date', '')
         category = filters.get('category', '')
         
-        if group == 'done':
-            where_clauses.append("status = 'done'")
+        if group == 'archive':
+            where_clauses.append("status IN ('done', 'archived')")
+        elif group == 'starred':
+            where_clauses.append("is_pinned = 1")
         elif group.startswith('tag:'):
             tag_name = group.split(':')[-1]
-            where_clauses.append("status != 'done'")
+            where_clauses.append("status NOT IN ('done', 'archived')")
             where_clauses.append("id IN (SELECT memo_id FROM tags WHERE name = ?)")
             params.append(tag_name)
         elif group != 'all':
-            where_clauses.append("status != 'done'")
+            where_clauses.append("status NOT IN ('done', 'archived')")
             where_clauses.append("group_name = ?")
             params.append(group)
         else:
-            where_clauses.append("status != 'done'")
+            where_clauses.append("status NOT IN ('done', 'archived')")
             
         if query:
             where_clauses.append("(title LIKE ? OR content LIKE ?)")

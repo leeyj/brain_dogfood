@@ -1,124 +1,176 @@
-/* 주간 선택기 (Weekly Selector) 스타일 */
+/* 
+   Weekly Calendar Isolated Styles (v4.1)
+   - Namespace: wk-*
+   - Fix: Sizing and Width Issues
+*/
 
+/* 외부 감싸는 컨테이너 */
 .weekly-container {
-    width: 95%;
-    max-width: 1400px;
-    margin: 10px auto;
+    margin-bottom: 25px;
 }
 
-.weekly-selector {
+.wk-container {
+    background: var(--bg-card);
+    border-bottom: 1px solid var(--border);
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    box-sizing: border-box;
+    width: 100%;
+}
+
+/* ⚠️ 모든 외부 스타일 간섭 차단 */
+.wk-container *, .wk-container *::after, .wk-container *::before {
+    box-sizing: border-box;
+    content: none !important;
+}
+
+.wk-header {
     display: flex;
-    flex-direction: column;
-    padding: 12px;
-    border-radius: 16px;
-    background: rgba(255, 255, 255, 0.03);
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    width: 100%;
 }
 
-.weekly-header {
+.wk-nav-group {
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 20px;
-    margin-bottom: 12px;
+    gap: 15px; /* 화살표와 텍스트 사이 간격 좁힘 */
+    flex: 1;
+    justify-content: center; /* 중앙 정렬 */
+    margin-left: 100px; /* 버튼과 겹치지 않게 왼쪽 여백 보정 (버튼 너비 고려) */
 }
 
-.week-info {
-    font-size: 0.9rem;
-    font-weight: 600;
+.wk-info {
+    font-size: 1.2rem;
+    font-weight: 800;
     color: var(--text-main);
-    min-width: 120px;
+    white-space: nowrap;
+    min-width: 120px; /* 텍스트 길이에 따른 흔들림 방지 */
     text-align: center;
 }
 
-.week-nav-btn {
-    background: none;
-    border: none;
-    color: var(--muted);
-    cursor: pointer;
-    padding: 5px 10px;
-    transition: color 0.2s;
-}
-
-.week-nav-btn:hover {
-    color: var(--accent);
-}
-
-.week-full-btn {
+.wk-nav-btn, .wk-full-btn {
     background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    color: var(--text-dim);
-    padding: 4px 12px;
-    border-radius: 20px;
-    font-size: 0.75rem;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
     cursor: pointer;
-    margin-left: 10px;
-}
-
-.week-full-btn:hover {
-    background: var(--accent-low);
-    color: var(--accent);
-}
-
-.week-days {
+    border-radius: 10px;
     display: flex;
-    justify-content: space-between;
-    gap: 8px;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.day-item {
+.wk-nav-btn { width: 36px; height: 36px; font-size: 1rem; }
+.wk-full-btn { padding: 8px 16px; font-size: 0.9rem; font-weight: 700; gap: 8px; }
+
+.wk-nav-btn:hover, .wk-full-btn:hover, .wk-full-btn.active {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+    transform: translateY(-2px);
+}
+
+.wk-days {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    justify-content: space-between !important;
+    gap: 10px; /* 간격 확대 */
+    width: 100%;
+}
+
+.wk-item {
     flex: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 10px 5px;
-    border-radius: 12px;
+    padding: 15px 5px; /* 패딩 확대 */
+    border-radius: 14px;
     cursor: pointer;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.2s ease;
     border: 1px solid transparent;
+    min-width: 0;
+    background: transparent;
+    position: relative;
 }
 
-.day-item:hover {
+.wk-item:hover {
     background: rgba(255, 255, 255, 0.05);
-    transform: translateY(-2px);
+    transform: translateY(-3px);
 }
 
-.day-item.today {
+.wk-item.today {
     background: rgba(var(--accent-rgb), 0.1);
     border-color: rgba(var(--accent-rgb), 0.2);
 }
 
-.day-item.active {
+.wk-item.active {
     background: var(--accent);
     color: white;
-    box-shadow: 0 4px 15px rgba(var(--accent-rgb), 0.4);
+    box-shadow: 0 6px 15px rgba(var(--accent-rgb), 0.4);
 }
 
-.day-label {
-    font-size: 0.7rem;
-    color: var(--muted);
-    margin-bottom: 4px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+.wk-label {
+    font-size: 0.8rem; /* 폰트 확대 */
+    color: var(--text-muted);
+    margin-bottom: 6px;
+    font-weight: 600;
 }
 
-.day-item.active .day-label {
-    color: rgba(255, 255, 255, 0.8);
+.wk-item.active .wk-label {
+    color: rgba(255, 255, 255, 0.9);
 }
 
-.day-number {
-    font-size: 1.1rem;
+.wk-number {
+    font-size: 1.3rem; /* 숫자 확대 */
     font-weight: 800;
+}
+
+.wk-activity {
+    margin-top: 12px;
+    height: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.wk-dot {
+    width: 12px; /* 도트 확대 */
+    height: 12px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    transition: all 0.2s ease;
+    position: static !important;
+    bottom: auto !important;
+    left: auto !important;
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+/* 히트맵 레벨 색상 (Heatmap과 동일한 블루~퍼플 체계) */
+.wk-dot.lvl-0 { background: rgba(255, 255, 255, 0.05); }
+.wk-dot.lvl-1 { background: rgba(56, 189, 248, 0.3) !important; }
+.wk-dot.lvl-2 { background: rgba(56, 189, 248, 0.6) !important; }
+.wk-dot.lvl-3 { background: rgba(56, 189, 248, 0.9) !important; }
+.wk-dot.lvl-4 { 
+    background: var(--ai-accent) !important; 
+    box-shadow: 0 0 8px var(--ai-accent) !important; /* 최고 레벨 강조 */
+}
+
+.wk-item.active .wk-dot {
+    background: white !important;
+    transform: scale(1.1);
 }
 
 /* 모바일 대응 */
 @media (max-width: 768px) {
-    .week-days {
-        gap: 4px;
-    }
-    .day-number {
-        font-size: 0.9rem;
-    }
-    .day-label {
-        font-size: 0.6rem;
-    }
+    .wk-container { padding: 12px 10px; }
+    .wk-days { gap: 4px; }
+    .wk-item { padding: 10px 0; }
+    .wk-number { font-size: 1rem; }
+    .wk-dot { width: 10px; height: 10px; }
 }

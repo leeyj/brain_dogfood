@@ -5,7 +5,8 @@ export const Constants = {
     GROUPS: {
         DEFAULT: 'default',
         FILES: 'files',
-        DONE: 'done'
+        DONE: 'done',
+        STARRED: 'starred'
     },
     /**
      * DOM 선택자 정의 (UI 모듈 간 일관성 유지)
@@ -27,6 +28,17 @@ export const Constants = {
         MODAL_HEATMAP: '#heatmapContainer',
         COMPOSER_CATEGORY_BAR: '#composerCategoryBar',
         SIDEBAR_CATEGORY_SECTION: '#categorySidebarSection',
-        CATEGORY_NAV: '#categoryNav'
+        CATEGORY_NAV: '#categoryNav',
+        HELP_BTN: '#helpBtn',
+        SETTINGS_BTN: '#settingsBtn'
+    },
+    /**
+     * 레이아웃 및 UI 설정
+     */
+    UI: {
+        MOBILE_BREAKPOINT: 768,
+        STORAGE_KEYS: {
+            SIDEBAR_COLLAPSED: 'sidebarCollapsed'
+        }
     }
 };

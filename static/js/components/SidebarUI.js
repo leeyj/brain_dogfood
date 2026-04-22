@@ -1,71 +1,66 @@
 /**
- * 사이드바 그룹 목록 컴포넌트
+ * 사이드바 시스템 메뉴 및 카테고리의 동적 렌더링을 담당하는 컴포넌트
  */
-import { escapeHTML } from '../utils.js';
-import { Constants } from '../utils/Constants.js';
+import { Constants as S } from '../utils/Constants.js';
 import { I18nManager } from '../utils/I18nManager.js';
 
-/**
- * 그룹 목록 HTML 렌더링
- */
-export function renderGroupList(container, groups, activeGroup, onGroupClick) {
-    if (!container) return;
-    
-    container.innerHTML = '';
-    groups.forEach(group => {
-        const li = document.createElement('li');
-        const isActive = group === activeGroup || (group === Constants.GROUPS.DEFAULT && activeGroup === 'all');
-        li.className = isActive ? 'active' : '';
-        
-        // 아이콘 선택 및 클래스 추가
-        let icon = '📁';
-        if (group === Constants.GROUPS.DEFAULT || group === 'all') icon = '💡';
-        else if (group === Constants.GROUPS.FILES) icon = '📂';
-        else if (group === Constants.GROUPS.DONE) icon = '✅';
-        else if (group.startsWith('tag:')) {
-            const parts = group.split(':'); // tag:source:name
-            const source = parts[1];
-            icon = source === 'ai' ? '🪄' : '🏷️';
-            li.classList.add(source === 'ai' ? 'tag-ai' : 'tag-user');
-        }
-        
-        // 표시 이름 결정
-        let label = group;
-        if (group === 'all') label = I18nManager.t('groups.all');
-        else if (group === Constants.GROUPS.DEFAULT) label = I18nManager.t('groups.default');
-        else if (group === Constants.GROUPS.FILES) label = I18nManager.t('groups.files');
-        else if (group === Constants.GROUPS.DONE) label = I18nManager.t('groups.done');
-        else if (group.startsWith('tag:')) {
-            const parts = group.split(':');
-            label = parts[2]; // 태그 이름
-        }
-        
-        li.innerHTML = `<span class="icon">${icon}</span> <span class="text">${escapeHTML(label)}</span>`;
-        li.onclick = () => onGroupClick(group);
-        container.appendChild(li);
-    });
-}
+export class SidebarUI {
+    constructor() {
+        // 시스템 메뉴 설정
+        this.systemMenuItems = [
+            { group: 'all', icon: 'fas fa-th-large', labelKey: 'menu_all_memos' },
+            { group: 'starred', icon: 'fas fa-star', labelKey: 'menu_starred' },
+            { group: 'files', icon: 'fas fa-paperclip', labelKey: 'nav_files' },
+            { group: 'daily', icon: 'fas fa-calendar-day', labelKey: 'menu_today' },
+            { group: 'weekly', icon: 'fas fa-calendar-week', labelKey: 'menu_weekly' },
+            { group: 'archive', icon: 'fas fa-clipboard-check', labelKey: 'menu_archive' }
+        ];
+    }
 
-/**
- * 카테고리 목록 HTML 렌더링 (Pinned Categories 전용)
- */
-export function renderCategoryList(container, pinnedCategories, activeCategory, onCategoryClick) {
-    if (!container) return;
-    
-    container.innerHTML = '';
-    pinnedCategories.forEach(cat => {
-        const li = document.createElement('li');
-        li.className = (cat === activeCategory) ? 'active' : '';
-        li.title = cat; // 💡 사이드바 축소 시 이름을 보여주기 위해 title 추가
-        li.innerHTML = `<span class="icon">🏷️</span> <span class="text">${escapeHTML(cat)}</span>`;
-        li.onclick = () => onCategoryClick(cat);
-        container.appendChild(li);
-    });
+    /**
+     * 시스템 네비게이션 메뉴 렌더링
+     */
+    renderSystemMenu(container) {
+        if (!container) return;
+        container.innerHTML = '';
 
-    if (pinnedCategories.length === 0) {
-        const li = document.createElement('li');
-        li.style.cssText = 'font-size: 0.8rem; color: var(--muted); padding: 5px 15px; cursor: default;';
-        li.textContent = I18nManager.t('label_no_category');
-        container.appendChild(li);
+        this.systemMenuItems.forEach(item => {
+            const li = document.createElement('li');
+            li.dataset.group = item.group;
+            li.innerHTML = `
+                <i class="${item.icon} icon"></i> 
+                <span class="text" data-i18n="${item.labelKey}">${I18nManager.t(item.labelKey)}</span>
+            `;
+            container.appendChild(li);
+        });
+    }
+
+    /**
+     * 고정된 카테고리 리스트 렌더링
+     * @param {HTMLElement} container 카테고리가 렌더링될 컨테이너
+     * @param {Array} categories 카테고리 데이터 배열 (id, name, color 등)
+     * @param {string} activeCategory 현재 활성화된 카테고리 ID
+     * @param {Function} onCategoryClick 클릭 콜백
+     */
+    renderCategoryList(container, categories, activeCategory, onCategoryClick) {
+        if (!container) return;
+        container.innerHTML = '';
+
+        if (!categories || categories.length === 0) {
+            container.innerHTML = `<li class="empty-msg">${I18nManager.t('msg_no_pinned_categories')}</li>`;
+            return;
+        }
+
+        categories.forEach(cat => {
+            const li = document.createElement('li');
+            li.className = (cat.id === activeCategory) ? 'active' : '';
+            li.style.borderLeft = `3px solid ${cat.color || 'transparent'}`;
+            li.innerHTML = `
+                <i class="fas fa-hashtag"></i> 
+                <span>${cat.name}</span>
+            `;
+            li.onclick = () => onCategoryClick(cat.id);
+            container.appendChild(li);
+        });
     }
 }

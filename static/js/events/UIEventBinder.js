@@ -26,12 +26,7 @@ export const UIEventBinder = {
             };
         }
 
-        const helpBtn = document.getElementById('helpBtn');
-        if (helpBtn) {
-            helpBtn.onclick = () => {
-                document.getElementById('shortcutModal').classList.add('active');
-            };
-        }
+        // (helpBtn 로직은 SidebarFooter에서 처리됨)
 
         const openGraphBtn = document.getElementById('openGraphBtn');
         if (openGraphBtn) {

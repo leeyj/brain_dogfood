@@ -1,63 +1,57 @@
 <aside class="sidebar" id="sidebar">
     <div class="sidebar-header" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 2.5rem;">
-        <h1 class="logo">🧠 <span class="text" data-i18n="app_name">Brain Dogfood</span></h1>
-        <button id="sidebarToggle" class="sidebar-toggle" data-i18n-title="nav_toggle">☰</button>
+        <h1 class="logo"><i class="fas fa-brain"></i> <span class="text" data-i18n="app_name">Brain Dogfood</span></h1>
+        <button id="sidebarToggle" class="sidebar-toggle" data-i18n-title="nav_toggle"><i class="fas fa-bars"></i></button>
     </div>
+    
     <div class="sidebar-content">
-        <ul class="nav" id="systemNav">
-            <li class="active" data-group="all" data-i18n-title="nav_all"><span class="icon">💡</span> <span class="text" data-i18n="nav_all">All Knowledge</span></li>
-            <li data-group="files" data-i18n-title="nav_files"><span class="icon">📂</span> <span class="text" data-i18n="nav_files">Files</span></li>
-            <li data-group="done" data-i18n-title="nav_done"><span class="icon">✅</span> <span class="text" data-i18n="nav_done">Done</span></li>
-        </ul>
+        <!-- 시스템 네비게이션 (동적 렌더링) -->
+        <ul class="nav" id="systemNav"></ul>
 
+        <!-- 카테고리 섹션 -->
         <div class="sidebar-section" id="categorySidebarSection">
             <div class="section-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
                 <span class="section-title" data-i18n="nav_categories">Categories</span>
-                <button id="manageCategoryBtn" class="action-btn" style="padding: 2px 8px; font-size: 0.75rem;" data-i18n-title="tooltip_add_category">⚙️</button>
+                <button id="manageCategoryBtn" class="action-btn" style="padding: 2px 8px; font-size: 0.75rem;" data-i18n-title="tooltip_add_category"><i class="fas fa-cog"></i></button>
             </div>
-            <ul class="nav" id="categoryNav">
-                <!-- JS will render pinned categories here -->
-            </ul>
+            <ul class="nav" id="categoryNav"></ul>
         </div>
         
-        <div class="sidebar-section">
+        <!-- 주요 액션 버튼 (탐색기, 네뷸라 등) -->
+        <div class="sidebar-section" id="sidebarActionSection">
             <button id="openExplorerBtn" class="action-btn explorer-btn" style="width: 100%; justify-content: flex-start; margin-top: 15px; padding: 12px 15px; background: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.2); color: var(--accent); font-weight: 600; border-radius: 12px;">
-                <span class="icon">🔍</span> <span class="text" data-i18n="nav_explorer">Knowledge Explorer</span>
+                <span class="icon"><i class="fas fa-search"></i></span> <span class="text" data-i18n="nav_explorer">Knowledge Explorer</span>
+            </button>
+            
+            <button id="openGraphBtn" class="action-btn" style="width: 100%; justify-content: flex-start; margin-top: 10px; padding: 10px 15px; background: rgba(139, 92, 246, 0.1); border: 1px solid rgba(139, 92, 246, 0.2); color: var(--ai-accent);">
+                <span class="icon"><i class="fas fa-circle-nodes"></i></span> <span class="text" data-i18n="nav_nebula">Knowledge Nebula</span>
             </button>
         </div>
         
+        <!-- 캘린더 및 히트맵 섹션 -->
         <div class="sidebar-section">
             <div id="calendarHeader" class="section-title" style="cursor: pointer; display: flex; align-items: center; justify-content: space-between; padding: 10px 15px; border-radius: 8px; margin-top: 10px; transition: background 0.2s;">
-                <span style="font-size: 0.9rem; font-weight: 600; color: var(--muted);"><span class="icon">📅</span> <span class="text" data-i18n="nav_calendar">Calendar</span></span>
-                <span id="calendarToggleIcon" style="font-size: 0.8rem; color: var(--muted);">▲</span>
+                <span style="font-size: 0.9rem; font-weight: 600; color: var(--muted);"><span class="icon"><i class="fas fa-calendar-alt"></i></span> <span class="text" data-i18n="nav_calendar">Calendar</span></span>
+                <span id="calendarToggleIcon" style="font-size: 0.8rem; color: var(--muted);"><i class="fas fa-chevron-up"></i></span>
             </div>
-            <div id="calendarContainer" class="calendar-content">
-                <!-- JS will render calendar here -->
-            </div>
+            <div id="calendarContainer" class="calendar-content"></div>
         </div>
 
         <div class="sidebar-section">
-            <div id="heatmapContainer">
-                <!-- JS will render heatmap here -->
-            </div>
-        </div>
-        
-        <div class="sidebar-section">
-            <button id="openGraphBtn" class="action-btn" style="width: 100%; justify-content: flex-start; margin-top: 10px; padding: 10px 15px; background: rgba(139, 92, 246, 0.1); border: 1px solid rgba(139, 92, 246, 0.2); color: var(--ai-accent);">
-                <span class="icon">🕸️</span> <span class="text" data-i18n="nav_nebula">Knowledge Nebula</span>
-            </button>
+            <div id="heatmapContainer"></div>
         </div>
     </div>
 
+    <!-- 하단 푸터 (동적 제어) -->
     <div class="sidebar-footer">
         <button id="logoutBtn" class="action-btn" style="color: #ff4d4d;" data-i18n-tooltip="tooltip_logout">
-            <span class="icon">🚪</span> <span class="text" data-i18n="nav_logout">Logout</span>
+            <span class="icon"><i class="fas fa-sign-out-alt"></i></span> <span class="text" data-i18n="nav_logout">Logout</span>
         </button>
         <button id="helpBtn" class="action-btn" data-i18n-tooltip="tooltip_help">
-            <span class="icon">❓</span>
+            <span class="icon"><i class="fas fa-question-circle"></i></span>
         </button>
         <button id="settingsBtn" class="action-btn" data-i18n-tooltip="tooltip_settings">
-            <span class="icon">⚙️</span>
+            <span class="icon"><i class="fas fa-gear"></i></span>
         </button>
     </div>
 </aside>
