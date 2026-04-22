@@ -20,7 +20,11 @@ export const API = {
 
     async fetchMemos(filters = {}) {
         const { limit = 20, offset = 0, group = 'all', query = '' } = filters;
+        
+        // 💡 null/undefined 값을 빈 문자열로 안전하게 변환
         const date = filters.date || ''; 
+        const start_date = filters.start_date || '';
+        const end_date = filters.end_date || '';
         const category = (filters.category === null || filters.category === undefined) ? '' : filters.category;
         
         const params = new URLSearchParams({ 
@@ -30,6 +34,8 @@ export const API = {
             query, 
             category, 
             date,
+            start_date,
+            end_date,
             _t: Date.now() // 브라우저 캐시 방지용 타임스탬프
         });
         return await this.request(`/api/memos?${params.toString()}`);

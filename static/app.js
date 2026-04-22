@@ -14,6 +14,7 @@ import { VisualLinker } from './js/components/VisualLinker.js';
 import { DrawerManager } from './js/components/DrawerManager.js';
 import { CategoryManager } from './js/components/CategoryManager.js';
 import { ModalManager } from './js/components/ModalManager.js';
+import { WeeklyManager } from './js/components/WeeklyManager.js';
 import { I18nManager } from './js/utils/I18nManager.js';
 import { Constants } from './js/utils/Constants.js';
 import { SessionManager } from './js/components/SessionManager.js';
@@ -72,6 +73,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     
     DrawerManager.init();
     CategoryManager.init(onSaveSuccess);
+    WeeklyManager.init('weeklyContainer', updateSidebarCallback);
     Visualizer.init('graphContainer');
 
     // 드래그 앤 드롭 파일 탐지

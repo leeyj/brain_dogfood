@@ -9,13 +9,13 @@
         <input type="hidden" id="editingMemoId" value="">
         
         <div style="display: flex; gap:10px; align-items:center; margin-bottom: 10px;">
-            <input type="text" id="memoTitle" data-i18n-placeholder="composer_title" autocomplete="off" style="flex: 1;">
+            <input type="text" id="memoTitle" data-i18n-placeholder="composer_title" autocomplete="off" spellcheck="false" style="flex: 1;">
             <button type="button" id="foldBtn" class="action-btn" style="height:35px; width:35px; padding:0;" data-i18n-title="tooltip_fold">▲</button>
         </div>
 
         <div class="meta-inputs" style="display: flex; gap: 10px; margin-bottom: 10px; align-items: center;">
-            <input type="text" id="memoGroup" data-i18n-placeholder="composer_group" class="meta-field" style="width: 120px;">
-            <input type="text" id="memoTags" data-i18n-placeholder="composer_tags" class="meta-field" style="flex: 1;">
+            <input type="text" id="memoGroup" data-i18n-placeholder="composer_group" class="meta-field" autocomplete="off" spellcheck="false" style="width: 120px;">
+            <input type="text" id="memoTags" data-i18n-placeholder="composer_tags" class="meta-field" autocomplete="off" spellcheck="false" style="flex: 1;">
             <button type="button" id="encryptionToggle" class="action-btn" data-i18n-title="composer_encrypt" style="height:34px; padding:0 10px;">🔓</button>
             <button type="button" id="attachBtn" class="action-btn" data-i18n-title="composer_attach_file" style="height:34px; padding:0 10px;">
                 📎 <span class="btn-label" data-i18n="composer_attach_label"></span>

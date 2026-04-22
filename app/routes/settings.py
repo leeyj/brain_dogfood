@@ -79,3 +79,22 @@ def save_settings():
         return jsonify({'message': 'Settings saved successfully', 'session_timeout': updated_data.get('session_timeout')})
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
+@settings_bp.route('/api/plugins', methods=['GET'])
+@login_required
+def list_plugins():
+    """설치된 플러그인 목록 반환 (static/js/plugins 디렉토리 스캔)"""
+    plugins_dir = os.path.join(current_app.static_folder, 'js', 'plugins')
+    if not os.path.exists(plugins_dir):
+        return jsonify([])
+    
+    plugins = []
+    try:
+        for d in os.listdir(plugins_dir):
+            if os.path.isdir(os.path.join(plugins_dir, d)):
+                # index.js가 있는 폴더만 유효한 플러그인으로 간주
+                if os.path.exists(os.path.join(plugins_dir, d, 'index.js')):
+                    plugins.append(d)
+        return jsonify(plugins)
+    except Exception as e:
+        return jsonify([])

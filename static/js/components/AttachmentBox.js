@@ -1,7 +1,7 @@
 /**
- * 첨부파일 영역 및 파일 칩 UI 컴포넌트
+ * 첨부파일 영역 및 파일 칩 UI 컴포넌트 (DOM 노드 기반)
  */
-import { escapeHTML } from '../utils.js';
+import { escapeHTML, downloadFile } from '../utils.js';
 
 /**
  * 파일 확장자에 따른 아이콘 반환
@@ -17,23 +17,42 @@ export function getFileIcon(mime) {
 }
 
 /**
- * 첨부파일 영역 HTML 생성
+ * 첨부파일 영역 DOM 노드 생성 및 이벤트 바인딩
  */
 export function renderAttachmentBox(attachments) {
-    if (!attachments || attachments.length === 0) return '';
+    if (!attachments || attachments.length === 0) return null;
 
-    let html = '<div class="memo-attachments">';
+    const container = document.createElement('div');
+    container.className = 'memo-attachments';
+    
     attachments.forEach(a => {
         const icon = getFileIcon(a.file_type || '');
-        html += `
-            <a href="javascript:void(0)" 
-               class="file-chip" 
-               title="${escapeHTML(a.original_name)}" 
-               onclick="event.stopPropagation(); window.downloadFile('${a.filename}', '${escapeHTML(a.original_name)}')">
-                <span class="icon">${icon}</span>
-                <span class="name">${escapeHTML(a.original_name)}</span>
-            </a>`;
+        const chip = document.createElement('a');
+        chip.href = 'javascript:void(0)';
+        chip.className = 'file-chip';
+        chip.title = a.original_name || 'file';
+        
+        // 💡 내부 구조 생성
+        const iconSpan = document.createElement('span');
+        iconSpan.className = 'icon';
+        iconSpan.innerText = icon;
+        
+        const nameSpan = document.createElement('span');
+        nameSpan.className = 'name';
+        nameSpan.innerText = a.original_name || 'file';
+        
+        chip.appendChild(iconSpan);
+        chip.appendChild(nameSpan);
+        
+        // 💡 클릭 이벤트 바인딩 (전역 window.downloadFile 의존성 제거)
+        chip.onclick = (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            downloadFile(a.filename || a.file_name, a.original_name || a.name || 'file');
+        };
+        
+        container.appendChild(chip);
     });
-    html += '</div>';
-    return html;
+    
+    return container;
 }

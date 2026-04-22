@@ -88,7 +88,29 @@ body.ai-disabled .ai-loading-overlay {
     display: none !important;
 }
 
-body.ai-disabled [data-source="ai"],
-body.ai-disabled .drawer-section:has(h3:contains("태그별 탐색")) {
-    /* Note: :contains and :has are tricky, but we can target by class or JS filtering */
+/* Shortcut Modal Styles */
+.shortcut-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+    font-size: 0.9rem;
+    color: #cbd5e1;
+}
+
+kbd {
+    background-color: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    box-shadow: 0 2px 0 rgba(255, 255, 255, 0.1);
+    color: var(--accent);
+    display: inline-block;
+    font-family: inherit;
+    font-size: 0.8rem;
+    font-weight: 700;
+    line-height: 1;
+    padding: 4px 8px;
+    white-space: nowrap;
+    min-width: 24px;
+    text-align: center;
 }

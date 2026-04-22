@@ -12,6 +12,8 @@ def get_memos():
         'group': request.args.get('group', 'all'),
         'query': request.args.get('query', ''),
         'date': request.args.get('date', '').replace('null', '').replace('undefined', ''),
+        'start_date': request.args.get('start_date', ''),
+        'end_date': request.args.get('end_date', ''),
         'category': request.args.get('category', '').replace('null', '').replace('undefined', '')
     }
     limit = request.args.get('limit', 20, type=int)

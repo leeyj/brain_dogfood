@@ -5,4 +5,39 @@
 </div>
 
 <!-- Sidebar Overlay for mobile -->
+<!-- Sidebar Overlay for mobile -->
 <div id="sidebarOverlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.4); z-index:900; backdrop-filter:blur(2px);"></div>
+
+<!-- ⌨️ Shortcut Help Modal -->
+<div id="shortcutModal" class="modal">
+    <div class="modal-content glass-panel" style="max-width: 600px; position: relative;">
+        <button class="close-modal-btn" onclick="document.getElementById('shortcutModal').classList.remove('active')">&times;</button>
+        <div class="modal-header" style="display: flex; align-items: center; gap: 12px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 15px; margin-bottom: 20px;">
+            <h2 style="margin: 0; display: flex; align-items: center; gap: 10px;">
+                <span data-i18n="title_shortcuts">Keyboard Shortcuts</span>
+            </h2>
+        </div>
+        <div class="modal-body">
+            <div class="shortcut-list-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div class="shortcut-group">
+                    <h4 style="margin-bottom:10px; color:var(--accent);" data-i18n="label_navigation">Navigation</h4>
+                    <div class="shortcut-item"><kbd>Alt</kbd> + <kbd>A</kbd> <span data-i18n="sc_all">All Knowledge</span></div>
+                    <div class="shortcut-item"><kbd>Alt</kbd> + <kbd>W</kbd> <span data-i18n="sc_weekly">Weekly Toggle</span></div>
+                    <div class="shortcut-item"><kbd>Alt</kbd> + <kbd>N</kbd> <span data-i18n="sc_new">New Memo</span></div>
+                    <div class="shortcut-item"><kbd>Alt</kbd> + <kbd>`</kbd> <span data-i18n="sc_quake">Quake Memo</span></div>
+                    <div class="shortcut-item"><kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>G</kbd> <span data-i18n="sc_nebula">Nebula</span></div>
+                    <div class="shortcut-item"><kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>E</kbd> <span data-i18n="sc_explorer">Explorer</span></div>
+                </div>
+                <div class="shortcut-group">
+                    <h4 style="margin-bottom:10px; color:var(--ai-accent);" data-i18n="label_editor">Editor & Action</h4>
+                    <div class="shortcut-item"><kbd>Ctrl</kbd> + <kbd>Enter</kbd> <span data-i18n="sc_save">Save / Post</span></div>
+                    <div class="shortcut-item"><kbd>/</kbd> <span data-i18n="sc_slash">Slash Command</span></div>
+                    <div class="shortcut-item"><kbd>e</kbd> <span data-i18n="sc_edit">Instant Edit (Hover)</span></div>
+                    <div class="shortcut-item"><kbd>Alt</kbd> + <kbd>Click</kbd> <span data-i18n="sc_link">Visual Link</span></div>
+                    <div class="shortcut-item"><kbd>ESC</kbd> <span data-i18n="sc_close">Close All</span></div>
+                    <div class="shortcut-item"><kbd>?</kbd> <span data-i18n="sc_help">Help Modal</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

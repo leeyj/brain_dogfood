@@ -135,7 +135,6 @@ export const CategoryManager = {
             await API.saveSettings(settings);
             // 전역 세팅 업데이트 및 UI 리프레시
             ThemeManager.settings = settings;
-            if (window.UI) window.UI._updateSettingsCache(settings);
             if (this.onUpdateCallback) this.onUpdateCallback();
         } catch (err) {
             alert("Save failed: " + err.message);

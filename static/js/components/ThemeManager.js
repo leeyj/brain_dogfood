@@ -123,9 +123,6 @@ export const ThemeManager = {
      */
     async applyTheme(settings) {
         this.settings = settings; // NEW: 설정 캐시 저장
-        if (window.UI) {
-            window.UI._updateSettingsCache(settings); 
-        }
 
         const mapping = {
             'bg_color': '--bg',
@@ -156,8 +153,10 @@ export const ThemeManager = {
         const enableCategories = (settings.enable_categories === true);
         const catToggle = document.getElementById('set-enable-categories');
         if (catToggle) catToggle.checked = enableCategories;
-        if (window.UI && typeof window.UI.applyCategoryVisibility === 'function') {
-            window.UI.applyCategoryVisibility(enableCategories);
+        if (enableCategories) {
+            import('./SidebarManager.js').then(m => m.SidebarManager.applyCategoryVisibility(true));
+        } else {
+            import('./SidebarManager.js').then(m => m.SidebarManager.applyCategoryVisibility(false));
         }
 
         // 4. i18n 적용
@@ -178,10 +177,8 @@ export const ThemeManager = {
             }
         });
 
-        // 세션 체크 시작 (Heartbeat) - AppService에 위임하거나 여기서 직접 실행
-        if (window.AppService && typeof window.AppService.startSessionHeartbeat === 'function') {
-            window.AppService.startSessionHeartbeat();
-        }
+        // 세션 체크 시작 (Heartbeat)
+        import('../AppService.js').then(m => m.AppService.startSessionHeartbeat());
     },
 
     rgbaToHex(rgba) {

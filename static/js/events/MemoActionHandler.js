@@ -6,9 +6,16 @@ import { I18nManager } from '../utils/I18nManager.js';
 
 export const MemoActionHandler = {
     init(updateSidebarCallback) {
-        window.memoEventHandlers = {
+        AppService.state.eventHandlers = {
             onEdit: async (id) => {
                 const memo = await API.fetchMemo(id);
+                if (memo && memo.is_encrypted) {
+                    const unlocked = AppService.state.unlockedMemos.get(String(id));
+                    if (unlocked) {
+                        memo.content = unlocked.content;
+                        memo.tempPassword = unlocked.tempPassword;
+                    }
+                }
                 if (memo) ComposerManager.openForEdit(memo);
             },
             onDelete: async (id) => {

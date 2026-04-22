@@ -1,5 +1,6 @@
 import { ComposerManager } from '../components/ComposerManager.js';
 import { CalendarManager } from '../components/CalendarManager.js';
+import { AppService } from '../AppService.js';
 
 export const ShortcutManager = {
     init(updateSidebarCallback) {
@@ -25,6 +26,7 @@ export const ShortcutManager = {
                 return;
             }
 
+            // 3. Ctrl + Shift + Key 조합들 (네비게이션)
             // 3. Ctrl + Shift + Key 조합들 (네비게이션)
             if (isCtrl && e.shiftKey) {
                 e.preventDefault();
@@ -52,11 +54,27 @@ export const ShortcutManager = {
                 }
             }
 
-            // 4. Quake-style Shortcut: Alt + ` (새 메모)
-            if (isAlt && key === '`') {
-                e.preventDefault();
-                if (ComposerManager.DOM.composer) ComposerManager.openEmpty();
-                return;
+            // 4. Alt 조합 (네비게이션 - 브라우저 충돌 방지)
+            if (isAlt) {
+                switch (key) {
+                    case 'w': // 주간 뷰 토글 (Weekly)
+                        e.preventDefault();
+                        const toggleWeeklyBtn = document.getElementById('toggleWeeklyBtn');
+                        if (toggleWeeklyBtn) toggleWeeklyBtn.click();
+                        break;
+                    case 'a': // 전체 지식 이동 (All)
+                        e.preventDefault();
+                        AppService.setFilter({ group: 'all' }, updateSidebarCallback);
+                        break;
+                    case 'n': // 새 메모 (New - Alt + N 추가 지원)
+                        e.preventDefault();
+                        ComposerManager.openEmpty();
+                        break;
+                    case '`': // Quake-style 새 메모
+                        e.preventDefault();
+                        if (ComposerManager.DOM.composer) ComposerManager.openEmpty();
+                        break;
+                }
             }
 
             // 5. Category Slots: Alt + 1~4
@@ -72,9 +90,23 @@ export const ShortcutManager = {
             if (key === 'e' && !isCtrl && !isAlt && !e.shiftKey) {
                 const isInput = ['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName) || 
                                 document.activeElement.isContentEditable;
-                if (!isInput && window.hoveredMemoId && window.memoEventHandlers) {
+                
+                const hoveredId = window.hoveredMemoId || AppService.state.hoveredMemoId;
+                const state = AppService.state;
+                
+                if (!isInput && hoveredId && state.eventHandlers) {
                     e.preventDefault();
-                    window.memoEventHandlers.onEdit(window.hoveredMemoId);
+                    console.log(`[ShortcutManager] Instant Edit for memo: ${hoveredId}`);
+                    state.eventHandlers.onEdit(hoveredId);
+                }
+            }
+            // 7. '?': 단축키 도움말 (Input이 아닐 때)
+            if (e.key === '?' && !isCtrl && !isAlt) {
+                const isInput = ['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName) || 
+                                document.activeElement.isContentEditable;
+                if (!isInput) {
+                    e.preventDefault();
+                    document.getElementById('shortcutModal').classList.add('active');
                 }
             }
         });
