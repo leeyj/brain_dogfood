@@ -196,6 +196,56 @@ kbd:active {
     animation: slideUp 0.4s ease;
 }
 
+/* Help Responsive Grid */
+.help-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+}
+
+/* Mobile Tweaks */
+@media (max-width: 768px) {
+    #shortcutModal .modal-content {
+        width: 95% !important;
+        max-height: 90vh;
+    }
+
+    #shortcutModal .modal-body {
+        min-height: 400px;
+    }
+
+    .help-content-area {
+        padding: 20px 15px;
+    }
+
+    .help-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .help-tab-bar {
+        padding: 0 10px;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .help-tab {
+        padding: 8px 15px;
+        font-size: 0.75rem;
+        flex-shrink: 0;
+    }
+
+    .shortcut-item {
+        font-size: 0.85rem;
+    }
+
+    kbd {
+        font-size: 0.75rem;
+        padding: 4px 8px;
+        min-width: 28px;
+    }
+}
+
 @keyframes slideUp {
     from { transform: translateY(10px); opacity: 0; }
     to { transform: translateY(0); opacity: 1; }
