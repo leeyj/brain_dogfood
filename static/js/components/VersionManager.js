@@ -118,11 +118,15 @@ export const VersionManager = {
                         </div>
                     </div>
 
-                    ${this.state.hasUpdate ? `
-                        <button id="executeUpdateBtn" class="premium-btn" style="width:100%; padding: 12px; font-weight:bold;">
-                            ${I18nManager.t('update_check_btn')}
-                        </button>
-                    ` : ''}
+                    <div style="margin-top: 25px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.1); text-align: center;">
+                        <p style="font-size: 0.85rem; color: var(--primary); margin-bottom: 10px; font-weight: bold;">
+                            <i class="fas fa-info-circle"></i> ${I18nManager.t('update_manual_notice')}
+                        </p>
+                        <div style="font-size: 0.8rem; opacity: 0.6; line-height: 1.4;">
+                            Native: git pull origin main<br>
+                            Docker: docker pull leeyj/brain:latest
+                        </div>
+                    </div>
                 </div>
             </div>
         `;
@@ -132,28 +136,5 @@ export const VersionManager = {
         // 이벤트 바인딩
         modal.querySelector('.help-close-btn').onclick = () => modal.remove();
         modal.onclick = (e) => { if (e.target === modal) modal.remove(); };
-
-        const updateBtn = modal.querySelector('#executeUpdateBtn');
-        if (updateBtn) {
-            updateBtn.onclick = async () => {
-                updateBtn.disabled = true;
-                updateBtn.innerHTML = `<span class="spinner"></span> ${I18nManager.t('update_checking')}`;
-                
-                try {
-                    const res = await API.executeUpdate();
-                    if (res.success) {
-                        alert(I18nManager.t('update_success'));
-                        location.reload();
-                    } else {
-                        alert(`Error: ${res.message}`);
-                    }
-                } catch (err) {
-                    alert(err.message);
-                } finally {
-                    updateBtn.disabled = false;
-                    updateBtn.innerHTML = I18nManager.t('update_btn');
-                }
-            };
-        }
     }
 };

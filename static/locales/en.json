@@ -195,5 +195,6 @@
     "update_checking": "Checking...",
     "update_success": "Update successful! Restart the server to apply.",
     "update_changelog_title": "What's New",
-    "update_no_new": "You are using the latest version."
+    "update_no_new": "You are using the latest version.",
+    "update_manual_notice": "Please perform the update manually according to your environment."
 }
