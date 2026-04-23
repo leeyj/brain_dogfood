@@ -50,6 +50,7 @@ class MemoService:
             'status': data.get('status', 'active').strip(),
             'group_name': group_name,
             'category': data.get('category'),
+            'due_date': data.get('due_date'),
             'is_encrypted': is_encrypted,
             'created_at': now,
             'updated_at': now
@@ -114,6 +115,7 @@ class MemoService:
         if group_name is not None: updates['group_name'] = group_name.strip()
         if is_encrypted is not None: updates['is_encrypted'] = 1 if is_encrypted else 0
         if data.get('category') is not None: updates['category'] = data.get('category')
+        if data.get('due_date') is not None: updates['due_date'] = data.get('due_date')
 
         links = extract_links(content) if content is not None else None
         attachment_filenames = data.get('attachment_filenames')

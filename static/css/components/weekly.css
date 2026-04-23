@@ -6,15 +6,15 @@
 
 /* 외부 감싸는 컨테이너 */
 .weekly-container {
-    margin-bottom: 25px;
+    margin-bottom: 15px; /* 외부 여백 축소 */
 }
 
 .wk-container {
     background: var(--bg-card);
     border-bottom: 1px solid var(--border);
-    padding: 20px;
-    border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    padding: 6px 14px; /* 상하 패딩 대폭 축소 */
+    border-radius: 16px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.15);
     box-sizing: border-box;
     width: 100%;
 }
@@ -29,25 +29,24 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 6px; /* 헤더 간격 축소 */
     width: 100%;
 }
 
 .wk-nav-group {
     display: flex;
     align-items: center;
-    gap: 15px; /* 화살표와 텍스트 사이 간격 좁힘 */
+    gap: 10px;
     flex: 1;
-    justify-content: center; /* 중앙 정렬 */
-    margin-left: 100px; /* 버튼과 겹치지 않게 왼쪽 여백 보정 (버튼 너비 고려) */
+    justify-content: center;
 }
 
 .wk-info {
-    font-size: 1.2rem;
-    font-weight: 800;
+    font-size: 1rem; /* 폰트 축소 */
+    font-weight: 700;
     color: var(--text-main);
     white-space: nowrap;
-    min-width: 120px; /* 텍스트 길이에 따른 흔들림 방지 */
+    min-width: 100px;
     text-align: center;
 }
 
@@ -63,8 +62,8 @@
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.wk-nav-btn { width: 36px; height: 36px; font-size: 1rem; }
-.wk-full-btn { padding: 8px 16px; font-size: 0.9rem; font-weight: 700; gap: 8px; }
+.wk-nav-btn { width: 28px; height: 28px; font-size: 0.8rem; }
+.wk-full-btn { padding: 4px 12px; font-size: 0.8rem; font-weight: 700; gap: 6px; }
 
 .wk-nav-btn:hover, .wk-full-btn:hover, .wk-full-btn.active {
     background: var(--accent);
@@ -77,24 +76,31 @@
     display: flex !important;
     flex-direction: row !important;
     flex-wrap: nowrap !important;
-    justify-content: space-between !important;
-    gap: 10px; /* 간격 확대 */
+    justify-content: stretch !important;
+    gap: 0 !important;
     width: 100%;
+    border: 1px solid rgba(255, 255, 255, 0.08); /* 더 은은한 테두리 */
+    border-radius: 12px;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.02); /* 미세한 배경색 */
 }
 
 .wk-item {
-    flex: 1;
-    display: flex;
+    flex: 1 0 0% !important;
+    display: flex !important;
     flex-direction: column;
     align-items: center;
-    padding: 15px 5px; /* 패딩 확대 */
-    border-radius: 14px;
+    padding: 8px 5px 6px; /* 패딩 축소 */
     cursor: pointer;
     transition: all 0.2s ease;
-    border: 1px solid transparent;
-    min-width: 0;
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
     background: transparent;
     position: relative;
+    box-sizing: border-box;
+}
+
+.wk-item:last-child {
+    border-right: none !important;
 }
 
 .wk-item:hover {
@@ -103,35 +109,45 @@
 }
 
 .wk-item.today {
-    background: rgba(var(--accent-rgb), 0.1);
-    border-color: rgba(var(--accent-rgb), 0.2);
+    background: rgba(var(--accent-rgb), 0.12);
+    /* border-color 제거하여 격자선 유지 */
 }
 
 .wk-item.active {
-    background: var(--accent);
-    color: white;
-    box-shadow: 0 6px 15px rgba(var(--accent-rgb), 0.4);
+    background: rgba(255, 255, 255, 0.08) !important;
+    color: var(--accent) !important;
+    font-weight: bold;
+    box-shadow: inset 0 -3px 0 0 var(--accent) !important; /* 하단 포인트 선 */
+    z-index: 1;
+}
+
+.wk-item.active .wk-number {
+    color: white; /* 숫자는 여전히 잘 보이게 */
+    transform: scale(1.1);
+    transition: transform 0.2s ease;
 }
 
 .wk-label {
-    font-size: 0.8rem; /* 폰트 확대 */
+    font-size: 0.7rem; /* 폰트 축소 */
     color: var(--text-muted);
-    margin-bottom: 6px;
+    margin-bottom: 2px;
     font-weight: 600;
+    position: relative;
+    display: inline-block;
 }
 
 .wk-item.active .wk-label {
-    color: rgba(255, 255, 255, 0.9);
+    color: var(--accent);
 }
 
 .wk-number {
-    font-size: 1.3rem; /* 숫자 확대 */
+    font-size: 1.1rem; /* 숫자 축소 */
     font-weight: 800;
 }
 
 .wk-activity {
-    margin-top: 12px;
-    height: 12px;
+    margin-top: 4px;
+    height: 8px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -139,8 +155,8 @@
 }
 
 .wk-dot {
-    width: 12px; /* 도트 확대 */
-    height: 12px;
+    width: 8px; /* 도트 축소 */
+    height: 8px;
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.1);
     transition: all 0.2s ease;
@@ -166,6 +182,26 @@
     transform: scale(1.1);
 }
 
+/* 🚩 마감일 레드 배지 (요일 옆) */
+.wk-deadline-dot {
+    position: absolute;
+    top: 1px;
+    right: -8px; /* 요일 글자 바로 오른쪽 */
+    width: 5px;
+    height: 5px;
+    background: #ff4d4d;
+    border-radius: 50%;
+    box-shadow: 0 0 6px rgba(255, 77, 77, 0.9);
+    z-index: 5;
+    animation: wk-pulse 2s infinite;
+}
+
+@keyframes wk-pulse {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.5); opacity: 0.6; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
 /* 모바일 대응 */
 @media (max-width: 768px) {
     .wk-container { padding: 12px 10px; }
@@ -173,4 +209,5 @@
     .wk-item { padding: 10px 0; }
     .wk-number { font-size: 1rem; }
     .wk-dot { width: 10px; height: 10px; }
+    .wk-deadline-dot { top: 6px; right: 6px; width: 4px; height: 4px; }
 }

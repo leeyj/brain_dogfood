@@ -22,6 +22,8 @@ def init_db():
             status TEXT DEFAULT 'active', -- 'active', 'done', 'archived'
             group_name TEXT DEFAULT 'default',
             is_encrypted BOOLEAN DEFAULT 0,
+            category TEXT,
+            due_date TEXT,
             created_at TIMESTAMP,
             updated_at TIMESTAMP
         )
@@ -39,6 +41,11 @@ def init_db():
 
     try:
         c.execute("ALTER TABLE memos ADD COLUMN category TEXT")
+    except sqlite3.OperationalError:
+        pass
+
+    try:
+        c.execute("ALTER TABLE memos ADD COLUMN due_date TEXT")
     except sqlite3.OperationalError:
         pass
 

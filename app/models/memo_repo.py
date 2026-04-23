@@ -39,12 +39,13 @@ class MemoRepository:
             params.extend([f"%{query}%", f"%{query}%"])
             
         if date:
-            where_clauses.append("created_at LIKE ?")
-            params.append(f"{date}%")
+            # 💡 작성일 기준 또는 마감일 기준 검색 지원
+            where_clauses.append("(created_at LIKE ? OR due_date = ?)")
+            params.extend([f"{date}%", date])
         elif start_date and end_date:
-            # 💡 주간 뷰 등을 위한 날짜 범위 검색 지원
-            where_clauses.append("created_at BETWEEN ? AND ?")
-            params.extend([f"{start_date} 00:00:00", f"{end_date} 23:59:59"])
+            # 💡 주간 뷰 등을 위한 날짜 범위 검색 지원 (작성일 또는 마감일)
+            where_clauses.append("(created_at BETWEEN ? AND ? OR due_date BETWEEN ? AND ?)")
+            params.extend([f"{start_date} 00:00:00", f"{end_date} 23:59:59", start_date, end_date])
             
         if category:
             where_clauses.append("category = ?")
@@ -207,12 +208,26 @@ class MemoRepository:
         conn = get_db()
         c = conn.cursor()
         start_date = (datetime.datetime.now() - datetime.timedelta(days=days)).isoformat()
-        c.execute('''
-            SELECT strftime('%Y-%m-%d', created_at) as date, COUNT(*) as count 
-            FROM memos 
-            WHERE created_at >= ? 
+        
+        # 💡 작성일 기준 통계와 기한일 기준 통계를 통합 조회
+        query = '''
+            SELECT date, SUM(create_count) as count, SUM(deadline_count) as deadline_count
+            FROM (
+                SELECT strftime('%Y-%m-%d', created_at) as date, COUNT(*) as create_count, 0 as deadline_count
+                FROM memos 
+                WHERE created_at >= ? 
+                GROUP BY date
+                UNION ALL
+                SELECT due_date as date, 0 as create_count, COUNT(*) as deadline_count
+                FROM memos 
+                WHERE due_date IS NOT NULL AND due_date >= strftime('%Y-%m-%d', ?)
+                GROUP BY date
+            )
+            WHERE date IS NOT NULL
             GROUP BY date
-        ''', (start_date,))
+            ORDER BY date ASC
+        '''
+        c.execute(query, (start_date, start_date))
         stats = [dict(s) for s in c.fetchall()]
         conn.close()
         return stats
