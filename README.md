@@ -39,6 +39,14 @@
 
 ---
 
+### 🛠️ 패치 노트 (2026-04-24) - v8.1 (Update Notification)
+*   **[신규 기능] 지능형 업데이트 알림 시스템**:
+    *   GitHub 저장소와 연동하여 최신 버전을 자동으로 감지하고 사이드바에 알림 배지 표시.
+    *   **업데이트 로그 모달**: 신규 변경 사항(Changelog)을 UI에서 즉시 확인 가능.
+    *   **원클릭 업데이트**: `git pull`을 통한 자동 업데이트 기능 구현 (설정 모달 내).
+*   **[데이터] 버전 관리 체계 구축**:
+    *   `version.json`을 통한 구조화된 버전 정보 및 히스토리 관리 도입.
+
 ### 🛠️ 패치 노트 (2026-04-23) - v8.0 (Premium Help Revamp)
 *   **[신규 기능] 프리미엄 도움말 시스템 개편**:
     *   `도움말_원본.xml`에서 추출한 16개의 고해상도 가이드 이미지와 상세 설명을 통합 가이드로 재구성.
@@ -225,6 +233,14 @@ We provide a security model where user data is practically undecipherable. Built
 - **Multi-Link Support**: Insert multiple internal links (`[[#ID]]`) to create clusters of networked thought.
 - **Instant Edit (e-key)**: Hover over a memo and press `e` to jump straight into editing mode. Zero-click productivity.
 - **Drag & Drop Workflow**: Drag memo cards into the composer to instantly insert a semantic reference.
+
+### 🛠️ Patch Notes (2026-04-24) - v8.1 (Update Notification)
+*   **[New Feature] Intelligent Update Notification System**:
+    *   Real-time detection of new versions from GitHub with notification badges on the sidebar.
+    *   **Update Log Modal**: View detailed changelogs directly within the application UI.
+    *   **One-Click Update**: Automated `git pull` functionality integrated into the Settings modal.
+*   **[Data] Versioning Infrastructure**:
+    *   Introduced `version.json` for structured version tracking and update history.
 
 ### 🛠️ Patch Notes (2026-04-23) - v8.0 (Premium Help Revamp)
 *   **[New Feature] Premium Help System Revamp**:

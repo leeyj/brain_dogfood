@@ -104,5 +104,15 @@ export const API = {
             // API.request 내부에서 401 발생 시 이미 리다이렉트 처리함
             throw err;
         }
+    },
+    // 시스템 업데이트 관련
+    fetchLocalVersion: async function() {
+        return await this.request('/api/system/version');
+    },
+    checkUpdate: async function() {
+        return await this.request('/api/system/check-update');
+    },
+    executeUpdate: async function() {
+        return await this.request('/api/system/update', { method: 'POST' });
     }
 };

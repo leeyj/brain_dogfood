@@ -188,5 +188,14 @@
     "sc_edit": "즉시 수정 (마우스 호버)",
     "sc_link": "비주얼 노드 연결",
     "sc_close": "모든 창 닫기",
-    "sc_help": "도움말 모달 열기"
+    "sc_help": "도움말 모달 열기",
+    "update_title": "🚀 시스템 업데이트",
+    "update_current_version": "현재 버전",
+    "update_latest_version": "최신 버전",
+    "update_available_msg": "새로운 버전이 사용 가능합니다!",
+    "update_btn": "지금 업데이트",
+    "update_checking": "업데이트 확인 중...",
+    "update_success": "업데이트 완료! 서버를 재시작하여 적용하세요.",
+    "update_changelog_title": "신규 변경 사항",
+    "update_no_new": "최신 버전을 사용 중입니다."
 }
