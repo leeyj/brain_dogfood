@@ -169,6 +169,8 @@
         "weekly": "Weekly"
     },
     "title_shortcuts": "⌨️ Keyboard Shortcuts",
+    "title_guide": "📖 System Guide",
+    "title_tips": "💡 Useful Tips",
     "tooltip_help": "Shortcuts (?)",
     "label_navigation": "Navigation",
     "label_editor": "Editor & Action",

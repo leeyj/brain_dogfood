@@ -39,6 +39,18 @@
 
 ---
 
+### 🛠️ 패치 노트 (2026-04-23) - v8.0 (Premium Help Revamp)
+*   **[신규 기능] 프리미엄 도움말 시스템 개편**:
+    *   `도움말_원본.xml`에서 추출한 16개의 고해상도 가이드 이미지와 상세 설명을 통합 가이드로 재구성.
+    *   **글래스모피즘(Glassmorphism)** 테마와 애니메이션 카드를 적용한 현대적인 도움말 UI 구축.
+    *   도움말 모달 내 **탭 시스템(가이드, 단축키, 팁)** 고도화 및 다국어(KO/EN) 완전 지원.
+*   **[UI/UX] 레이아웃 안정성 강화**:
+    *   **Sticky Tabs**: 가이드 내용이 길어지더라도 하단 탭 바가 항상 고정되어 보이도록 Flexbox 기반 레이아웃 최적화.
+    *   **Dynamic Title**: 활성 탭에 따라 모달 헤더의 제목이 실시간으로 업데이트되는 지능형 UI 적용.
+*   **[문서화] 유지보수 가이드라인 구축**:
+    *   `docs/help_update_guide.md` 추가: 향후 도움말 업데이트 및 이미지 추출 자동화 프로세스 명시.
+*   **[최적화] 캐시 방지 시스템**: 콘텐츠 호출 시 버전 관리를 통해 변경 사항이 즉시 반영되도록 조치.
+
 ### 🛠️ 패치 노트 (2026-04-23) - v7.0 (Deadline & Compact Update)
 *   **[신규 기능] 통합 기한 관리 시스템 (Deadline Management)**:
     *   메모 작성 시 마감일(`due_date`) 지정 기능 추가 및 DB 연동.
@@ -213,6 +225,18 @@ We provide a security model where user data is practically undecipherable. Built
 - **Multi-Link Support**: Insert multiple internal links (`[[#ID]]`) to create clusters of networked thought.
 - **Instant Edit (e-key)**: Hover over a memo and press `e` to jump straight into editing mode. Zero-click productivity.
 - **Drag & Drop Workflow**: Drag memo cards into the composer to instantly insert a semantic reference.
+
+### 🛠️ Patch Notes (2026-04-23) - v8.0 (Premium Help Revamp)
+*   **[New Feature] Premium Help System Revamp**:
+    *   Redesigned the help system with 16+ high-resolution guide images and detailed descriptions extracted from source documentation.
+    *   Built a modern help UI using **Glassmorphism** themes and interactive animated cards.
+    *   Advanced the **Tabbed System (Guide, Shortcuts, Tips)** within the help modal with full multi-language (KO/EN) support.
+*   **[UI/UX] Layout Stability Enhancements**:
+    *   **Sticky Tabs**: Optimized Flexbox layout to ensure navigation tabs remain persistent at the bottom regardless of content length.
+    *   **Dynamic Titles**: Implemented intelligent header updates that reflect the active tab in real-time.
+*   **[Documentation] Maintenance Guidelines**:
+    *   Added `docs/help_update_guide.md` to outline future help update processes and image extraction automation.
+*   **[Optimization] Cache Busting**: Updated versioning for help content to ensure immediate delivery of latest updates.
 
 ### 🛠️ Patch Notes (2026-04-22)
 *   **Component Architecture Refactoring**: Refactored `MemoCard`, `AttachmentBox`, and `ModalManager` into independent DOM components, maximizing maintainability and extensibility.

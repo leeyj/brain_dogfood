@@ -1,22 +1,305 @@
-<div class="help-sheet">
-    <h3 style="color:var(--accent); margin-bottom:15px;">📖 기본 가이드</h3>
-    <p style="color:var(--muted); line-height:1.6;">지식 창고 시스템을 효율적으로 사용하는 방법을 이곳에서 확인할 수 있습니다.</p>
-    <div class="help-grid" style="margin-top: 20px;">
-        <div style="padding: 15px; background: rgba(255,255,255,0.02); border-radius: 10px; border: 1px solid rgba(255,255,255,0.05);">
-            <h5 style="color: var(--text); margin-bottom: 8px;">1. 메모 작성</h5>
-            <p style="font-size: 0.85rem; color: var(--muted);">하단 작성기에 텍스트를 입력하고 Ctrl+Enter를 누르면 저장됩니다.</p>
+<div class="help-premium-container">
+    <style>
+        .help-premium-container {
+            padding: 10px 20px; /* 패딩 조정 */
+            color: var(--text);
+            font-family: var(--font);
+        }
+        #helpContentArea::-webkit-scrollbar { width: 6px; }
+        #helpContentArea::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 10px; }
+        #helpContentArea {
+            scrollbar-width: thin;
+            scrollbar-color: var(--accent) transparent;
+        }
+
+        .help-header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px;
+            background: linear-gradient(135deg, rgba(56, 189, 248, 0.1), rgba(139, 92, 246, 0.1));
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+        .help-header h2 { font-size: 2rem; margin-bottom: 10px; color: var(--accent); }
+        .help-header p { color: var(--muted); }
+
+        .help-section {
+            margin-bottom: 50px;
+            animation: fadeInUp 0.6s ease-out both;
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            color: var(--text);
+            border-left: 4px solid var(--accent);
+            padding-left: 15px;
+        }
+
+        .help-card {
+            background: var(--card);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 20px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        .help-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+            box-shadow: 0 10px 30px -10px rgba(56, 189, 248, 0.3);
+            background: rgba(30, 41, 59, 0.95);
+        }
+
+        .help-text {
+            line-height: 1.8;
+            color: var(--text);
+            margin-bottom: 20px;
+            font-size: 1.05rem;
+        }
+        .help-text b { color: var(--accent); }
+        
+        .help-image-container {
+            width: 100%;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin: 15px 0;
+            background: #000;
+        }
+        .help-image {
+            width: 100%;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+        .help-card:hover .help-image { transform: scale(1.02); }
+
+        .feature-tag {
+            display: inline-block;
+            padding: 4px 12px;
+            background: rgba(56, 189, 248, 0.1);
+            color: var(--accent);
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-bottom: 10px;
+            border: 1px solid rgba(56, 189, 248, 0.2);
+        }
+
+        .caution-box {
+            background: rgba(239, 68, 68, 0.1);
+            border-left: 4px solid #ef4444;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            color: #fca5a5;
+            font-size: 0.9rem;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        /* Status Colors for Due Date */
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 12px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        .status-safe { background: rgba(56, 189, 248, 0.1); color: #38bdf8; border: 1px solid #38bdf844; }
+        .status-warning { background: rgba(251, 191, 36, 0.1); color: #fbbf24; border: 1px solid #fbbf2444; }
+        .status-danger { background: rgba(239, 68, 68, 0.1); color: #ef4444; border: 1px solid #ef444444; }
+
+    </style>
+
+    <header class="help-header">
+        <h2>🧠 지식 창고 사용 가이드</h2>
+        <p>효율적인 지식 관리와 탐색을 위한 모든 기능을 확인해보세요.</p>
+    </header>
+
+    <!-- 섹션 1: 메모 작성 -->
+    <section class="help-section">
+        <h3 class="section-title"><i class="fas fa-edit"></i> 메모 작성</h3>
+        <div class="help-card">
+            <span class="feature-tag">Editor</span>
+            <div class="help-text">
+                메모 서버는 <b>슬러시(/) 명령어</b> 체계를 지원하여 빠른 작업이 가능합니다.<br>
+                Toast Editor를 통해 <b>마크다운(Markdown)</b>과 <b>위지윅(WYSIWYG)</b> 환경을 모두 제공하여 사용자 취향에 맞게 지식을 기록할 수 있습니다.
+            </div>
+            <div class="help-image-container">
+                <img src="/static/img/help/image1.png" alt="메인 에디터" class="help-image">
+            </div>
+            <p style="text-align:center; font-size:0.8rem; color:var(--muted); margin-top:8px;">&lt;그림1: 메인 에디터 및 명령어 시스템&gt;</p>
         </div>
-        <div style="padding: 15px; background: rgba(255,255,255,0.02); border-radius: 10px; border: 1px solid rgba(255,255,255,0.05);">
-            <h5 style="color: var(--text); margin-bottom: 8px;">2. 태그 활용</h5>
-            <p style="font-size: 0.85rem; color: var(--muted);">메모 내용에 #태그를 포함하거나 하단 태그 입력란을 이용하세요.</p>
+    </section>
+
+    <!-- 섹션 2: 분류 시스템 -->
+    <section class="help-section">
+        <h3 class="section-title"><i class="fas fa-tags"></i> 지식 분류 및 관리</h3>
+        <div class="grid-container">
+            <div class="help-card">
+                <span class="feature-tag">Grouping</span>
+                <h4 style="margin-bottom:10px;">지능형 그룹 지정</h4>
+                <div class="help-text">
+                    에디터 창에서 <b>$ 기호</b>를 사용하여 즉시 그룹을 지정할 수 있습니다. 각 메모는 고유한 하나의 그룹을 가지며, 지정하지 않을 시 'default'로 설정됩니다.
+                </div>
+                <div class="help-image-container">
+                    <img src="/static/img/help/image3.png" alt="그룹 지정" class="help-image">
+                </div>
+            </div>
+            <div class="help-card">
+                <span class="feature-tag">Tagging</span>
+                <h4 style="margin-bottom:10px;">멀티 태그 시스템</h4>
+                <div class="help-text">
+                    입력 창에 태그를 직접 입력하거나, 본문 내에서 <b>#태그</b> 형식을 사용하여 마우스 동선 없이 빠르게 분류 체계를 구축할 수 있습니다.
+                </div>
+                <div class="help-image-container">
+                    <img src="/static/img/help/image4.png" alt="태그 기능" class="help-image">
+                </div>
+            </div>
         </div>
-        <div style="padding: 15px; background: rgba(255,255,255,0.02); border-radius: 10px; border: 1px solid rgba(255,255,255,0.05);">
-            <h5 style="color: var(--text); margin-bottom: 8px;">3. 암호화 지식</h5>
-            <p style="font-size: 0.85rem; color: var(--muted);">중요한 정보는 암호화 아이콘을 클릭하여 비밀번호를 설정할 수 있습니다.</p>
+    </section>
+
+    <!-- 섹션 3: 기한 관리 -->
+    <section class="help-section">
+        <h3 class="section-title"><i class="fas fa-clock"></i> 기한(Due Date) 관리</h3>
+        <div class="help-card">
+            <div class="help-text">
+                중요한 일정이나 기한이 있는 메모는 기한을 설정하세요. 기한이 임박할수록 메모 카드의 테두리 색상이 변경되어 직관적으로 우선순위를 파악할 수 있습니다.
+            </div>
+            <div class="help-image-container">
+                <img src="/static/img/help/image5.png" alt="기한 설정" class="help-image">
+            </div>
+            <div style="display:flex; flex-wrap:wrap; gap:15px; margin-top:20px;">
+                <div class="status-badge status-safe">● 4일 이상 (안전)</div>
+                <div class="status-badge status-warning">● 2~3일 (주의)</div>
+                <div class="status-badge status-danger">● 당일 (긴급)</div>
+            </div>
+            <div class="help-image-container" style="margin-top:15px;">
+                <img src="/static/img/help/image6.png" alt="기한 표시" class="help-image">
+            </div>
         </div>
-        <div style="padding: 15px; background: rgba(255,255,255,0.02); border-radius: 10px; border: 1px solid rgba(255,255,255,0.05);">
-            <h5 style="color: var(--text); margin-bottom: 8px;">4. 파일 첨부</h5>
-            <p style="font-size: 0.85rem; color: var(--muted);">파일을 드래그하거나 첨부 버튼을 눌러 멀티미디어 지식을 저장하세요.</p>
+    </section>
+
+    <!-- 섹션 4: 보안 -->
+    <section class="help-section">
+        <h3 class="section-title"><i class="fas fa-lock"></i> 지식 보안 (AES-128)</h3>
+        <div class="help-card">
+            <div class="help-text">
+                민감한 정보는 <b>AES-128 암호화</b>를 적용하세요. 8자리 이상의 암호 설정 시 강력한 보안을 보장하며, 첨부파일까지 모두 암호화되어 안전하게 저장됩니다.
+            </div>
+            <div class="help-image-container">
+                <img src="/static/img/help/image7.png" alt="암호화 기능" class="help-image">
+            </div>
+            <div class="help-text" style="font-size:0.9rem; margin-top:15px;">
+                - <b>복호화</b>: 메모리 상에서만 일시적으로 해제되며, 세션 종료나 새로고침 시 자동으로 다시 암호화됩니다.<br>
+                - <b>영구 해제</b>: 암호화 해제 후 명시적으로 저장해야 합니다.
+            </div>
+            <div class="caution-box">
+                <i class="fas fa-exclamation-triangle"></i> <b>주의</b>: 암호를 분실할 경우 개발자도 복구가 불가능하므로 반드시 기억해 두시기 바랍니다.
+            </div>
         </div>
-    </div>
+    </section>
+
+    <!-- 섹션 5: 네비게이션 & 시각화 -->
+    <section class="help-section">
+        <h3 class="section-title"><i class="fas fa-project-diagram"></i> 지식 네비게이션 & 시각화</h3>
+        
+        <div class="help-card">
+            <span class="feature-tag">Weekly Calendar</span>
+            <h4 style="margin-bottom:15px;">주간 달력 및 히트맵</h4>
+            <div class="help-text">
+                <b>Alt+W</b> 단축키를 통해 주 단위 지식 생산 빈도를 확인할 수 있습니다. 요일 옆의 점(Dot) 색상으로 기한 임박 메모를 즉시 파악할 수 있습니다.
+            </div>
+            <div class="help-image-container">
+                <img src="/static/img/help/image9.png" alt="주간 달력" class="help-image">
+            </div>
+        </div>
+
+        <div class="grid-container">
+            <div class="help-card">
+                <span class="feature-tag">Virtual Linker</span>
+                <h4 style="margin-bottom:10px;">버추얼 링커</h4>
+                <div class="help-text">
+                    <b>Alt + 클릭</b>을 통해 메모 간의 관계를 직관적으로 연결합니다. <code>[[#id]]</code> 형식을 통한 수동 링크도 지원합니다.
+                </div>
+                <div class="help-image-container">
+                    <img src="/static/img/help/image10.png" alt="버추얼 링커" class="help-image">
+                </div>
+            </div>
+            <div class="help-card">
+                <span class="feature-tag">Link View</span>
+                <h4 style="margin-bottom:10px;">링크 뷰어</h4>
+                <div class="help-text">
+                    <b>Ctrl + Alt + 클릭</b>으로 특정 메모와 연결된 주체 및 참조자 관계를 파란색과 노란색으로 구분하여 시각화합니다.
+                </div>
+                <div class="help-image-container">
+                    <img src="/static/img/help/image11.png" alt="링크 뷰어" class="help-image">
+                </div>
+            </div>
+        </div>
+
+        <div class="help-card" style="margin-top:20px;">
+            <span class="feature-tag">Nebula Map</span>
+            <h4 style="margin-bottom:15px;">지식맵 (네뷸라)</h4>
+            <div class="help-text">
+                작성된 모든 메모를 우주 성간처럼 시각화합니다. 그룹별 클러스터와 링크 관계(상호/일방 참조)를 한눈에 조망할 수 있습니다.
+            </div>
+            <div class="help-image-container">
+                <img src="/static/img/help/image14.png" alt="지식맵" class="help-image">
+            </div>
+            <div class="help-image-container">
+                <img src="/static/img/help/image15.png" alt="맵 상세" class="help-image">
+            </div>
+        </div>
+    </section>
+
+    <!-- 섹션 6: 관리 도구 -->
+    <section class="help-section">
+        <h3 class="section-title"><i class="fas fa-search"></i> 지식 탐색 및 관리</h3>
+        <div class="help-card">
+            <span class="feature-tag">Explorer</span>
+            <h4 style="margin-bottom:15px;">지식 탐색기 (필터)</h4>
+            <div class="help-text">
+                그룹과 태그별로 자동 분류된 지식 탐색기입니다. 화면 내에서 <b>자유롭게 이동(Hover)</b> 가능하며, 클릭 한 번으로 원하는 지식을 빠르게 필터링할 수 있습니다.
+            </div>
+            <div class="help-image-container" style="max-width:300px; margin:0 auto;">
+                <img src="/static/img/help/image13.png" alt="지식 탐색기" class="help-image">
+            </div>
+        </div>
+
+        <div class="grid-container">
+            <div class="help-card">
+                <h4 style="margin-bottom:10px;">왼쪽 메뉴</h4>
+                <div class="help-image-container">
+                    <img src="/static/img/help/image12.png" alt="왼쪽 메뉴" class="help-image">
+                </div>
+            </div>
+            <div class="help-card">
+                <h4 style="margin-bottom:10px;">시스템 설정</h4>
+                <div class="help-image-container">
+                    <img src="/static/img/help/image16.png" alt="환경 설정" class="help-image">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer style="text-align:center; padding:40px 0; color:var(--muted); font-size:0.9rem; border-top:1px solid rgba(255,255,255,0.05);">
+        <p>© 2026 지식 창고 시스템 - 인텔리전트 메모 서버</p>
+    </footer>
 </div>

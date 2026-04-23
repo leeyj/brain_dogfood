@@ -172,6 +172,8 @@
         "weekly": "주간모음"
     },
     "title_shortcuts": "⌨️ 단축키 도움말",
+    "title_guide": "📖 시스템 사용 가이드",
+    "title_tips": "💡 유용한 사용 팁",
     "tooltip_help": "단축키 확인 (?)",
     "label_navigation": "시스템 및 탐색",
     "label_editor": "편집 및 동작",

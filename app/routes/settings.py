@@ -19,7 +19,8 @@ DEFAULT_SETTINGS = {
     "enable_categories": False,
     "categories": [],
     "pinned_categories": [],
-    "session_timeout": 60      # 기본 60분
+    "session_timeout": 60,      # 기본 60분
+    "external_api_token": ""    # 외부 앱 연동 토큰
 }
 
 @settings_bp.route('/api/settings', methods=['GET'])

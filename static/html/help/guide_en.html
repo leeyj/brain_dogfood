@@ -1,22 +1,304 @@
-<div class="help-sheet">
-    <h3 style="color:var(--accent); margin-bottom:15px;">📖 Basic Guide</h3>
-    <p style="color:var(--muted); line-height:1.6;">Learn how to use the Knowledge Vault system efficiently.</p>
-    <div class="help-grid" style="margin-top: 20px;">
-        <div style="padding: 15px; background: rgba(255,255,255,0.02); border-radius: 10px; border: 1px solid rgba(255,255,255,0.05);">
-            <h5 style="color: var(--text); margin-bottom: 8px;">1. Writing Memos</h5>
-            <p style="font-size: 0.85rem; color: var(--muted);">Type in the composer at the bottom and press Ctrl+Enter to save.</p>
+<div class="help-premium-container">
+    <style>
+        .help-premium-container {
+            padding: 10px 20px;
+            color: var(--text);
+            font-family: var(--font);
+        }
+        #helpContentArea::-webkit-scrollbar { width: 6px; }
+        #helpContentArea::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 10px; }
+        #helpContentArea {
+            scrollbar-width: thin;
+            scrollbar-color: var(--accent) transparent;
+        }
+
+        .help-header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px;
+            background: linear-gradient(135deg, rgba(56, 189, 248, 0.1), rgba(139, 92, 246, 0.1));
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+        .help-header h2 { font-size: 2rem; margin-bottom: 10px; color: var(--accent); }
+        .help-header p { color: var(--muted); }
+
+        .help-section {
+            margin-bottom: 50px;
+            animation: fadeInUp 0.6s ease-out both;
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            color: var(--text);
+            border-left: 4px solid var(--accent);
+            padding-left: 15px;
+        }
+
+        .help-card {
+            background: var(--card);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 20px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        .help-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+            box-shadow: 0 10px 30px -10px rgba(56, 189, 248, 0.3);
+            background: rgba(30, 41, 59, 0.95);
+        }
+
+        .help-text {
+            line-height: 1.8;
+            color: var(--text);
+            margin-bottom: 20px;
+            font-size: 1.05rem;
+        }
+        .help-text b { color: var(--accent); }
+        
+        .help-image-container {
+            width: 100%;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin: 15px 0;
+            background: #000;
+        }
+        .help-image {
+            width: 100%;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+        .help-card:hover .help-image { transform: scale(1.02); }
+
+        .feature-tag {
+            display: inline-block;
+            padding: 4px 12px;
+            background: rgba(56, 189, 248, 0.1);
+            color: var(--accent);
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-bottom: 10px;
+            border: 1px solid rgba(56, 189, 248, 0.2);
+        }
+
+        .caution-box {
+            background: rgba(239, 68, 68, 0.1);
+            border-left: 4px solid #ef4444;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            color: #fca5a5;
+            font-size: 0.9rem;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 12px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        .status-safe { background: rgba(56, 189, 248, 0.1); color: #38bdf8; border: 1px solid #38bdf844; }
+        .status-warning { background: rgba(251, 191, 36, 0.1); color: #fbbf24; border: 1px solid #fbbf2444; }
+        .status-danger { background: rgba(239, 68, 68, 0.1); color: #ef4444; border: 1px solid #ef444444; }
+
+    </style>
+
+    <header class="help-header">
+        <h2>🧠 Knowledge Base Guide</h2>
+        <p>Explore all features for efficient knowledge management and navigation.</p>
+    </header>
+
+    <!-- Section 1: Writing Memos -->
+    <section class="help-section">
+        <h3 class="section-title"><i class="fas fa-edit"></i> Writing Memos</h3>
+        <div class="help-card">
+            <span class="feature-tag">Editor</span>
+            <div class="help-text">
+                The memo server supports a <b>slash (/) command</b> system for rapid tasks.<br>
+                Toast Editor provides both <b>Markdown</b> and <b>WYSIWYG</b> environments to suit your preference for recording knowledge.
+            </div>
+            <div class="help-image-container">
+                <img src="/static/img/help/image1.png" alt="Main Editor" class="help-image">
+            </div>
+            <p style="text-align:center; font-size:0.8rem; color:var(--muted); margin-top:8px;">&lt;Figure 1: Main Editor & Command System&gt;</p>
         </div>
-        <div style="padding: 15px; background: rgba(255,255,255,0.02); border-radius: 10px; border: 1px solid rgba(255,255,255,0.05);">
-            <h5 style="color: var(--text); margin-bottom: 8px;">2. Using Tags</h5>
-            <p style="font-size: 0.85rem; color: var(--muted);">Include #tags in your content or use the tag input field.</p>
+    </section>
+
+    <!-- Section 2: Classification System -->
+    <section class="help-section">
+        <h3 class="section-title"><i class="fas fa-tags"></i> Knowledge Classification</h3>
+        <div class="grid-container">
+            <div class="help-card">
+                <span class="feature-tag">Grouping</span>
+                <h4 style="margin-bottom:10px;">Intelligent Grouping</h4>
+                <div class="help-text">
+                    Use the <b>$ symbol</b> in the editor to assign groups instantly. Each memo has a unique group; if unspecified, it defaults to 'default'.
+                </div>
+                <div class="help-image-container">
+                    <img src="/static/img/help/image3.png" alt="Grouping" class="help-image">
+                </div>
+            </div>
+            <div class="help-card">
+                <span class="feature-tag">Tagging</span>
+                <h4 style="margin-bottom:10px;">Multi-Tag System</h4>
+                <div class="help-text">
+                    Enter tags directly in the input box or use <b>#tags</b> within the text to build a taxonomy without moving your mouse.
+                </div>
+                <div class="help-image-container">
+                    <img src="/static/img/help/image4.png" alt="Tagging" class="help-image">
+                </div>
+            </div>
         </div>
-        <div style="padding: 15px; background: rgba(255,255,255,0.02); border-radius: 10px; border: 1px solid rgba(255,255,255,0.05);">
-            <h5 style="color: var(--text); margin-bottom: 8px;">3. Encrypted Knowledge</h5>
-            <p style="font-size: 0.85rem; color: var(--muted);">Click the lock icon to set a password for sensitive information.</p>
+    </section>
+
+    <!-- Section 3: Due Date Management -->
+    <section class="help-section">
+        <h3 class="section-title"><i class="fas fa-clock"></i> Due Date Management</h3>
+        <div class="help-card">
+            <div class="help-text">
+                Set deadlines for important tasks. As the deadline approaches, the border color of the memo card changes to help you prioritize at a glance.
+            </div>
+            <div class="help-image-container">
+                <img src="/static/img/help/image5.png" alt="Set Due Date" class="help-image">
+            </div>
+            <div style="display:flex; flex-wrap:wrap; gap:15px; margin-top:20px;">
+                <div class="status-badge status-safe">● 4+ Days (Safe)</div>
+                <div class="status-badge status-warning">● 2-3 Days (Warning)</div>
+                <div class="status-badge status-danger">● Today (Urgent)</div>
+            </div>
+            <div class="help-image-container" style="margin-top:15px;">
+                <img src="/static/img/help/image6.png" alt="Due Date Indicator" class="help-image">
+            </div>
         </div>
-        <div style="padding: 15px; background: rgba(255,255,255,0.02); border-radius: 10px; border: 1px solid rgba(255,255,255,0.05);">
-            <h5 style="color: var(--text); margin-bottom: 8px;">4. Attachments</h5>
-            <p style="font-size: 0.85rem; color: var(--muted);">Drag and drop files or use the attach button to save multimedia.</p>
+    </section>
+
+    <!-- Section 4: Security -->
+    <section class="help-section">
+        <h3 class="section-title"><i class="fas fa-lock"></i> Knowledge Security (AES-128)</h3>
+        <div class="help-card">
+            <div class="help-text">
+                Apply <b>AES-128 encryption</b> for sensitive information. A password of 8+ characters ensures strong security, including encrypted attachments.
+            </div>
+            <div class="help-image-container">
+                <img src="/static/img/help/image7.png" alt="Encryption" class="help-image">
+            </div>
+            <div class="help-text" style="font-size:0.9rem; margin-top:15px;">
+                - <b>Decryption</b>: Temporary unlock in memory; auto-relocks on session end or refresh.<br>
+                - <b>Permanent Unlock</b>: Must be explicitly saved after decryption.
+            </div>
+            <div class="caution-box">
+                <i class="fas fa-exclamation-triangle"></i> <b>Caution</b>: If the password is lost, data recovery is impossible even for developers.
+            </div>
         </div>
-    </div>
+    </section>
+
+    <!-- Section 5: Navigation & Visualization -->
+    <section class="help-section">
+        <h3 class="section-title"><i class="fas fa-project-diagram"></i> Navigation & Visualization</h3>
+        
+        <div class="help-card">
+            <span class="feature-tag">Weekly Calendar</span>
+            <h4 style="margin-bottom:15px;">Weekly View & Heatmap</h4>
+            <div class="help-text">
+                Toggle with <b>Alt+W</b> to track knowledge production. Dots next to weekdays indicate upcoming deadlines.
+            </div>
+            <div class="help-image-container">
+                <img src="/static/img/help/image9.png" alt="Weekly Calendar" class="help-image">
+            </div>
+        </div>
+
+        <div class="grid-container">
+            <div class="help-card">
+                <span class="feature-tag">Virtual Linker</span>
+                <h4 style="margin-bottom:10px;">Virtual Linker</h4>
+                <div class="help-text">
+                    Use <b>Alt + Click</b> to link memos intuitively. Manual links like <code>[[#id]]</code> are also supported.
+                </div>
+                <div class="help-image-container">
+                    <img src="/static/img/help/image10.png" alt="Virtual Linker" class="help-image">
+                </div>
+            </div>
+            <div class="help-card">
+                <span class="feature-tag">Link View</span>
+                <h4 style="margin-bottom:10px;">Link Viewer</h4>
+                <div class="help-text">
+                    <b>Ctrl + Alt + Click</b> to visualize relationships between source and reference memos in blue and yellow.
+                </div>
+                <div class="help-image-container">
+                    <img src="/static/img/help/image11.png" alt="Link Viewer" class="help-image">
+                </div>
+            </div>
+        </div>
+
+        <div class="help-card" style="margin-top:20px;">
+            <span class="feature-tag">Nebula Map</span>
+            <h4 style="margin-bottom:15px;">Knowledge Map (Nebula)</h4>
+            <div class="help-text">
+                Visualize all memos like a star cluster. Overview group clusters and link relationships (mutual/one-way references) at a glance.
+            </div>
+            <div class="help-image-container">
+                <img src="/static/img/help/image14.png" alt="Nebula Map" class="help-image">
+            </div>
+            <div class="help-image-container">
+                <img src="/static/img/help/image15.png" alt="Nebula Detail" class="help-image">
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 6: Management Tools -->
+    <section class="help-section">
+        <h3 class="section-title"><i class="fas fa-search"></i> Exploration & Management</h3>
+        <div class="help-card">
+            <span class="feature-tag">Explorer</span>
+            <h4 style="margin-bottom:15px;">Knowledge Explorer (Filter)</h4>
+            <div class="help-text">
+                Automatically categorized explorer by groups and tags. Freely <b>draggable (Hover)</b> and allows quick filtering with a single click.
+            </div>
+            <div class="help-image-container" style="max-width:300px; margin:0 auto;">
+                <img src="/static/img/help/image13.png" alt="Explorer" class="help-image">
+            </div>
+        </div>
+
+        <div class="grid-container">
+            <div class="help-card">
+                <h4 style="margin-bottom:10px;">Left Menu</h4>
+                <div class="help-image-container">
+                    <img src="/static/img/help/image12.png" alt="Left Menu" class="help-image">
+                </div>
+            </div>
+            <div class="help-card">
+                <h4 style="margin-bottom:10px;">System Settings</h4>
+                <div class="help-image-container">
+                    <img src="/static/img/help/image16.png" alt="Settings" class="help-image">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer style="text-align:center; padding:40px 0; color:var(--muted); font-size:0.9rem; border-top:1px solid rgba(255,255,255,0.05);">
+        <p>© 2026 Knowledge Base System - Intelligent Memo Server</p>
+    </footer>
 </div>
