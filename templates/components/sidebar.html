@@ -1,5 +1,5 @@
 <aside class="sidebar" id="sidebar">
-    <div class="sidebar-header" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 2.5rem;">
+    <div class="sidebar-header" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem;">
         <h1 class="logo"><i class="fas fa-brain"></i> <span class="text" data-i18n="app_name">Brain Dogfood</span></h1>
         <button id="sidebarToggle" class="sidebar-toggle" data-i18n-title="nav_toggle"><i class="fas fa-bars"></i></button>
     </div>
@@ -19,18 +19,18 @@
         
         <!-- 주요 액션 버튼 (탐색기, 네뷸라 등) -->
         <div class="sidebar-section" id="sidebarActionSection">
-            <button id="openExplorerBtn" class="action-btn explorer-btn" style="width: 100%; justify-content: flex-start; margin-top: 15px; padding: 12px 15px; background: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.2); color: var(--accent); font-weight: 600; border-radius: 12px;">
+            <button id="openExplorerBtn" class="action-btn explorer-btn" style="width: 100%; justify-content: flex-start; margin-top: 10px; padding: 7px 15px; background: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.2); color: var(--accent); font-weight: 600; border-radius: 12px;">
                 <span class="icon"><i class="fas fa-search"></i></span> <span class="text" data-i18n="nav_explorer">Knowledge Explorer</span>
             </button>
             
-            <button id="openGraphBtn" class="action-btn" style="width: 100%; justify-content: flex-start; margin-top: 10px; padding: 10px 15px; background: rgba(139, 92, 246, 0.1); border: 1px solid rgba(139, 92, 246, 0.2); color: var(--ai-accent);">
+            <button id="openGraphBtn" class="action-btn" style="width: 100%; justify-content: flex-start; margin-top: 6px; padding: 7px 15px; background: rgba(139, 92, 246, 0.1); border: 1px solid rgba(139, 92, 246, 0.2); color: var(--ai-accent);">
                 <span class="icon"><i class="fas fa-circle-nodes"></i></span> <span class="text" data-i18n="nav_nebula">Knowledge Nebula</span>
             </button>
         </div>
         
         <!-- 캘린더 및 히트맵 섹션 -->
         <div class="sidebar-section">
-            <div id="calendarHeader" class="section-title" style="cursor: pointer; display: flex; align-items: center; justify-content: space-between; padding: 10px 15px; border-radius: 8px; margin-top: 10px; transition: background 0.2s;">
+            <div id="calendarHeader" class="section-title" style="cursor: pointer; display: flex; align-items: center; justify-content: space-between; padding: 3px 10px; border-radius: 5px; margin-top: 1px; transition: background 0.2s;">
                 <span style="font-size: 0.9rem; font-weight: 600; color: var(--muted);"><span class="icon"><i class="fas fa-calendar-alt"></i></span> <span class="text" data-i18n="nav_calendar">Calendar</span></span>
                 <span id="calendarToggleIcon" style="font-size: 0.8rem; color: var(--muted);"><i class="fas fa-chevron-up"></i></span>
             </div>
@@ -38,7 +38,11 @@
         </div>
 
         <div class="sidebar-section">
-            <div id="heatmapContainer"></div>
+            <div id="heatmapHeader" class="section-title" style="cursor: pointer; display: flex; align-items: center; justify-content: space-between; padding: 3px 10px; border-radius: 5px; margin-top: 1px; transition: background 0.2s;">
+                <span style="font-size: 0.9rem; font-weight: 600; color: var(--muted);"><span class="icon"><i class="fas fa-fire"></i></span> <span class="text" data-i18n="label_heatmap_title">Knowledge Growth</span></span>
+                <span id="heatmapToggleIcon" style="font-size: 0.8rem; color: var(--muted);"><i class="fas fa-chevron-up"></i></span>
+            </div>
+            <div id="heatmapContainer" class="heatmap-content"></div>
         </div>
     </div>
 

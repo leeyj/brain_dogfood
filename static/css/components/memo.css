@@ -21,10 +21,11 @@
 /* Memo Card Styling */
 .memo-card {
     width: 100%; /* 부모 컬럼 너비에 맞춤 */
-    break-inside: avoid; background: rgba(30, 41, 59, 0.6);
-    border-radius: 12px; padding: 1.2rem 1.2rem 45px 1.2rem; border: 1px solid rgba(255,255,255,0.05);
+    break-inside: avoid; background: var(--card);
+    border-radius: 12px; padding: 1.2rem 1.2rem 45px 1.2rem; border: 1px solid rgba(128, 128, 128, 0.1);
     position: relative; transition: transform 0.2s, background 0.2s;
     max-height: 300px; overflow: hidden;
+    color: var(--text);
 }
 
 
@@ -49,9 +50,9 @@
 }
 
 
-.memo-card:hover { transform: translateY(-4px); background: rgba(30, 41, 59, 1); }
+.memo-card:hover { transform: translateY(-4px); box-shadow: 0 8px 25px -5px rgba(0,0,0,0.3); }
 
-.memo-card.compact { max-height: 80px; background: rgba(30, 41, 59, 0.3); border: 1px dashed rgba(255,255,255,0.1); }
+.memo-card.compact { max-height: 80px; background: var(--card); opacity: 0.8; border: 1px dashed rgba(128,128,128,0.2); }
 .memo-card.compact .memo-content, 
 .memo-card.compact .memo-ai-summary, 
 .memo-card.compact .memo-backlinks { display: none; }
@@ -68,14 +69,14 @@
     content: '';
     position: absolute;
     bottom: 0; left: 0; width: 100%; height: 60px;
-    background: linear-gradient(transparent, rgba(15, 23, 42, 0.8));
+    background: linear-gradient(transparent, var(--card));
     pointer-events: none;
     border-radius: 0 0 12px 12px;
 }
 
 /* Memo Content Elements */
-.memo-title { font-weight: 600; font-size: 1.0rem; margin-bottom: 0.5rem; }
-.memo-content { font-size: 0.9rem; color: #cbd5e1; line-height: 1.6; }
+.memo-title { font-weight: 600; font-size: 1.0rem; margin-bottom: 0.5rem; color: var(--text); }
+.memo-content { font-size: 0.9rem; color: var(--text); opacity: 0.9; line-height: 1.6; }
 .memo-content img { max-width: 100%; border-radius: 8px; margin-top: 5px; }
 
 .memo-summary, .memo-ai-summary {
@@ -104,7 +105,7 @@
 .group-badge { background: rgba(255,255,255,0.05); color: #cbd5e1; padding: 2px 8px; border-radius: 12px; font-size: 0.75rem; font-weight: bold; }
 
 /* Links & Actions */
-.memo-backlinks { margin-top: 12px; padding-top: 8px; border-top: 1px solid rgba(255,255,255,0.05); font-size: 0.8rem; color: var(--muted); }
+.memo-backlinks { margin-top: 12px; padding-top: 8px; border-top: 1px solid rgba(128,128,128,0.1); font-size: 0.8rem; color: var(--muted); }
 .link-item, .internal-link, .memo-content a { 
     color: #fbbf24; /* 고대비 Amber 색상 */
     cursor: pointer; 

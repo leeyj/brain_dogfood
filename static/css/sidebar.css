@@ -3,7 +3,7 @@
     height: 100vh;
     background: var(--sidebar); 
     backdrop-filter: blur(10px); 
-    border-right: 1px solid rgba(255,255,255,0.05); 
+    border-right: 1px solid rgba(128, 128, 128, 0.1); 
     padding: 2rem 1.2rem; 
     display: flex; 
     flex-direction: column;
@@ -30,7 +30,7 @@
 }
 
 .sidebar-content::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(128, 128, 128, 0.2);
     border-radius: 10px;
 }
 
@@ -54,7 +54,7 @@
     padding: 5px; border-radius: 4px; transition: background 0.2s, color 0.2s;
 }
 
-.sidebar-toggle:hover { background: rgba(255,255,255,0.05); color: var(--text); }
+.sidebar-toggle:hover { background: rgba(128, 128, 128, 0.08); color: var(--text); }
 
 /* Navigation List */
 .nav { list-style: none; display: flex; flex-direction: column; gap: 0; }
@@ -74,12 +74,12 @@
     border-top: 1px solid transparent;
 }
 
-.nav li:hover { background: rgba(255,255,255,0.05); color: var(--text); }
-.nav li.active { background: rgba(56, 189, 248, 0.15); color: var(--accent); }
+.nav li:hover { background: rgba(128, 128, 128, 0.08); color: var(--text); }
+.nav li.active { background: rgba(56, 189, 248, 0.12); color: var(--accent); border-left: 3px solid var(--accent); padding-left: calc(0.8rem - 3px); }
 
 /* Navigation Dividers */
 .nav li:not(.sub-item):not(:first-child) {
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    border-top: 1px solid rgba(128, 128, 128, 0.05);
     margin-top: 0.2rem;
     padding-top: 0.4rem;
 }
@@ -87,12 +87,13 @@
 .section-title { 
     font-size: 0.7rem; 
     font-weight: 800; 
-    color: rgba(255,255,255,0.25); 
-    margin: 0.8rem 0 0.2rem 0.8rem; 
+    color: var(--muted); 
+    opacity: 0.6;
+    margin: 0.5rem 0 0.2rem 0.8rem; 
     text-transform: uppercase; 
     letter-spacing: 0.05rem; 
     list-style: none; 
-    border-top: 1px solid rgba(255, 255, 255, 0.05); 
+    border-top: 1px solid rgba(128, 128, 128, 0.05); 
     padding-top: 0.5rem; 
 }
 
@@ -104,7 +105,7 @@
     gap: 8px;
     margin-top: auto;
     padding-top: 20px;
-    border-top: 1px solid rgba(255,255,255,0.05);
+    border-top: 1px solid rgba(128, 128, 128, 0.1);
 }
 
 .sidebar-footer .action-btn { flex: 1; padding: 10px !important; }

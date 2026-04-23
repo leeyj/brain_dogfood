@@ -40,7 +40,8 @@ function createIdBadge(memo, mode) {
     el.style.position = 'absolute';
     el.style.top = '10px';
     el.style.right = '12px';
-    el.style.color = 'rgba(255,255,255,0.15)';
+    el.style.color = 'var(--muted)';
+    el.style.opacity = '0.4';
     el.style.fontSize = '10px';
     el.style.fontWeight = '900';
     el.style.cursor = 'pointer';
