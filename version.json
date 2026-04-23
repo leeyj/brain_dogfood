@@ -9,13 +9,13 @@
             "changes": [
                 "GitHub 연동 지능형 업데이트 감지 및 알림 배지 시스템 도입",
                 "신규 변경 사항(Changelog) 확인 및 로그 뷰어 모달 구현",
-                "원클릭 Git Pull 기반 자동 업데이트 기능 지원 (설정 모달)",
+                "수동 업데이트 안내 시스템 강화 (Native/Docker 가이드)",
                 "구조화된 버전 관리 체계(version.json) 구축"
             ],
             "changes_en": [
                 "Intelligent Update Detection via GitHub integration with notification badges",
                 "New Changelog Viewer modal to review updates within the app",
-                "One-Click automated update via Git Pull integrated into Settings",
+                "Manual update guide implementation (Native/Docker instructions)",
                 "Structured versioning infrastructure (version.json) implemented"
             ]
         },

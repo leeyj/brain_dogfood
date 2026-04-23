@@ -72,7 +72,8 @@ export const VersionManager = {
 
         const modal = document.createElement('div');
         modal.id = 'updateModal';
-        modal.className = 'custom-modal-overlay';
+        modal.className = 'modal active';
+        modal.style.zIndex = '2000';
         
         const isEn = I18nManager.currentLang === 'en';
         const historyHtml = this.state.remoteHistory.map(h => {
@@ -92,40 +93,39 @@ export const VersionManager = {
         }).join('');
 
         modal.innerHTML = `
-            <div class="custom-modal help-modal-content" style="max-width: 600px; height: auto; max-height: 85vh;">
-                <div class="help-modal-header">
-                    <div class="help-modal-title">${I18nManager.t('update_title')}</div>
-                    <button class="help-close-btn">&times;</button>
-                </div>
+            <div class="modal-content glass-panel" style="max-width: 520px; padding: 30px; position: relative;">
+                <button class="close-modal-btn" id="closeUpdateModal">&times;</button>
                 
-                <div class="help-content-area" style="padding: 25px; overflow-y: auto;">
-                    <div class="update-status-box" style="display:flex; justify-content: space-around; background: rgba(255,255,255,0.05); padding: 15px; border-radius: 12px; margin-bottom: 20px;">
-                        <div style="text-align:center">
-                            <div style="font-size:0.8rem; color:var(--muted)">${I18nManager.t('update_current_version')}</div>
-                            <div style="font-size:1.2rem; font-weight:bold">${this.state.localVersion}</div>
-                        </div>
-                        <div style="display:flex; align-items:center; opacity:0.5">➔</div>
-                        <div style="text-align:center">
-                            <div style="font-size:0.8rem; color:var(--muted)">${I18nManager.t('update_latest_version')}</div>
-                            <div style="font-size:1.2rem; font-weight:bold; color:var(--primary)">${this.state.remoteVersion}</div>
-                        </div>
+                <h2 style="margin-bottom: 20px; font-weight: 800; background: linear-gradient(135deg, #38bdf8, #8b5cf6); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                    ${I18nManager.t('update_title')}
+                </h2>
+                
+                <div style="display:flex; justify-content: space-around; background: rgba(255,255,255,0.05); padding: 15px; border-radius: 12px; margin-bottom: 20px;">
+                    <div style="text-align:center">
+                        <div style="font-size:0.8rem; color:var(--muted)">${I18nManager.t('update_current_version')}</div>
+                        <div style="font-size:1.2rem; font-weight:bold">${this.state.localVersion}</div>
                     </div>
-
-                    <div style="margin-bottom: 20px;">
-                        <h4 style="margin-bottom: 12px; opacity:0.8;">${I18nManager.t('update_changelog_title')}</h4>
-                        <div class="changelog-container" style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px; font-size: 0.9rem; line-height: 1.6;">
-                            ${historyHtml || I18nManager.t('update_no_new')}
-                        </div>
+                    <div style="display:flex; align-items:center; opacity:0.5">➔</div>
+                    <div style="text-align:center">
+                        <div style="font-size:0.8rem; color:var(--muted)">${I18nManager.t('update_latest_version')}</div>
+                        <div style="font-size:1.2rem; font-weight:bold; color:var(--primary)">${this.state.remoteVersion}</div>
                     </div>
+                </div>
 
-                    <div style="margin-top: 25px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.1); text-align: center;">
-                        <p style="font-size: 0.85rem; color: var(--primary); margin-bottom: 10px; font-weight: bold;">
-                            <i class="fas fa-info-circle"></i> ${I18nManager.t('update_manual_notice')}
-                        </p>
-                        <div style="font-size: 0.8rem; opacity: 0.6; line-height: 1.4;">
-                            Native: git pull origin main<br>
-                            Docker: docker pull leeyj/brain:latest
-                        </div>
+                <div style="margin-bottom: 20px;">
+                    <h4 style="margin-bottom: 12px; opacity:0.8;">${I18nManager.t('update_changelog_title')}</h4>
+                    <div style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px; font-size: 0.9rem; line-height: 1.6; max-height: 300px; overflow-y: auto;">
+                        ${historyHtml || I18nManager.t('update_no_new')}
+                    </div>
+                </div>
+
+                <div style="padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.08); text-align: center;">
+                    <p style="font-size: 0.85rem; color: var(--primary); margin-bottom: 8px; font-weight: bold;">
+                        <i class="fas fa-info-circle"></i> ${I18nManager.t('update_manual_notice')}
+                    </p>
+                    <div style="font-size: 0.8rem; opacity: 0.6; line-height: 1.6;">
+                        Native: <code style="background:rgba(0,0,0,0.3); padding:2px 6px; border-radius:4px;">git pull origin main</code><br>
+                        Docker: <code style="background:rgba(0,0,0,0.3); padding:2px 6px; border-radius:4px;">docker pull leeyj/brain:latest</code>
                     </div>
                 </div>
             </div>
@@ -134,7 +134,7 @@ export const VersionManager = {
         document.body.appendChild(modal);
 
         // 이벤트 바인딩
-        modal.querySelector('.help-close-btn').onclick = () => modal.remove();
+        modal.querySelector('#closeUpdateModal').onclick = () => modal.remove();
         modal.onclick = (e) => { if (e.target === modal) modal.remove(); };
     }
 };
