@@ -34,11 +34,22 @@ export const ThemeManager = {
         const checkUpdateBtn = document.getElementById('checkUpdateBtn');
         if (checkUpdateBtn) {
             checkUpdateBtn.onclick = async () => {
-                const data = await VersionManager.checkUpdate();
-                if (data && data.has_update) {
-                    VersionManager.openUpdateModal();
-                } else {
-                    alert(I18nManager.t('update_no_new'));
+                const originalHtml = checkUpdateBtn.innerHTML;
+                checkUpdateBtn.disabled = true;
+                checkUpdateBtn.innerHTML = `<span class="spinner"></span> ${I18nManager.t('update_checking')}`;
+                
+                try {
+                    const data = await VersionManager.checkUpdate();
+                    if (data && data.has_update) {
+                        VersionManager.openUpdateModal();
+                    } else {
+                        alert(I18nManager.t('update_no_new'));
+                    }
+                } catch (err) {
+                    alert('Check failed: ' + err.message);
+                } finally {
+                    checkUpdateBtn.disabled = false;
+                    checkUpdateBtn.innerHTML = originalHtml;
                 }
             };
         }

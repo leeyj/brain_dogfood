@@ -17,6 +17,10 @@ export const VersionManager = {
             const localData = await API.fetchLocalVersion();
             this.state.localVersion = localData.version;
             
+            // 💡 버전 표시 DOM 업데이트 (ThemeManager보다 늦게 초기화될 경우 대비)
+            const verDisplay = document.getElementById('currentVerDisplay');
+            if (verDisplay) verDisplay.innerText = `v${this.state.localVersion}`;
+
             // 앱 구동 시 업데이트 체크 (자동)
             await this.checkUpdate();
         } catch (err) {
@@ -116,7 +120,7 @@ export const VersionManager = {
 
                     ${this.state.hasUpdate ? `
                         <button id="executeUpdateBtn" class="premium-btn" style="width:100%; padding: 12px; font-weight:bold;">
-                            ${I18nManager.t('update_btn')}
+                            ${I18nManager.t('update_check_btn')}
                         </button>
                     ` : ''}
                 </div>
