@@ -13,9 +13,31 @@
             <button type="button" id="foldBtn" class="action-btn" style="height:35px; width:35px; padding:0;" data-i18n-title="tooltip_fold">▲</button>
         </div>
 
-        <div class="meta-inputs" style="display: flex; gap: 10px; margin-bottom: 10px; align-items: center;">
-            <input type="text" id="memoGroup" data-i18n-placeholder="composer_group" class="meta-field" autocomplete="off" spellcheck="false" style="width: 120px;">
-            <input type="text" id="memoTags" data-i18n-placeholder="composer_tags" class="meta-field" autocomplete="off" spellcheck="false" style="flex: 1;">
+        <div class="meta-inputs" style="display: flex; gap: 10px; margin-bottom: 10px; align-items: center; flex-wrap: wrap;">
+            <input type="text" id="memoGroup" data-i18n-placeholder="composer_group" class="meta-field" autocomplete="off" spellcheck="false" style="width: 100px;">
+            <input type="text" id="memoTags" data-i18n-placeholder="composer_tags" class="meta-field" autocomplete="off" spellcheck="false" style="flex: 1; min-width: 150px;">
+            
+            <div class="meta-field-group" style="display: flex; align-items: center; gap: 8px; background: rgba(128,128,128,0.08); border: 1px solid var(--border); border-radius: 8px; padding: 0 10px; height: 34px; box-sizing: border-box;">
+                <i class="fas fa-calendar-check" style="font-size: 0.85rem; color: var(--muted); opacity: 0.8;"></i>
+                <input type="date" id="memoDueDate" class="meta-field" style="background: transparent; border: none; font-size: 0.85rem; color: var(--text); padding: 0; width: 115px; cursor: pointer; outline: none; -webkit-appearance: none;">
+                <style>
+                    /* 브라우저 기본 날짜 피커 아이콘 숨기기 (크롬/엣지) */
+                    #memoDueDate::-webkit-calendar-picker-indicator {
+                        background: transparent;
+                        bottom: 0;
+                        color: transparent;
+                        cursor: pointer;
+                        height: auto;
+                        left: 0;
+                        position: absolute;
+                        right: 0;
+                        top: 0;
+                        width: auto;
+                    }
+                    /* 파이어폭스용 등 추가 대응이 필요할 수 있으나 우선 크롬 계열 중심 */
+                </style>
+            </div>
+
             <button type="button" id="encryptionToggle" class="action-btn" data-i18n-title="composer_encrypt" style="height:34px; padding:0 10px;">🔓</button>
             <button type="button" id="attachBtn" class="action-btn" data-i18n-title="composer_attach_file" style="height:34px; padding:0 10px;">
                 📎 <span class="btn-label" data-i18n="composer_attach_label"></span>

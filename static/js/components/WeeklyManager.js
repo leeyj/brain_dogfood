@@ -64,21 +64,26 @@ export const WeeklyManager = {
                     </button>
                 </div>
                 <div class="wk-days">
-                    ${week.map(d => {
+                        ${week.map(d => {
                         const dateStr = this.formatDate(d);
                         const isToday = d.toDateString() === new Date().toDateString();
                         const isSelected = AppService.state.currentFilterDate === dateStr;
                         
                         let count = 0;
+                        let deadlineCount = 0;
                         if (window.HeatmapManager && window.HeatmapManager.data) {
                             const stats = window.HeatmapManager.data.find(item => item.date.split(' ')[0] === dateStr);
                             count = stats ? stats.count : 0;
+                            deadlineCount = stats ? stats.deadline_count : 0;
                         }
                         const level = this.calculateLevel(count);
                         
                         return `
                             <div class="wk-item ${isToday ? 'today' : ''} ${isSelected ? 'active' : ''}" data-date="${dateStr}">
-                                <span class="wk-label">${this.getDayLabel(d.getDay())}</span>
+                                <span class="wk-label">
+                                    ${this.getDayLabel(d.getDay())}
+                                    ${deadlineCount > 0 ? '<span class="wk-deadline-dot"></span>' : ''}
+                                </span>
                                 <span class="wk-number">${d.getDate()}</span>
                                 <div class="wk-activity">
                                     <div class="wk-dot lvl-${level}" data-count="${count}"></div>

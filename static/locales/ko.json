@@ -129,7 +129,8 @@
         "h2": "제목 2",
         "h3": "제목 3",
         "ai_summary": "AI 요약",
-        "ai_tags": "AI 태그 추출"
+        "ai_tags": "AI 태그 추출",
+        "deadline": "기한 설정"
     },
     "calendar_months": [
         "1월",

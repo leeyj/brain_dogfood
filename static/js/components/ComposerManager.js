@@ -30,7 +30,8 @@ export const ComposerManager = {
             deleteBtn: document.getElementById('deleteMemoBtn'), // NEW
             categoryBar: document.getElementById('composerCategoryBar'),
             attachBtn: document.getElementById('attachBtn'),
-            fileInput: document.getElementById('composerFileInput')
+            fileInput: document.getElementById('composerFileInput'),
+            dueDate: document.getElementById('memoDueDate')
         };
         
         if (!this.DOM.composer || !this.DOM.trigger) return;
@@ -141,6 +142,8 @@ export const ComposerManager = {
             this.setLocked(true, memo.tempPassword || '');
         }
 
+        if (this.DOM.dueDate) this.DOM.dueDate.value = memo.due_date || '';
+
         this.DOM.composer.style.display = 'block';
         this.DOM.trigger.style.display = 'none';
         if (this.DOM.deleteBtn) this.DOM.deleteBtn.style.display = 'block'; // 수정 시에만 보임
@@ -156,9 +159,9 @@ export const ComposerManager = {
             category: this.selectedCategory,
             status: this.isDoneStatus ? 'done' : 'active',
             tags: this.DOM.tags.value.split(',').map(t => t.trim()).filter(t => t),
-            is_encrypted: this.DOM.encryptionToggle.dataset.locked === 'true',
             password: this.DOM.password.value.trim(),
-            attachment_filenames: EditorManager.getAttachedFilenames()
+            attachment_filenames: EditorManager.getAttachedFilenames(),
+            due_date: this.DOM.dueDate ? this.DOM.dueDate.value : null
         };
 
         if (!data.title && !data.content) { this.close(); return; }
@@ -195,6 +198,7 @@ export const ComposerManager = {
         EditorManager.setMarkdown('');
         EditorManager.setAttachedFiles([]);
         this.setLocked(false);
+        if (this.DOM.dueDate) this.DOM.dueDate.value = '';
         this.renderCategoryChips();
     },
 
