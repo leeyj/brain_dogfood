@@ -26,6 +26,23 @@ export const ThemeManager = {
             this.initSystemThemeDetection(); 
         }
 
+        // 💡 버전 정보 표시 및 업데이트 버튼 연동
+        const { VersionManager } = await import('./VersionManager.js');
+        const verDisplay = document.getElementById('currentVerDisplay');
+        if (verDisplay) verDisplay.innerText = VersionManager.state.localVersion;
+
+        const checkUpdateBtn = document.getElementById('checkUpdateBtn');
+        if (checkUpdateBtn) {
+            checkUpdateBtn.onclick = async () => {
+                const data = await VersionManager.checkUpdate();
+                if (data && data.has_update) {
+                    VersionManager.openUpdateModal();
+                } else {
+                    alert(I18nManager.t('update_no_new'));
+                }
+            };
+        }
+
         // ... 나머지 모달 제어 로직 유지 (기존 코드와 동일)
         if (settingsBtn) {
             settingsBtn.onclick = () => {

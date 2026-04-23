@@ -185,5 +185,14 @@
     "sc_edit": "Instant Edit (Hover)",
     "sc_link": "Visual Link",
     "sc_close": "Close All",
-    "sc_help": "Help Modal"
+    "sc_help": "Help Modal",
+    "update_title": "🚀 System Update",
+    "update_current_version": "Current Version",
+    "update_latest_version": "Latest Version",
+    "update_available_msg": "A new version is available!",
+    "update_btn": "Update Now",
+    "update_checking": "Checking for updates...",
+    "update_success": "Update successful! Restart the server to apply.",
+    "update_changelog_title": "What's New",
+    "update_no_new": "You are using the latest version."
 }
