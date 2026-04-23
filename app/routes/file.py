@@ -77,10 +77,25 @@ def download_file_route(filename):
     row = c.fetchone()
     conn.close()
     
-    # 로그인된 상태라면 암호화된 메모의 파일이라도 본인 확인이 된 것으로 간주하고 허용
-    is_logged_in = session.get('logged_in') is True
+    # 외부 API 토큰 확인 (Authorization 헤더)
+    auth_header = request.headers.get('Authorization')
+    is_external_auth = False
+    if auth_header and auth_header.startswith('Bearer '):
+        token = auth_header.split(' ')[1]
+        config_path = os.path.join(os.getcwd(), 'config.json')
+        if os.path.exists(config_path):
+            import json
+            try:
+                with open(config_path, 'r', encoding='utf-8') as f:
+                    config = json.load(f)
+                    if config.get('external_api_token') == token:
+                        is_external_auth = True
+            except: pass
+
+    # 로그인 상태 또는 외부 API 인증 상태 확인
+    is_logged_in = (session.get('logged_in') is True) or is_external_auth
     
-    # 만약 메모가 암호화되어 있고, 로그인도 되어 있지 않다면 차단
+    # 만약 메모가 암호화되어 있고, 인증도 되어 있지 않다면 차단
     if row and row['is_encrypted'] and not is_logged_in:
         current_app.logger.warning(f"Access Denied: Unauthenticated access to encrypted file {filename}")
         return jsonify({'error': 'Access denied. Please login to view this attachment.'}), 403

@@ -10,7 +10,7 @@ import { TipsContent } from './help/TipsContent.js';
  */
 export class HelpModal {
     constructor() {
-        this.activeTab = 'shortcuts';
+        this.activeTab = 'guide';
         this.DOM = {
             modal: document.getElementById('shortcutModal'),
             body: null,
@@ -58,6 +58,11 @@ export class HelpModal {
         });
         
         this.DOM.content = document.getElementById('helpContentArea');
+        
+        // 초기 다국어 적용 (전체 프레임용)
+        if (I18nManager && I18nManager.applyTranslations) {
+            I18nManager.applyTranslations();
+        }
     }
 
     /**
@@ -76,6 +81,23 @@ export class HelpModal {
 
         // 콘텐츠 렌더링
         this.renderContent(tabId);
+        
+        // 모달 제목 업데이트
+        this.updateTitle(tabId);
+    }
+
+    /**
+     * 탭에 따른 모달 제목 업데이트
+     */
+    updateTitle(tabId) {
+        const titleSpan = this.DOM.modal.querySelector('.modal-header h2 span');
+        if (titleSpan) {
+            const titleKey = `title_${tabId}`;
+            titleSpan.setAttribute('data-i18n', titleKey);
+            if (I18nManager && I18nManager.t) {
+                titleSpan.textContent = I18nManager.t(titleKey);
+            }
+        }
     }
 
     /**
