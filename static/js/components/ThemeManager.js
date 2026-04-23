@@ -39,12 +39,8 @@ export const ThemeManager = {
                 checkUpdateBtn.innerHTML = `<span class="spinner"></span> ${I18nManager.t('update_checking')}`;
                 
                 try {
-                    const data = await VersionManager.checkUpdate();
-                    if (data && data.has_update) {
-                        VersionManager.openUpdateModal();
-                    } else {
-                        alert(I18nManager.t('update_no_new'));
-                    }
+                    await VersionManager.checkUpdate();
+                    VersionManager.openUpdateModal();
                 } catch (err) {
                     alert('Check failed: ' + err.message);
                 } finally {

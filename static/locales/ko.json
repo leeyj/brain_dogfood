@@ -198,5 +198,6 @@
     "update_checking": "확인 중...",
     "update_success": "업데이트 완료! 서버를 재시작하여 적용하세요.",
     "update_changelog_title": "신규 변경 사항",
-    "update_no_new": "최신 버전을 사용 중입니다."
+    "update_no_new": "최신 버전을 사용 중입니다.",
+    "update_manual_notice": "업데이트는 각 설치 환경에 맞춰 수동으로 진행해 주세요."
 }
