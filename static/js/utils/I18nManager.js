@@ -12,7 +12,7 @@ export const I18nManager = {
     async init(lang = 'en') {
         this.currentLang = lang;
         try {
-            const res = await fetch(`/static/locales/${lang}.json?v=2.2`);
+            const res = await fetch(`/static/locales/${lang}.json?v=2.3`);
             if (!res.ok) throw new Error(`Locale ${lang} not found`);
             this.localeData = await res.json();
             console.log(`🌐 i18n: Language [${lang}] loaded successfully.`);

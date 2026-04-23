@@ -53,13 +53,13 @@ export class SidebarUI {
 
         categories.forEach(cat => {
             const li = document.createElement('li');
-            li.className = (cat.id === activeCategory) ? 'active' : '';
-            li.style.borderLeft = `3px solid ${cat.color || 'transparent'}`;
+            li.className = (cat === activeCategory) ? 'active' : '';
+            li.dataset.tooltip = cat; // 접혔을 때 툴팁 내용
             li.innerHTML = `
-                <i class="fas fa-hashtag"></i> 
-                <span>${cat.name}</span>
+                <i class="fas fa-tag icon"></i> 
+                <span class="text">&lt; ${cat} &gt;</span>
             `;
-            li.onclick = () => onCategoryClick(cat.id);
+            li.onclick = () => onCategoryClick(cat);
             container.appendChild(li);
         });
     }

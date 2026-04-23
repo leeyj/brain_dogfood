@@ -21,8 +21,8 @@
 }
 
 .heatmap-select {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(128, 128, 128, 0.05);
+    border: 1px solid rgba(128, 128, 128, 0.15);
     color: var(--muted);
     font-size: 0.65rem;
     padding: 2px 4px;
@@ -66,7 +66,7 @@
     width: 10px;
     height: 10px;
     border-radius: 2px;
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(128, 128, 128, 0.1);
     transition: transform 0.2s, filter 0.2s;
 }
 
@@ -80,9 +80,9 @@
 .heatmap-cell.selected {
     transform: scale(1.4);
     z-index: 15;
-    outline: 2px solid white;
+    outline: 2px solid var(--accent);
     box-shadow: 0 0 10px var(--accent);
-    filter: brightness(1.5);
+    filter: brightness(1.1);
 }
 
 
@@ -92,7 +92,7 @@
 }
 
 /* Level Colors (Cyan to Purple Gradient) */
-.heatmap-cell.lvl-0 { background: rgba(255, 255, 255, 0.05); }
+.heatmap-cell.lvl-0 { background: rgba(128, 128, 128, 0.1); }
 .heatmap-cell.lvl-1 { background: rgba(56, 189, 248, 0.3); }
 .heatmap-cell.lvl-2 { background: rgba(56, 189, 248, 0.6); }
 .heatmap-cell.lvl-3 { background: rgba(56, 189, 248, 0.9); }

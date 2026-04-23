@@ -177,8 +177,66 @@ export const ThemeManager = {
             }
         });
 
+        // 6. 자동 대비 (Auto-Contrast) 반영
+        if (settings.card_color) {
+            const textColor = this.getContrastColor(settings.card_color);
+            const mutedColor = textColor === '#0f172a' ? '#64748b' : '#94a3b8';
+            document.documentElement.style.setProperty('--text', textColor);
+            document.documentElement.style.setProperty('--muted', mutedColor);
+            
+            // 에디터 테마 연동 (ToastUI)
+            const isDark = textColor !== '#0f172a';
+            this.updateEditorTheme(isDark);
+        }
+
         // 세션 체크 시작 (Heartbeat)
         import('../AppService.js').then(m => m.AppService.startSessionHeartbeat());
+    },
+
+    /**
+     * 배경색에 따른 최적의 텍스트 색상 반환
+     */
+    getContrastColor(colorStr) {
+        if (!colorStr) return '#f8fafc';
+        
+        let r, g, b;
+        if (colorStr.startsWith('#')) {
+            let hex = colorStr.replace('#', '');
+            if (hex.length === 3) hex = hex.split('').map(c => c + c).join('');
+            r = parseInt(hex.substring(0, 2), 16);
+            g = parseInt(hex.substring(2, 4), 16);
+            b = parseInt(hex.substring(4, 6), 16);
+        } else {
+            const parts = colorStr.match(/[\d.]+/g);
+            if (parts && parts.length >= 3) {
+                r = parseInt(parts[0]);
+                g = parseInt(parts[1]);
+                b = parseInt(parts[2]);
+            } else {
+                return '#f8fafc';
+            }
+        }
+
+        // YIQ Luma formula
+        const yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000;
+        return (yiq >= 128) ? '#0f172a' : '#f8fafc';
+    },
+
+    /**
+     * 에디터 테마 동적 전환 (필요 시)
+     */
+    updateEditorTheme(isDark) {
+        // 에디터가 로드된 상태라면 테마 변경 시도
+        import('../editor.js').then(({ EditorManager }) => {
+            if (EditorManager && EditorManager.editor) {
+                // ToastUI Editor는 초기화 시 테마가 결정되므로, 
+                // 실시간 전환은 어려울 수 있으나 클래스 조작 등으로 보정 가능여부 확인
+                const editorEl = document.querySelector('.toastui-editor-defaultUI');
+                if (editorEl) {
+                    editorEl.classList.toggle('toastui-editor-dark', isDark);
+                }
+            }
+        }).catch(() => {});
     },
 
     rgbaToHex(rgba) {

@@ -10,6 +10,7 @@ export const HeatmapManager = {
     currentRange: 365, // 기본 365일
     selectedDate: null,
     onDateSelect: null,
+    isCollapsed: false,
 
     init(containerId, onDateSelect) {
         this.container = document.getElementById(containerId);
@@ -20,10 +21,36 @@ export const HeatmapManager = {
             return;
         }
 
-        // 로컬스토리지에서 이전에 선택한 범위 복구
+        // 로컬스토리지에서 이전에 선택한 범위 및 접힘 상태 복구
         const savedRange = localStorage.getItem('heatmap_range');
         if (savedRange) {
             this.currentRange = parseInt(savedRange, 10);
+        }
+
+        this.isCollapsed = localStorage.getItem('heatmap_collapsed') === 'true';
+        this.bindHeaderToggle();
+        this.updateCollapseUI();
+    },
+
+    bindHeaderToggle() {
+        const header = document.getElementById('heatmapHeader');
+        if (header) {
+            header.onclick = () => {
+                this.isCollapsed = !this.isCollapsed;
+                localStorage.setItem('heatmap_collapsed', this.isCollapsed);
+                this.updateCollapseUI();
+            };
+        }
+    },
+
+    updateCollapseUI() {
+        const content = document.getElementById('heatmapContainer');
+        const icon = document.getElementById('heatmapToggleIcon');
+        if (content) {
+            content.classList.toggle('collapsed', this.isCollapsed);
+            if (icon) {
+                icon.innerHTML = this.isCollapsed ? '<i class="fas fa-chevron-down"></i>' : '<i class="fas fa-chevron-up"></i>';
+            }
         }
     },
 
@@ -73,15 +100,7 @@ export const HeatmapManager = {
         const labelMore = I18nManager.t('label_more');
 
         let html = `
-            <div class="heatmap-wrapper glass-panel">
-                <div class="heatmap-header">
-                    <span class="heatmap-title">${heatmapTitle}</span>
-                    <select id="heatmapRangeSelect" class="heatmap-select">
-                        ${Object.entries(rangeOptions).map(([val, label]) => `
-                            <option value="${val}" ${this.currentRange.toString() === val ? 'selected' : ''}>${label}</option>
-                        `).join('')}
-                    </select>
-                </div>
+            <div class="heatmap-wrapper glass-panel" style="padding: 10px;">
                 <div class="heatmap-grid" id="heatmapGrid">
         `;
 
@@ -121,14 +140,19 @@ export const HeatmapManager = {
 
         html += `
                 </div>
-                <div class="heatmap-legend">
-                    <span>${labelLess}</span>
-                    <div class="heatmap-cell lvl-0"></div>
-                    <div class="heatmap-cell lvl-1"></div>
-                    <div class="heatmap-cell lvl-2"></div>
-                    <div class="heatmap-cell lvl-3"></div>
-                    <div class="heatmap-cell lvl-4"></div>
-                    <span>${labelMore}</span>
+                <div class="heatmap-legend" style="margin-top: 8px; display: flex; align-items: center; gap: 4px;">
+                    <select id="heatmapRangeSelect" class="heatmap-select" style="margin-right: auto; padding: 1px 4px; font-size: 0.7rem; height: 20px; border-radius: 4px; background: rgba(128,128,128,0.1); border: 1px solid rgba(128,128,128,0.2); color: var(--muted); cursor: pointer;">
+                        ${Object.entries(rangeOptions).map(([val, label]) => `
+                            <option value="${val}" ${this.currentRange.toString() === val ? 'selected' : ''}>${label}</option>
+                        `).join('')}
+                    </select>
+                    <span style="font-size: 0.7rem; opacity: 0.7;">${labelLess}</span>
+                    <div class="heatmap-cell lvl-0" style="width: 8px; height: 8px;"></div>
+                    <div class="heatmap-cell lvl-1" style="width: 8px; height: 8px;"></div>
+                    <div class="heatmap-cell lvl-2" style="width: 8px; height: 8px;"></div>
+                    <div class="heatmap-cell lvl-3" style="width: 8px; height: 8px;"></div>
+                    <div class="heatmap-cell lvl-4" style="width: 8px; height: 8px;"></div>
+                    <span style="font-size: 0.7rem; opacity: 0.7;">${labelMore}</span>
                 </div>
             </div>
         `;

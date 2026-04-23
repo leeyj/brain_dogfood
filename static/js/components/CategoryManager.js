@@ -30,7 +30,9 @@ export const CategoryManager = {
         });
     },
 
-    open() {
+    async open() {
+        // 모달을 열 때 최신 설정을 서버에서 다시 불러옴
+        await ThemeManager.initSettings();
         this.render();
         this.DOM.modal.classList.add('active');
         this.DOM.input.focus();
@@ -85,6 +87,9 @@ export const CategoryManager = {
         }
 
         const settings = { ...ThemeManager.settings };
+        if (!settings.categories) settings.categories = [];
+        if (!settings.pinned_categories) settings.pinned_categories = [];
+
         if (settings.categories.includes(name)) {
             alert("Already exists");
             return;
@@ -103,6 +108,8 @@ export const CategoryManager = {
 
     async togglePin(cat) {
         const settings = { ...ThemeManager.settings };
+        if (!settings.pinned_categories) settings.pinned_categories = [];
+        
         const idx = settings.pinned_categories.indexOf(cat);
 
         if (idx > -1) {
