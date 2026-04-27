@@ -48,6 +48,9 @@ export function renderMemoCard(memo, handlers, options = {}) {
             const attachments = renderAttachmentBox(memo.attachments);
             if (attachments) card.appendChild(attachments);
         }
+
+        const backlinks = MemoCardParts.createBacklinks(memo);
+        if (backlinks) card.appendChild(backlinks);
     }
 
     if (showActions) {
@@ -75,6 +78,13 @@ function bindCommonEvents(card, memo, handlers) {
             e.preventDefault();
             e.stopPropagation();
             if (handlers.onToggleRelationFocus) handlers.onToggleRelationFocus(memo.id);
+            return;
+        }
+
+        if (memo.status === 'deleted') {
+            if (confirm(I18nManager.t('msg_restore_prompt') || '삭제된 메모입니다. 복원하시겠습니까?')) {
+                if (handlers.onRestore) handlers.onRestore(memo.id);
+            }
             return;
         }
 

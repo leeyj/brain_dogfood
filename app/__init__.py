@@ -82,10 +82,20 @@ def create_app():
     
     # Load config.json
     config_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'config.json'))
+    cfg = {}  # 기본값 설정
     if os.path.exists(config_path):
-        with open(config_path, 'r', encoding='utf-8') as f:
-            cfg = json.load(f)
-            app.config['UPLOAD_SECURITY'] = cfg.get('upload_security', {})
+        try:
+            with open(config_path, 'r', encoding='utf-8') as f:
+                cfg = json.load(f)
+                app.config['UPLOAD_SECURITY'] = cfg.get('upload_security', {})
+        except json.JSONDecodeError as e:
+            import sys
+            print("\n" + "!"*60)
+            print("❌ config.json 파일의 형식이 올바르지 않습니다 (JSON 문법 오류).")
+            print(f"   에러 위치: {e}")
+            print("   쉼표(,), 따옴표(\"), 중괄호({}) 등이 정확한지 확인해 주세요.")
+            print("!"*60 + "\n")
+            sys.exit(1)
     else:
         app.config['UPLOAD_SECURITY'] = {'allowed_extensions': [], 'blocked_extensions': []}
     
@@ -109,22 +119,35 @@ def create_app():
     
     @app.after_request
     def add_security_headers(response):
-        """보안 강화를 위한 HTTP 헤더 추가"""
+        """보안 강화를 위한 HTTP 헤더 추가 및 CORS 허용"""
         response.headers['X-Content-Type-Options'] = 'nosniff'
         response.headers['X-Frame-Options'] = 'SAMEORIGIN'
         response.headers['X-XSS-Protection'] = '1; mode=block'
+        
+        # --- 🌐 CORS 허용 (Obsidian 대응) ---
+        origin = request.headers.get('Origin')
+        if origin and (origin == 'app://obsidian.md' or 'localhost' in origin or '127.0.0.1' in origin):
+            response.headers['Access-Control-Allow-Origin'] = origin
+            response.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE, OPTIONS'
+            response.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization'
+            response.headers['Access-Control-Allow-Credentials'] = 'true'
+
         # Content Security Policy (Toast UI 및 외부 CDN 허용)
-        # 운영 환경에 맞춰 점진적으로 강화 가능
         csp = (
             "default-src 'self'; "
             "script-src 'self' 'unsafe-inline' https://uicdn.toast.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://static.cloudflareinsights.com https://d3js.org; "
             "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://uicdn.toast.com https://cdnjs.cloudflare.com; "
             "font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; "
             "img-src 'self' data: blob:; "
-            "connect-src 'self' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://cloudflareinsights.com https://d3js.org;"
+            "connect-src 'self' app://obsidian.md https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://cloudflareinsights.com https://d3js.org;"
         )
         response.headers['Content-Security-Policy'] = csp
         return response
+
+    # OPTIONS(Preflight) 요청 즉시 승인
+    @app.route('/<path:path>', methods=['OPTIONS'])
+    def handle_options(path):
+        return '', 200
 
     # Register modular blueprints
     from .routes import register_blueprints

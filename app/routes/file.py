@@ -6,6 +6,7 @@ from flask import Blueprint, request, jsonify, current_app, Response, send_from_
 from werkzeug.utils import secure_filename # type: ignore
 from urllib.parse import quote # type: ignore
 from ..database import get_db
+from ..models.queries import FileQueries
 from ..auth import login_required
 from ..security import encrypt_file, decrypt_file
 
@@ -44,10 +45,7 @@ def upload_file():
     # Record attachment in DB
     conn = get_db()
     c = conn.cursor()
-    c.execute('''
-        INSERT INTO attachments (filename, original_name, file_type, size, created_at)
-        VALUES (?, ?, ?, ?, ?)
-    ''', (filename, file.filename, ext, os.path.getsize(filepath), datetime.datetime.now().isoformat()))
+    c.execute(FileQueries.INSERT_ATTACHMENT, (filename, file.filename, ext, os.path.getsize(filepath), datetime.datetime.now().isoformat()))
     conn.commit()
     conn.close()
     
@@ -68,12 +66,7 @@ def download_file_route(filename):
     # Check security status of parent memo
     conn = get_db()
     c = conn.cursor()
-    c.execute('''
-        SELECT a.original_name, m.is_encrypted 
-        FROM attachments a 
-        LEFT JOIN memos m ON a.memo_id = m.id 
-        WHERE a.filename = ?
-    ''', (filename,))
+    c.execute(FileQueries.SELECT_ATTACHMENT_INFO, (filename,))
     row = c.fetchone()
     conn.close()
     
@@ -127,13 +120,7 @@ def get_assets():
     conn = get_db()
     c = conn.cursor()
     # Filter out files belonging to encrypted memos
-    c.execute('''
-        SELECT a.*, m.title as memo_title 
-        FROM attachments a 
-        LEFT JOIN memos m ON a.memo_id = m.id 
-        WHERE m.is_encrypted = 0 OR m.is_encrypted IS NULL
-        ORDER BY a.created_at DESC
-    ''')
+    c.execute(FileQueries.SELECT_ALL_ASSETS)
     assets = [dict(r) for r in c.fetchall()]
     conn.close()
     return jsonify(assets)
@@ -146,7 +133,7 @@ def delete_attachment_route(filename):
     conn = get_db()
     c = conn.cursor()
     # 파일 정보 확인
-    c.execute('SELECT id, memo_id FROM attachments WHERE filename = ?', (filename,))
+    c.execute(FileQueries.SELECT_ATTACHMENT_BY_FILENAME, (filename,))
     row = c.fetchone()
     
     if not row:
@@ -161,7 +148,7 @@ def delete_attachment_route(filename):
 
     try:
         # 1. DB 삭제
-        c.execute('DELETE FROM attachments WHERE filename = ?', (filename,))
+        c.execute(FileQueries.DELETE_ATTACHMENT_BY_FILENAME, (filename,))
         conn.commit()
         
         # 2. 물리 파일 삭제

@@ -65,8 +65,11 @@ export const HeatmapManager = {
     async refresh() {
         try {
             const { API } = await import('../api.js');
-            this.data = await API.fetchHeatmapData(this.currentRange);
+            this.data = await API.fetchHeatmapData(365);
             this.render();
+            
+            // 💡 데이터가 갱신되었음을 전역에 알림 (WeeklyManager 등에서 수신)
+            window.dispatchEvent(new CustomEvent('heatmapDataRefreshed', { detail: this.data }));
         } catch (error) {
             console.error('[Heatmap] Failed to fetch stats:', error);
         }

@@ -253,9 +253,32 @@ body.linker-active .copy-id-btn {
     transform: scale(0.98);
 }
 
-.memo-card {
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
-                opacity 0.3s ease, 
-                filter 0.3s ease, 
-                box-shadow 0.3s ease;
+/* 💡 삭제된 메모(휴지통) 스타일 */
+.memo-card.deleted {
+    opacity: 0.5;
+    filter: grayscale(1) blur(0.5px);
+    background: rgba(0, 0, 0, 0.15);
+    border: 1px dashed rgba(128, 128, 128, 0.3) !important;
+    pointer-events: auto; /* 액션 버튼 클릭은 허용 */
+}
+
+.memo-card.deleted:hover {
+    opacity: 0.8;
+    filter: grayscale(0.5);
+    transform: none; /* 삭제된 카드는 공중 부양 애니메이션 제외 */
+}
+
+.memo-card.deleted .memo-title {
+    text-decoration: line-through;
+    color: var(--muted);
+}
+
+.memo-card.deleted .memo-content,
+.memo-card.deleted .memo-meta,
+.memo-card.deleted .memo-summary {
+    opacity: 0.5;
+}
+
+.memo-card.deleted::after {
+    background: linear-gradient(transparent, rgba(30, 41, 59, 0.8)); /* 휴지통 배경에 맞춤 */
 }

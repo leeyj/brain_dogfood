@@ -13,6 +13,10 @@ export const MemoActionHandler = {
             },
             onEdit: async (id) => {
                 const memo = await API.fetchMemo(id);
+                if (memo && memo.status === 'deleted') {
+                    alert(I18nManager.t('msg_cannot_edit_deleted') || '삭제된 메모는 수정할 수 없습니다. 먼저 복원해 주세요.');
+                    return;
+                }
                 if (memo && memo.is_encrypted) {
                     const unlocked = AppService.state.unlockedMemos.get(String(id));
                     if (unlocked) {
@@ -23,16 +27,32 @@ export const MemoActionHandler = {
                 if (memo) ComposerManager.openForEdit(memo);
             },
             onDelete: async (id) => {
-                if (confirm(I18nManager.t('msg_delete_confirm'))) {
+                const memo = await API.fetchMemo(id);
+                const isDeleted = memo && memo.status === 'deleted';
+                
+                const confirmMsg = isDeleted 
+                    ? (I18nManager.t('msg_permanent_delete_confirm') || '이 메모를 영구적으로 삭제하시겠습니까? 다시 복구할 수 없습니다.')
+                    : I18nManager.t('msg_delete_confirm');
+
+                if (confirm(confirmMsg)) {
                     try {
-                        await API.deleteMemo(id);
+                        await API.deleteMemo(id, isDeleted); // isDeleted가 true이면 영구 삭제(permanent=true)
                         AppService.refreshData(updateSidebarCallback);
                     } catch (err) {
                         alert(err.message);
                     }
                 }
             },
+            onRestore: async (id) => {
+                try {
+                    await API.restoreMemo(id);
+                    AppService.refreshData(updateSidebarCallback);
+                } catch (err) { alert(err.message); }
+            },
             onAI: async (id) => {
+                const memo = await API.fetchMemo(id);
+                if (memo && memo.status === 'deleted') return; // 삭제된 메모는 AI 분석 차단
+                
                 UI.showLoading(true);
                 try {
                     await API.triggerAI(id);
@@ -42,11 +62,13 @@ export const MemoActionHandler = {
             },
             onTogglePin: async (id) => {
                 const memo = await API.fetchMemo(id);
+                if (memo && memo.status === 'deleted') return;
                 if(memo) await API.saveMemo({ is_pinned: !memo.is_pinned }, id);
                 AppService.refreshData(updateSidebarCallback);
             },
             onToggleStatus: async (id) => {
                 const memo = await API.fetchMemo(id);
+                if (memo && memo.status === 'deleted') return;
                 if(memo) {
                     const newStatus = memo.status === 'done' ? 'active' : 'done';
                     await API.saveMemo({ status: newStatus }, id);

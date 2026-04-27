@@ -1,6 +1,7 @@
 import datetime
-from flask import Blueprint, jsonify, current_app # type: ignore
+from flask import Blueprint, jsonify, current_app, request # type: ignore
 from ..database import get_db
+from ..models.queries import MemoQueries, AIQueries
 from ..auth import login_required
 from ..ai import analyze_memo
 from ..utils.i18n import _t
@@ -12,7 +13,7 @@ ai_bp = Blueprint('ai', __name__)
 def analyze_memo_route(memo_id):
     conn = get_db()
     c = conn.cursor()
-    c.execute('SELECT title, content, is_encrypted FROM memos WHERE id = ?', (memo_id,))
+    c.execute(MemoQueries.SELECT_BY_ID, (memo_id,))
     memo = c.fetchone()
     
     lang = request.args.get('lang', 'ko')
@@ -29,13 +30,13 @@ def analyze_memo_route(memo_id):
     summary, ai_tags = analyze_memo(memo['title'], memo['content'], lang=lang)
     
     try:
-        c.execute('UPDATE memos SET summary = ?, updated_at = ? WHERE id = ?', 
+        c.execute(AIQueries.UPDATE_SUMMARY, 
                   (summary, datetime.datetime.now().isoformat(), memo_id))
         
-        c.execute("DELETE FROM tags WHERE memo_id = ? AND source = 'ai'", (memo_id,))
+        c.execute(AIQueries.DELETE_AI_TAGS, (memo_id,))
         for tag in ai_tags:
             if tag.strip():
-                c.execute('INSERT INTO tags (memo_id, name, source) VALUES (?, ?, ?)', 
+                c.execute(MemoQueries.INSERT_TAG, 
                           (memo_id, tag.strip(), 'ai'))
         
         conn.commit()

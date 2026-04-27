@@ -52,7 +52,15 @@ export const MemoDetailModal = {
             ` : '<hr style="margin:15px 0; opacity:0.1">'}
 
             <div class="memo-content">${html}</div>
-            <div style="margin-top:20px; font-size:0.8rem; color:var(--muted)">${I18nManager.t('label_last_updated')}${lastUpdatedTime}</div>
+            <div style="margin-top:20px; display: flex; justify-content: space-between; align-items: center;">
+                <div style="font-size:0.8rem; color:var(--muted)">${I18nManager.t('label_last_updated')}${lastUpdatedTime}</div>
+                ${AppService.state.settings?.obsidian_export_enabled ? `
+                <a href="obsidian://brainsryo-pull?uuid=${memo.uuid}" 
+                   class="obsidian-bridge-btn" 
+                   style="font-size: 0.75rem; padding: 5px 10px; background: rgba(124, 58, 237, 0.2); color: #a78bfa; border: 1px solid rgba(124, 58, 237, 0.3); border-radius: 4px; text-decoration: none; display: flex; align-items: center; gap: 5px;">
+                    <i class="fa-solid fa-leaf"></i> Send to Obsidian
+                </a>` : ''}
+            </div>
         `;
 
         // 닫기 버튼 이벤트

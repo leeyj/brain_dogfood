@@ -1,5 +1,6 @@
 import os
 import sqlite3
+from .models.queries import SchemaQueries
 
 # Data directory relative to this file
 DB_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'data'))
@@ -10,81 +11,29 @@ def init_db():
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
     
-    # 1. Memos Table
-    c.execute('''
-        CREATE TABLE IF NOT EXISTS memos (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            title TEXT,
-            content TEXT,
-            summary TEXT,
-            color TEXT DEFAULT '#2c3e50',
-            is_pinned BOOLEAN DEFAULT 0,
-            status TEXT DEFAULT 'active', -- 'active', 'done', 'archived'
-            group_name TEXT DEFAULT 'default',
-            is_encrypted BOOLEAN DEFAULT 0,
-            category TEXT,
-            due_date TEXT,
-            created_at TIMESTAMP,
-            updated_at TIMESTAMP
-        )
-    ''')
+    # 테이블 생성 (SchemaQueries 활용)
+    c.execute(SchemaQueries.CREATE_MEMOS_TABLE)
+    c.execute(SchemaQueries.CREATE_TAGS_TABLE)
+    c.execute(SchemaQueries.CREATE_ATTACHMENTS_TABLE)
+    c.execute(SchemaQueries.CREATE_LINKS_TABLE)
     
-    try:
-        c.execute("ALTER TABLE memos ADD COLUMN status TEXT DEFAULT 'active'")
-    except sqlite3.OperationalError:
-        pass
+    # 마이그레이션 및 컬럼 추가 처리
+    for query, error_type in SchemaQueries.MIGRATIONS:
+        try:
+            c.execute(query)
+        except getattr(sqlite3, error_type):
+            pass
     
-    try:
-        c.execute("ALTER TABLE memos ADD COLUMN is_encrypted BOOLEAN DEFAULT 0")
-    except sqlite3.OperationalError:
-        pass
-
-    try:
-        c.execute("ALTER TABLE memos ADD COLUMN category TEXT")
-    except sqlite3.OperationalError:
-        pass
-
-    try:
-        c.execute("ALTER TABLE memos ADD COLUMN due_date TEXT")
-    except sqlite3.OperationalError:
-        pass
-
     
-    # 2. Separate Tags Table (Normalized)
-    c.execute('''
-        CREATE TABLE IF NOT EXISTS tags (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            memo_id INTEGER,
-            name TEXT,
-            source TEXT, -- 'user' or 'ai'
-            FOREIGN KEY (memo_id) REFERENCES memos (id) ON DELETE CASCADE
-        )
-    ''')
 
-    # 3. Attachments Table (Enhanced Asset Tracking)
-    c.execute('''
-        CREATE TABLE IF NOT EXISTS attachments (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            memo_id INTEGER,
-            filename TEXT,
-            original_name TEXT,
-            file_type TEXT,
-            size INTEGER,
-            created_at TIMESTAMP,
-            FOREIGN KEY (memo_id) REFERENCES memos (id) ON DELETE SET NULL
-        )
-    ''')
-    
-    # 4. Memo Links Table (Backlinks)
-    c.execute('''
-        CREATE TABLE IF NOT EXISTS memo_links (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            source_id INTEGER,
-            target_id INTEGER,
-            FOREIGN KEY (source_id) REFERENCES memos (id) ON DELETE CASCADE,
-            FOREIGN KEY (target_id) REFERENCES memos (id) ON DELETE CASCADE
-        )
-    ''')
+    # UUID 자동 보정 로직 (기존 데이터 대응)
+    import uuid
+    c.execute("SELECT id FROM memos WHERE uuid IS NULL")
+    rows = c.fetchall()
+    if rows:
+        for row in rows:
+            new_uuid = str(uuid.uuid4())
+            c.execute("UPDATE memos SET uuid = ? WHERE id = ?", (new_uuid, row[0]))
     
     conn.commit()
     conn.close()

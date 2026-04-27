@@ -18,26 +18,24 @@ export const CalendarManager = {
         // 브라우저 저장소에서 접힘 상태 복구
         this.isCollapsed = localStorage.getItem('calendar_collapsed') === 'true';
         
+        // 📊 히트맵 데이터 연동 (중복 요청 방지)
+        window.addEventListener('heatmapDataRefreshed', (e) => {
+            const stats = e.detail;
+            this.memoDates.clear();
+            stats.forEach(stat => {
+                if (stat.count > 0) this.memoDates.add(stat.date);
+            });
+            this.render();
+        });
+
         this.bindEvents(); // 이벤트 먼저 바인딩
         this.updateCollapseUI();
         this.render();
     },
 
     async refresh() {
-        try {
-            const { API } = await import('../api.js');
-            // 달력은 해당 월의 점을 찍기 위해 기본적으로 최근 365일을 가져옴
-            const stats = await API.fetchHeatmapData(365);
-            this.memoDates.clear();
-            stats.forEach(stat => {
-                if (stat.count > 0) {
-                    this.memoDates.add(stat.date);
-                }
-            });
-            this.render();
-        } catch (error) {
-            console.error('[Calendar] Failed to fetch dates:', error);
-        }
+        // 이제 히트맵 데이터 갱신 시 이벤트로 자동 처리되므로 직접 fetch 하지 않음
+        console.log('[Calendar] Refresh triggered (handled by heatmap event)');
     },
 
     setSelectedDate(date) {
