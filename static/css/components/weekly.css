@@ -1,75 +1,89 @@
 /* 
-   Weekly Calendar Isolated Styles (v4.1)
+   Weekly Calendar Isolated Styles (v4.2)
    - Namespace: wk-*
-   - Fix: Sizing and Width Issues
+   - Theme: Premium Glassmorphism & Micro-interactions
 */
 
 /* 외부 감싸는 컨테이너 */
 .weekly-container {
-    margin-bottom: 15px; /* 외부 여백 축소 */
+    margin-bottom: 15px;
 }
 
 .wk-container {
-    background: var(--bg-card);
-    border-bottom: 1px solid var(--border);
-    padding: 6px 14px; /* 상하 패딩 대폭 축소 */
-    border-radius: 16px;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+    background: rgba(var(--bg-card-rgb, 30, 30, 35), 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 8px 14px;
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
     box-sizing: border-box;
     width: 100%;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.wk-container:hover {
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
 }
 
 /* ⚠️ 모든 외부 스타일 간섭 차단 */
 .wk-container *, .wk-container *::after, .wk-container *::before {
     box-sizing: border-box;
-    content: none !important;
 }
 
 .wk-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 6px; /* 헤더 간격 축소 */
+    margin-bottom: 8px;
     width: 100%;
 }
 
 .wk-nav-group {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
     flex: 1;
     justify-content: center;
 }
 
 .wk-info {
-    font-size: 1rem; /* 폰트 축소 */
+    font-size: 0.95rem;
     font-weight: 700;
     color: var(--text-main);
     white-space: nowrap;
-    min-width: 100px;
+    min-width: 110px;
     text-align: center;
+    letter-spacing: -0.5px;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.wk-info:hover {
+    color: var(--accent);
 }
 
 .wk-nav-btn, .wk-full-btn {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid var(--border);
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     color: var(--text-muted);
     cursor: pointer;
-    border-radius: 10px;
+    border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.wk-nav-btn { width: 28px; height: 28px; font-size: 0.8rem; }
-.wk-full-btn { padding: 4px 12px; font-size: 0.8rem; font-weight: 700; gap: 6px; }
+.wk-nav-btn { width: 32px; height: 32px; font-size: 0.75rem; }
+.wk-full-btn { padding: 6px 14px; font-size: 0.8rem; font-weight: 700; gap: 8px; }
 
 .wk-nav-btn:hover, .wk-full-btn:hover, .wk-full-btn.active {
     background: var(--accent);
     color: white;
     border-color: var(--accent);
     transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(var(--accent-rgb), 0.3);
 }
 
 .wk-days {
@@ -79,10 +93,9 @@
     justify-content: stretch !important;
     gap: 0 !important;
     width: 100%;
-    border: 1px solid rgba(255, 255, 255, 0.08); /* 더 은은한 테두리 */
-    border-radius: 12px;
-    overflow: hidden;
-    background: rgba(255, 255, 255, 0.02); /* 미세한 배경색 */
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 14px;
+    background: rgba(0, 0, 0, 0.2);
 }
 
 .wk-item {
@@ -90,10 +103,10 @@
     display: flex !important;
     flex-direction: column;
     align-items: center;
-    padding: 8px 5px 6px; /* 패딩 축소 */
+    padding: 10px 5px 8px;
     cursor: pointer;
-    transition: all 0.2s ease;
-    border-right: 1px solid rgba(255, 255, 255, 0.08);
+    transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+    border-right: 1px solid rgba(255, 255, 255, 0.05);
     background: transparent;
     position: relative;
     box-sizing: border-box;
@@ -104,36 +117,48 @@
 }
 
 .wk-item:hover {
-    background: rgba(255, 255, 255, 0.05);
-    transform: translateY(-3px);
+    background: rgba(var(--accent-rgb), 0.1);
+    transform: translateY(-4px);
+    z-index: 2;
 }
 
 .wk-item.today {
-    background: rgba(var(--accent-rgb), 0.12);
-    /* border-color 제거하여 격자선 유지 */
+    background: rgba(var(--accent-rgb), 0.08);
+}
+
+.wk-item.today::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--accent);
+    opacity: 0.5;
 }
 
 .wk-item.active {
-    background: rgba(255, 255, 255, 0.08) !important;
+    background: rgba(var(--accent-rgb), 0.15) !important;
     color: var(--accent) !important;
     font-weight: bold;
-    box-shadow: inset 0 -3px 0 0 var(--accent) !important; /* 하단 포인트 선 */
-    z-index: 1;
+    box-shadow: inset 0 -3px 0 0 var(--accent) !important;
+    z-index: 3;
 }
 
 .wk-item.active .wk-number {
-    color: white; /* 숫자는 여전히 잘 보이게 */
-    transform: scale(1.1);
-    transition: transform 0.2s ease;
+    color: var(--text-main);
+    transform: scale(1.15);
 }
 
 .wk-label {
-    font-size: 0.7rem; /* 폰트 축소 */
+    font-size: 0.65rem;
     color: var(--text-muted);
-    margin-bottom: 2px;
-    font-weight: 600;
+    margin-bottom: 4px;
+    font-weight: 700;
     position: relative;
     display: inline-block;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .wk-item.active .wk-label {
@@ -141,13 +166,14 @@
 }
 
 .wk-number {
-    font-size: 1.1rem; /* 숫자 축소 */
+    font-size: 1.1rem;
     font-weight: 800;
+    transition: transform 0.3s ease;
 }
 
 .wk-activity {
-    margin-top: 4px;
-    height: 8px;
+    margin-top: 6px;
+    height: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -155,59 +181,59 @@
 }
 
 .wk-dot {
-    width: 8px; /* 도트 축소 */
+    width: 8px;
     height: 8px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.1);
-    transition: all 0.2s ease;
-    position: static !important;
-    bottom: auto !important;
-    left: auto !important;
-    transform: none !important;
-    box-shadow: none !important;
+    background: rgba(255, 255, 255, 0.05);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-/* 히트맵 레벨 색상 (Heatmap과 동일한 블루~퍼플 체계) */
+.wk-item:hover .wk-dot {
+    transform: scale(1.3);
+}
+
+/* 히트맵 레벨 색상 (더 선명하고 일관성 있게 조절) */
 .wk-dot.lvl-0 { background: rgba(255, 255, 255, 0.05); }
-.wk-dot.lvl-1 { background: rgba(56, 189, 248, 0.3) !important; }
-.wk-dot.lvl-2 { background: rgba(56, 189, 248, 0.6) !important; }
-.wk-dot.lvl-3 { background: rgba(56, 189, 248, 0.9) !important; }
+.wk-dot.lvl-1 { background: #38bdf84d !important; }
+.wk-dot.lvl-2 { background: #38bdf899 !important; }
+.wk-dot.lvl-3 { background: #38bdf8e6 !important; }
 .wk-dot.lvl-4 { 
     background: var(--ai-accent) !important; 
-    box-shadow: 0 0 8px var(--ai-accent) !important; /* 최고 레벨 강조 */
+    box-shadow: 0 0 10px var(--ai-accent) !important;
 }
 
 .wk-item.active .wk-dot {
-    background: white !important;
-    transform: scale(1.1);
+    background: var(--accent) !important;
+    box-shadow: 0 0 8px var(--accent);
 }
 
 /* 🚩 마감일 레드 배지 (요일 옆) */
 .wk-deadline-dot {
     position: absolute;
-    top: 1px;
-    right: -8px; /* 요일 글자 바로 오른쪽 */
-    width: 5px;
-    height: 5px;
+    top: -1px;
+    right: -8px;
+    width: 6px;
+    height: 6px;
     background: #ff4d4d;
     border-radius: 50%;
-    box-shadow: 0 0 6px rgba(255, 77, 77, 0.9);
+    box-shadow: 0 0 8px rgba(255, 77, 77, 0.8);
     z-index: 5;
     animation: wk-pulse 2s infinite;
 }
 
 @keyframes wk-pulse {
     0% { transform: scale(1); opacity: 1; }
-    50% { transform: scale(1.5); opacity: 0.6; }
+    50% { transform: scale(1.4); opacity: 0.5; }
     100% { transform: scale(1); opacity: 1; }
 }
 
 /* 모바일 대응 */
 @media (max-width: 768px) {
-    .wk-container { padding: 12px 10px; }
-    .wk-days { gap: 4px; }
-    .wk-item { padding: 10px 0; }
-    .wk-number { font-size: 1rem; }
-    .wk-dot { width: 10px; height: 10px; }
-    .wk-deadline-dot { top: 6px; right: 6px; width: 4px; height: 4px; }
+    .wk-container { padding: 10px 8px; }
+    .wk-days { border-radius: 10px; }
+    .wk-item { padding: 8px 2px; }
+    .wk-number { font-size: 0.95rem; }
+    .wk-info { font-size: 0.85rem; min-width: 90px; }
+    .wk-nav-btn { width: 28px; height: 28px; }
+    .wk-full-btn { padding: 5px 10px; font-size: 0.75rem; }
 }

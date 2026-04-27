@@ -25,87 +25,38 @@
 
 <h2 id="한국어">📄 프로젝트 소개</h2>
 
-**뇌사료(Brain Dogfood)**는 "내가 만든 지식은 내가 먼저 소비한다"는 철학에서 시작된 개인용 메모 서버입니다. 단순한 텍스트 기록을 넘어, AI가 당신의 지식을 분석하고 유기적인 그래프(Nebula)로 연결하여 새로운 통찰을 제공합니다.
+**뇌사료(Brain Dogfood)**는 "내가 만든 지식은 내가 먼저 소비한다"는 철학에서 시작된 개인용 지능형 지식 관리 서버입니다. 단순한 기록을 넘어, AI가 당신의 지식을 분석하고 유기적인 그래프(Nebula)로 연결하며, 주간 단위의 복기를 통해 파편화된 정보를 살아있는 지능체로 진화시킵니다.
 
-또한 사용자의 정보를 절대 해독할 수 없는 암호화 방식을 지원합니다. **"모든 데이터는 유출될 수 있다. 하지만 내 머리속의 패스워드는 절대 유출될 수 없다"** 라는 신념으로, 설사 데이터가 통째로 유출당해도 '개별 암호화'된 데이터와 첨부파일은 사용자가 설정한 비밀번호 없이는 현대의 기술력으로 해독이 불가능합니다.
+또한 사용자의 정보를 절대 해독할 수 없는 **'개별 암호화'** 방식을 지원합니다. **"데이터는 유출될 수 있어도, 내 머릿속의 패스워드는 유출될 수 없다"**는 신념 아래, 설사 서버 데이터가 통째로 탈취당해도 사용자가 설정한 비밀번호 없이는 현대의 기술력으로 해독이 불가능한 강력한 보안을 제공합니다.
 
-### ✨ 독보적인 강점
+### ✨ v8.1+ 독보적인 강점
 
-*   **지능형 지식 네트워크 (Nebula & Visual Linker)**: 단순한 기록을 넘어, D3.js 기반의 '지식 성단' 시각화와 **시각적 와이어링(Alt+클릭)** 기능을 통해 파편화된 정보를 유기적인 지능체로 연결하세요. 인간의 사고 흐름을 물리적인 선으로 가시화하는 혁신적인 UX를 제공합니다.
-*   **관계 포커스 모드 (Relation Focus Mode)**: `Ctrl + Alt + 클릭` 한 번으로 특정 메모와 연결된 모든 지식을 하이라이트하고 화살표로 연결하세요. 그리드 뷰에서도 지식의 맥락을 잃지 않고 탐색할 수 있습니다.
-*   **지식 허브 & 무제한 다중 연결 (N:N Multi-Link)**: 하나의 메모를 수백 개의 아이디어와 잇는 '지식 허브(Hub)'를 구축하세요. AI의 기계적 연결이 아닌, 사람의 의도적인 큐레이션으로 기억의 지도를 완성합니다.
-*   **Privacy-First Security**: 메모별로 개별 암호화를 지원하여 절대적인 보안을 보장합니다. 서버 관리자조차도 당신의 마스터 비밀번호 없이는 지식을 엿볼 수 없습니다.
-*   **High-End UX & Aesthetics**: 글래스모피즘 기반의 모던한 UI와 하이엔드 셰이더 효과, 빠른 생산성을 위한 풍부한 단축키 및 슬래시 명령어를 제공합니다.
+*   **주간 지식 복기 & 활동량 연동 (Weekly Insight)**: 단순 보관이 아닌 '복기'에 최적화된 인터페이스. 주간 선택기와 활동량 도트(Heatmap Dots)를 통해 이번 주의 지식 성장 흐름을 한눈에 파악하세요.
+*   **지능형 지식 네트워크 (Nebula & Visual Linker)**: D3.js 기반의 '지식 성단' 시각화와 **시각적 와이어링(Alt+드래그)** 기능을 통해 아이디어 간의 맥락을 물리적인 선으로 가시화합니다.
+*   **관계 포커스 모드 (Relation Focus Mode)**: `Ctrl + Alt + 클릭` 한 번으로 특정 메모와 연결된 모든 지식을 하이라이트하고 화살표로 연결하여 복잡한 지식망 속에서 맥락을 잃지 않게 돕습니다.
+*   **하이엔드 UX & 글래스모피즘**: 현대적인 **글래스모피즘(Glassmorphism)** UI와 부드러운 마이크로 애니메이션을 적용하여 프리미엄한 사용 경험을 제공합니다.
+*   **Privacy-First Security**: 메모별 개별 AES-256 암호화를 지원하여 관리자조차 엿볼 수 없는 절대적인 보안을 보장합니다.
 
 ---
 
-### 🛠️ 패치 노트 (2026-04-24) - v8.1 (Update Notification)
-*   **[신규 기능] 지능형 업데이트 알림 시스템**:
-    *   GitHub 저장소와 연동하여 최신 버전을 자동으로 감지하고 사이드바에 알림 배지 표시.
-    *   **업데이트 로그 모달**: 신규 변경 사항(Changelog)을 UI에서 즉시 확인 가능.
-    *   **원클릭 업데이트**: `git pull`을 통한 자동 업데이트 기능 구현 (설정 모달 내).
-*   **[데이터] 버전 관리 체계 구축**:
-    *   `version.json`을 통한 구조화된 버전 정보 및 히스토리 관리 도입.
+### 🛠️ 최신 패치 노트 (2026-04-27) - v8.2.0 (Expanded External API & Modularization)
+*   **외부 API 모듈화**: `external/` 패키지 구조 도입 및 기능별 모듈 분리로 유지보수성 향상.
+*   **통합 테스트 환경 강화**: 고도화된 외부 API 검증 스크립트(`test_external_api.py`) 및 `APITester` 도입.
+*   **휴지통 관리 고도화**: 삭제된 메모 전용 UI(Grayscale/Blur) 및 복원/영구삭제 기능 구현.
+*   **옵시디언 연동 제어**: `config.json` 설정을 통한 내보내기 버튼 활성화/비활성화 기능 추가.
+*   **시스템 안정성 개선**: `config.json` 문법 오류 감지 강화 및 프론트엔드 상태 참조 안전장치 적용.
+*   **버그 수정**: 메모 카드 내 누락되었던 백링크(언급됨) 렌더링 복구.
 
-### 🛠️ 패치 노트 (2026-04-23) - v8.0 (Premium Help Revamp)
-*   **[신규 기능] 프리미엄 도움말 시스템 개편**:
-    *   `도움말_원본.xml`에서 추출한 16개의 고해상도 가이드 이미지와 상세 설명을 통합 가이드로 재구성.
-    *   **글래스모피즘(Glassmorphism)** 테마와 애니메이션 카드를 적용한 현대적인 도움말 UI 구축.
-    *   도움말 모달 내 **탭 시스템(가이드, 단축키, 팁)** 고도화 및 다국어(KO/EN) 완전 지원.
-*   **[UI/UX] 레이아웃 안정성 강화**:
-    *   **Sticky Tabs**: 가이드 내용이 길어지더라도 하단 탭 바가 항상 고정되어 보이도록 Flexbox 기반 레이아웃 최적화.
-    *   **Dynamic Title**: 활성 탭에 따라 모달 헤더의 제목이 실시간으로 업데이트되는 지능형 UI 적용.
-*   **[문서화] 유지보수 가이드라인 구축**:
-    *   `docs/help_update_guide.md` 추가: 향후 도움말 업데이트 및 이미지 추출 자동화 프로세스 명시.
-*   **[최적화] 캐시 방지 시스템**: 콘텐츠 호출 시 버전 관리를 통해 변경 사항이 즉시 반영되도록 조치.
+### 🛠️ 패치 노트 (2026-04-24) - v8.1.0 (Update Notification System)
+*   **GitHub 연동 지능형 업데이트 감지** 및 알림 배지 시스템 도입.
+*   **신규 변경 사항(Changelog) 확인** 및 로그 뷰어 모달 구현.
+*   **수동 업데이트 안내 시스템 강화** (Native/Docker 가이드).
+*   **구조화된 버전 관리 체계**(`version.json`) 구축.
 
-### 🛠️ 패치 노트 (2026-04-23) - v7.0 (Deadline & Compact Update)
-*   **[신규 기능] 통합 기한 관리 시스템 (Deadline Management)**:
-    *   메모 작성 시 마감일(`due_date`) 지정 기능 추가 및 DB 연동.
-    *   슬래시 명령어(`/기한`)를 통한 퀵 데이트 피커 호출 지원.
-    *   메모 카드에 D-Day 배지 및 상태별(여유/임박/도과) 테두리 색상 강조 적용.
-*   **[UI/UX] 주간 달력 고도화 및 플래너 기능**:
-    *   마감일이 있는 날짜에 **레드 펄스 배지(Red Pulse Dot)** 표시로 시각적 인지력 강화.
-    *   달력에서 미래 날짜 클릭 시 해당 날짜 마감 메모를 필터링하여 보여주는 '플래너' 기능 구현.
-    *   노트북 환경을 위한 **울트라 콤팩트(Ultra Compact)** 레이아웃 적용 (공간 점유율 약 40% 축소).
-*   **[아키텍처] 대규모 리팩토링 및 모듈화**:
-    *   `MemoCard.js` 슬림화: `DeadlineManager.js` 및 `MemoCardParts.js`로 UI 구성 요소와 로직 분리.
-    *   `SlashCommand.js` 슬림화: `SlashRegistry.js` 도입으로 명령어 정의와 엔진 로직 분리.
-*   **[버그 수정]**: 슬래시 명령어 실행 후 `/` 문자가 남는 잔상 버그 해결 (Range API 기반 삭제 로직 도입).
-
-### 🛠️ 패치 노트 (2026-04-23) - v6.0 (Relation Insight Update)
-
-*   **비주얼 노드 링커 (Visual Node Linker)**: `#ID` 배지를 `Alt + 클릭` 드래그하여 지식과 지식을 선으로 잇는 '와이어링'을 수행하세요. 지식의 선후 맥락을 가장 직관적으로 설계하는 방식입니다.
-*   **멀티링크 에코시스템 (Multi-Link Ecosystem)**: 한 메모 내에 여러 지식 링크(`[[#ID]]`)를 삽입하여 거대한 지식 클러스터를 형성할 수 있습니다.
-*   **고속 워크플로우 (Instant Edit)**: 메모 카드 위에 마우스를 올리고 `e`를 누르면 즉시 수정 모드 진입. 모달 클릭의 피로감을 제로로 만듭니다.
-*   **드래그 앤 드롭 링크**: 메모 카드를 작성기(Composer)로 드래그하여 즉시 참조 링크를 삽입하세요.
-
-### 🛠️ 패치 노트 (2026-04-23) - v6.0 (Relation Insight Update)
-*   **[신규 기능] 관계 포커스 모드 (Relation Focus Mode) 도입**:
-    *   `Ctrl + Alt + 클릭` 시 선택한 메모와 상호 참조(`[[#ID]]`) 관계에 있는 메모들만 하이라이트하고 나머지는 블러 처리하는 기능 추가.
-    *   **SVG 화살표 시각화**: 카드 간의 방향성(나가는 링크/들어오는 링크)을 외곽선 기반 화살표로 연결하여 지식의 흐름을 가시화.
-    *   스크롤 및 리사이즈 시 실시간 좌표 재계산으로 안정적인 시각 피드백 제공.
-*   **[UX 개선] 통합 도움말 업데이트**:
-    *   도움말 모달 내 단축키 리스트에 관계 포커스 모드(`Ctrl+Alt+Click`) 정보 추가 및 다국어 반영.
-
-### 🛠️ 패치 노트 (2026-04-22) - v5.0 (Weekly Review & Layout Update)
-*   **[UI 혁신] 메인 영역 슬롯화 및 레이아웃 엔진 도입**:
-    *   `LayoutManager`를 통해 그리드 뷰와 리스트 뷰를 실시간 전환 가능. 메인 콘텐츠 영역을 동적 슬롯으로 분리하여 확장성 확보.
-*   **[신규 기능] 주간 매니저 (Weekly View)**:
-    *   검색창 하단에 "일~토" 주간 선택기 배치. 특정 날짜 필터링 및 **주간 전체 모아보기(Toggle)** 기능으로 실무적 활용도 극대화.
-*   **[신규 기능] 고밀도 리스트 레이아웃**:
-    *   제목, 태그, 날짜를 가로 한 줄에 배치하여 대량의 지식을 빠르게 훑을 수 있는 모드 추가.
-*   **[로직 개선] 지능형 필터 및 API 최적화**:
-    *   사이드바 그룹 이동 시 날짜 필터 자동 초기화. API 호출 시 `null` 값 처리 버그 해결 및 날짜 범위(`BETWEEN`) 검색 지원.
-*   **[UX 개선] 자동 완성 방지 및 시각적 보정**:
-    *   크롬 브라우저의 부적절한 자동 완성(`autocomplete="off"`) 비활성화. 리팩토링 후 유실된 `VisualLinker` 좌표 동기화 로직 복구.
-*   **[보안] 암호 마스킹 및 보호 강화**:
-    *   모든 패스워드 입력 필드 마스킹 처리 및 리스트 뷰에서도 암호화 메모의 보안 가독성 유지.
-*   **[디자인] 주간 달력 시각적 완성도 및 레이아웃 통일성 강화**:
-    *   **스타일 격리**: 전용 네임스페이스(`wk-`) 도입 및 외부 스타일 간섭을 완벽히 차단하여 사이드바와의 시각적 충돌 해결.
-    *   **색상 동기화**: 활동 도트 색상을 사이드바 히트맵(블루~퍼플)과 일치시키고 최고 레벨 글로우 효과 적용.
-    *   **레이아웃 정렬**: 달력-입력창-그리드 간 가로 너비(`1200px`) 및 왼쪽 끝선 일치화.
-    *   **유연한 그리드**: Masonry 컬럼이 빈 공간을 채우도록 개선하여 상단 요소들과의 통일감 완성.
+### 🛠️ 이전 패치 노트 (v5.0 ~ v5.5)
+*   **[신규 기능] 주간 매니저 (Weekly View)**: 검색창 하단 주간 선택기 배치 및 활동량 도트 연동.
+*   **[신규 기능] 고밀도 리스트 레이아웃**: 대량의 지식을 빠르게 훑을 수 있는 수평 콤팩트 모드 추가.
+*   **[UI/UX] 세션 타임아웃 카운트다운**: 로그아웃 버튼 내 실시간 잔여 시간 표시 및 지능형 연장 기능.
 
 ### 🛠️ 패치 노트 (2026-04-20)
 *   **세션 타임아웃 카운트다운**: 로그아웃 버튼에 실시간 세션 남은 시간을 표시하는 타이머를 추가하여 예기치 않은 로그아웃으로 인한 데이터 유실을 방지합니다.
@@ -234,13 +185,19 @@ We provide a security model where user data is practically undecipherable. Built
 - **Instant Edit (e-key)**: Hover over a memo and press `e` to jump straight into editing mode. Zero-click productivity.
 - **Drag & Drop Workflow**: Drag memo cards into the composer to instantly insert a semantic reference.
 
-### 🛠️ Patch Notes (2026-04-24) - v8.1 (Update Notification)
-*   **[New Feature] Intelligent Update Notification System**:
-    *   Real-time detection of new versions from GitHub with notification badges on the sidebar.
-    *   **Update Log Modal**: View detailed changelogs directly within the application UI.
-    *   **One-Click Update**: Automated `git pull` functionality integrated into the Settings modal.
-*   **[Data] Versioning Infrastructure**:
-    *   Introduced `version.json` for structured version tracking and update history.
+### 🛠️ Patch Notes (2026-04-27) - v8.2.0 (Expanded External API & Modularization)
+*   **External API Modularization**: Packages under `external/` for better maintenance.
+*   **Enhanced Testing Environment**: Advanced external API verification script (`test_external_api.py`) & `APITester`.
+*   **Advanced Trash Management**: Grayscale/Blur UI and Restore/Permanent Delete functionality.
+*   **Obsidian Export Control**: Toggle export button visibility via `config.json` settings.
+*   **System Stability**: Enhanced config error handling and frontend state safety checks.
+*   **Bug Fix**: Restored missing backlink (Mentioned in) rendering on memo cards.
+
+### 🛠️ Patch Notes (2026-04-24) - v8.1.0 (Update Notification System)
+*   **Intelligent Update Detection** via GitHub integration with notification badges.
+*   **New Changelog Viewer modal** to review updates within the app.
+*   **Manual update guide implementation** (Native/Docker instructions).
+*   **Structured versioning infrastructure** (`version.json`) implemented.
 
 ### 🛠️ Patch Notes (2026-04-23) - v8.0 (Premium Help Revamp)
 *   **[New Feature] Premium Help System Revamp**:

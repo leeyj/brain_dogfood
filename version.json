@@ -1,7 +1,28 @@
 {
-    "version": "8.1.0",
-    "release_date": "2026-04-24",
+    "version": "8.2.0",
+    "release_date": "2026-04-27",
     "history": [
+        {
+            "version": "8.2.0",
+            "date": "2026-04-27",
+            "title": "Expanded External API & Modularization",
+            "changes": [
+                "외부 API 모듈화: external/ 패키지 구조 도입 및 기능별 모듈 분리",
+                "통합 테스트 환경 강화: 고도화된 외부 API 검증 스크립트(test_external_api.py) 및 APITester 도입",
+                "휴지통 관리 고도화: 삭제된 메모 전용 UI(Grayscale/Blur) 및 복원/영구삭제 기능 구현",
+                "옵시디언 연동 제어: config.json 설정을 통한 내보내기 버튼 활성화/비활성화 기능 추가",
+                "시스템 안정성 개선: config.json 문법 오류 감지 강화 및 프론트엔드 상태 참조 안전장치 적용",
+                "버그 수정: 메모 카드 내 누락되었던 백링크(언급됨) 렌더링 복구"
+            ],
+            "changes_en": [
+                "External API Modularization: Packages under external/ for better maintenance",
+                "Enhanced Testing Environment: Advanced external API verification script (test_external_api.py) & APITester",
+                "Advanced Trash Management: Grayscale/Blur UI and Restore/Permanent Delete functionality",
+                "Obsidian Export Control: Toggle export button visibility via config.json settings",
+                "System Stability: Enhanced config error handling and frontend state safety checks",
+                "Bug Fix: Restored missing backlink (Mentioned in) rendering on memo cards"
+            ]
+        },
         {
             "version": "8.1.0",
             "date": "2026-04-24",

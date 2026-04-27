@@ -81,14 +81,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     // 작성기 초기화
     ComposerManager.init(onSaveSuccess);
     
-    // 히트맵 초기화 및 데이터 로드
+    // 히트맵 초기화
     HeatmapManager.init('heatmapContainer', (date) => {
         AppService.setFilter({ date }, updateSidebarCallback);
-    });
-    
-    // 📊 히트맵 데이터 로드 후 주간 달력 도트 업데이트를 위해 리프레시 호출
-    HeatmapManager.refresh().then(() => {
-        if (WeeklyManager.isVisible) WeeklyManager.render();
     });
     
     DrawerManager.init();

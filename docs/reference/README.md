@@ -1,4 +1,4 @@
-# 🧠 뇌사료 (Brain Dogfood) 프로젝트 문서화 (v1.5)
+# 🧠 뇌사료 (Brain Dogfood) 프로젝트 문서화 (v1.6)
 
 > **"지식은 기록될 때 힘을 얻고, 연결될 때 생명을 얻는다."**
 
@@ -17,6 +17,7 @@
 - **i18n Stabilization**: 한국어/영어 전환 시 히트맵, 달력 등 동적 컴포넌트까지 완벽하게 자가 교정 및 번역 반영.
 - **V5 Metadata Shield**: 정규식 엔진 고도화를 통해 시스템 메타데이터 중복 및 푸터 손상 원천 차단.
 - **Data Integrity**: 다국어 환경의 정합성을 위해 내부 그룹명을 영문 상수로 통일.
+- **UUID & External API (v1.6)**: 전역 고유 식별자(UUID) 도입 및 Obsidian 등 외부 앱 연동을 위한 마크다운 기반 전용 API 레이어 구축.
 
 ## 📂 문서 인덱스
 1. [**사용자 매뉴얼 (User Manual)**](user_manual.md): **[최초 사용자 필독]** 사용법 및 연결 문법
@@ -28,4 +29,4 @@
 7. [**단축키 가이드 (Shortcuts Guide)**](shortcuts.md): **[업무 효율 극대화]** 탐색 및 편집 단축키 총정리
 
 ---
-*Last Updated: 2026-04-16 (v1.5 Milestone Release)*
+*Last Updated: 2026-04-27 (v1.6 UUID Release)*

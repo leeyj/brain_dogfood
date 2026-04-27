@@ -6,7 +6,8 @@ export const Constants = {
         DEFAULT: 'default',
         FILES: 'files',
         DONE: 'done',
-        STARRED: 'starred'
+        STARRED: 'starred',
+        TRASH: 'trash'
     },
     /**
      * DOM 선택자 정의 (UI 모듈 간 일관성 유지)

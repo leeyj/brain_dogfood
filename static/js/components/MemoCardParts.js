@@ -8,8 +8,9 @@ import { Constants } from '../utils/Constants.js';
 
 export const MemoCardParts = {
     createCardBase(memo, isDone, mode) {
+        const isDeleted = memo.status === 'deleted';
         const card = document.createElement('div');
-        card.className = `memo-card ${isDone ? 'done' : ''} ${memo.is_encrypted ? 'encrypted' : ''} glass-panel mode-${mode}`;
+        card.className = `memo-card ${isDone ? 'done' : ''} ${isDeleted ? 'deleted' : ''} ${memo.is_encrypted ? 'encrypted' : ''} glass-panel mode-${mode}`;
         card.dataset.id = memo.id;
         card.style.cursor = 'pointer';
         
@@ -165,6 +166,29 @@ export const MemoCardParts = {
         return el;
     },
 
+    createBacklinks(memo) {
+        if (!memo.backlinks || memo.backlinks.length === 0) return null;
+        
+        const container = document.createElement('div');
+        container.className = 'memo-backlinks';
+        
+        const label = document.createElement('span');
+        label.style.marginRight = '8px';
+        label.innerText = `${I18nManager.t('label_mentioned')}:`;
+        container.appendChild(label);
+        
+        memo.backlinks.forEach(link => {
+            const item = document.createElement('span');
+            item.className = 'internal-link';
+            item.dataset.id = link.source_id;
+            item.innerText = `#${link.source_id}`;
+            item.style.marginRight = '5px';
+            container.appendChild(item);
+        });
+        
+        return container;
+    },
+
     createContent(memo, isDone) {
         const container = document.createElement('div');
         container.className = 'memo-content';
@@ -203,12 +227,24 @@ export const MemoCardParts = {
             container.onmouseleave = () => container.style.opacity = '0.4';
         }
 
-        const buttons = [
-            { class: 'toggle-pin', icon: memo.is_pinned ? '⭐' : '☆', title: I18nManager.t('title_pin'), handler: handlers.onTogglePin },
-            { class: 'toggle-status', icon: isDone ? '↩️' : '✅', title: isDone ? I18nManager.t('title_undo') : I18nManager.t('title_done'), handler: handlers.onToggleStatus },
-            { class: 'edit-btn', icon: '✏️', title: I18nManager.t('title_edit'), handler: handlers.onEdit },
-            { class: 'delete-btn', icon: '🗑️', title: I18nManager.t('title_delete'), handler: handlers.onDelete }
-        ];
+        const isDeleted = memo.status === 'deleted';
+        let buttons = [];
+
+        if (isDeleted) {
+            // 휴지통 상태: 복원 및 완전 삭제만 표시
+            buttons = [
+                { class: 'restore-btn', icon: '⏪', title: I18nManager.t('title_restore') || '복원', handler: handlers.onRestore },
+                { class: 'delete-btn permanent', icon: '❌', title: I18nManager.t('title_permanent_delete') || '완전 삭제', handler: handlers.onDelete }
+            ];
+        } else {
+            // 일반 상태
+            buttons = [
+                { class: 'toggle-pin', icon: memo.is_pinned ? '⭐' : '☆', title: I18nManager.t('title_pin'), handler: handlers.onTogglePin },
+                { class: 'toggle-status', icon: isDone ? '↩️' : '✅', title: isDone ? I18nManager.t('title_undo') : I18nManager.t('title_done'), handler: handlers.onToggleStatus },
+                { class: 'edit-btn', icon: '✏️', title: I18nManager.t('title_edit'), handler: handlers.onEdit },
+                { class: 'delete-btn', icon: '🗑️', title: I18nManager.t('title_delete'), handler: handlers.onDelete }
+            ];
+        }
 
         buttons.forEach(b => {
             const btn = document.createElement('button');

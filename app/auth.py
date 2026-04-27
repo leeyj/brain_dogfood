@@ -40,6 +40,7 @@ def api_key_required(view):
                 with open(config_path, 'r', encoding='utf-8') as f:
                     config = json.load(f)
                     valid_token = config.get('external_api_token')
+                    
                     if valid_token and token == valid_token:
                         return view(**kwargs)
             except Exception:

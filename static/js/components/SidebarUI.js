@@ -13,7 +13,8 @@ export class SidebarUI {
             { group: 'files', icon: 'fas fa-paperclip', labelKey: 'nav_files' },
             { group: 'daily', icon: 'fas fa-calendar-day', labelKey: 'menu_today' },
             { group: 'weekly', icon: 'fas fa-calendar-week', labelKey: 'menu_weekly' },
-            { group: 'archive', icon: 'fas fa-clipboard-check', labelKey: 'menu_archive' }
+            { group: 'archive', icon: 'fas fa-clipboard-check', labelKey: 'menu_archive' },
+            { group: 'trash', icon: 'fas fa-trash-alt', labelKey: 'menu_trash' }
         ];
     }
 

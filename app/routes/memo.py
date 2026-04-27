@@ -62,12 +62,26 @@ def update_memo(memo_id):
 @memo_bp.route('/api/memos/<int:memo_id>', methods=['DELETE'])
 @login_required
 def delete_memo(memo_id):
-    success, message = MemoService.delete_memo(memo_id)
+    permanent = request.args.get('permanent', 'false').lower() == 'true'
+    
+    if permanent:
+        success, message = MemoService.purge_memo(memo_id)
+    else:
+        success, message = MemoService.delete_memo(memo_id)
+        
     if not success:
         if message == "msg_encrypted_locked":
             return jsonify({'error': _t(message)}), 403
         return jsonify({'error': message}), 404
-    return jsonify({'message': 'Deleted memo and all associated files'})
+    return jsonify({'message': message})
+
+@memo_bp.route('/api/memos/<int:memo_id>/restore', methods=['POST'])
+@login_required
+def restore_memo(memo_id):
+    success, message = MemoService.restore_memo(memo_id)
+    if not success:
+        return jsonify({'error': message}), 404
+    return jsonify({'message': 'Restored'})
 
 @memo_bp.route('/api/memos/<int:memo_id>/decrypt', methods=['POST'])
 @login_required
