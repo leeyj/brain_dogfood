@@ -19,7 +19,7 @@ export function getFileIcon(mime) {
 /**
  * 첨부파일 영역 DOM 노드 생성 및 이벤트 바인딩
  */
-export function renderAttachmentBox(attachments) {
+export function renderAttachmentBox(attachments, options = {}) {
     if (!attachments || attachments.length === 0) return null;
 
     const container = document.createElement('div');
@@ -43,6 +43,20 @@ export function renderAttachmentBox(attachments) {
         
         chip.appendChild(iconSpan);
         chip.appendChild(nameSpan);
+
+        // 💡 삭제 버튼 렌더링 (options.onRemove 가 있을 경우)
+        if (typeof options.onRemove === 'function') {
+            const removeBtn = document.createElement('span');
+            removeBtn.className = 'remove-btn';
+            removeBtn.innerHTML = '&times;';
+            removeBtn.title = 'Remove attachment';
+            removeBtn.onclick = (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                options.onRemove(a.filename || a.file_name);
+            };
+            chip.appendChild(removeBtn);
+        }
         
         // 💡 클릭 이벤트 바인딩 (전역 window.downloadFile 의존성 제거)
         chip.onclick = (e) => {
