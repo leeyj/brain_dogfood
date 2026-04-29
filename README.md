@@ -39,7 +39,14 @@
 
 ---
 
-### 🛠️ 최신 패치 노트 (2026-04-27) - v8.2.0 (Expanded External API & Modularization)
+### 🛠️ 최신 패치 노트 (2026-04-30) - v8.3.1 (Attachment Management)
+*   **기능 개선**: 메모 작성 및 수정 중 첨부된 파일을 개별적으로 삭제할 수 있는 'x' 버튼 기능 추가.
+*   **안전한 삭제 로직**: 새로 업로드한 파일은 즉시 영구 삭제, 기존 파일은 저장 시에만 연결이 해제됩니다.
+
+### 🛠️ 패치 노트 (2026-04-29) - v8.3.0 (Security Bugfix)
+*   **버그 수정**: 신규 메모 작성 시 암호화 기능(자물쇠)이 동작하지 않고 평문으로 저장되던 치명적 결함(is_encrypted 플래그 누락) 해결.
+
+### 🛠️ 이전 패치 노트 (2026-04-27) - v8.2.0 (Expanded External API & Modularization)
 *   **외부 API 모듈화**: `external/` 패키지 구조 도입 및 기능별 모듈 분리로 유지보수성 향상.
 *   **통합 테스트 환경 강화**: 고도화된 외부 API 검증 스크립트(`test_external_api.py`) 및 `APITester` 도입.
 *   **휴지통 관리 고도화**: 삭제된 메모 전용 UI(Grayscale/Blur) 및 복원/영구삭제 기능 구현.
@@ -184,6 +191,13 @@ We provide a security model where user data is practically undecipherable. Built
 - **Multi-Link Support**: Insert multiple internal links (`[[#ID]]`) to create clusters of networked thought.
 - **Instant Edit (e-key)**: Hover over a memo and press `e` to jump straight into editing mode. Zero-click productivity.
 - **Drag & Drop Workflow**: Drag memo cards into the composer to instantly insert a semantic reference.
+
+### 🛠️ Patch Notes (2026-04-30) - v8.3.1 (Attachment Management)
+*   **Feature**: Added ability to delete individual attachments during memo creation and editing.
+*   **Safe Deletion**: New files are permanently deleted immediately, existing files are unlinked only upon saving.
+
+### 🛠️ Patch Notes (2026-04-29) - v8.3.0 (Security Bugfix)
+*   **Bug Fix**: Fixed a critical issue where the encryption flag (`is_encrypted`) was missing when creating a new memo, causing it to be saved as plaintext despite a password being set.
 
 ### 🛠️ Patch Notes (2026-04-27) - v8.2.0 (Expanded External API & Modularization)
 *   **External API Modularization**: Packages under `external/` for better maintenance.
