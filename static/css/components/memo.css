@@ -154,6 +154,27 @@
     transform: translateY(-1px);
 }
 
+.file-chip .remove-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.1);
+    color: #ef4444;
+    font-size: 0.85rem;
+    line-height: 1;
+    margin-left: 4px;
+    transition: all 0.2s;
+    font-weight: bold;
+}
+
+.file-chip .remove-btn:hover {
+    background: #ef4444;
+    color: white;
+}
+
 /* Checkbox Visibility Enhancement */
 .memo-content input[type="checkbox"] {
     appearance: none;

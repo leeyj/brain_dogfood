@@ -55,6 +55,7 @@
     "msg_auth_failed": "올바른 자격 증명이 아닙니다. 다시 시도해 주세요.",
     "msg_network_error": "네트워크 불안정 또는 서버 오류가 발생했습니다.",
     "msg_confirm_discard": "작성 중인 내용을 지우고 창을 닫을까요?",
+    "msg_confirm_delete_attachment": "정말 이 첨부파일을 삭제하시겠습니까?",
     "msg_alert_password_required": "암호화하려면 비밀번호를 입력해야 합니다.",
     "msg_session_expired": "⌛ 세션이 만료되었습니다. 보안을 위해 다시 로그인해 주세요.",
     "msg_draft_restore_confirm": "📝 임시 저장된 메모가 있습니다.\n제목: \"{title}\"\n복원하시겠습니까?",

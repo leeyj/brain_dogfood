@@ -126,8 +126,30 @@ export const EditorManager = {
         
         console.log('[Editor] Refreshing UI with:', this.attachedFiles);
         container.innerHTML = '';
-        const box = renderAttachmentBox(this.attachedFiles);
+        const box = renderAttachmentBox(this.attachedFiles, {
+            onRemove: (filename) => this.removeAttachment(filename)
+        });
         if (box) container.appendChild(box);
+    },
+
+    async removeAttachment(filename) {
+        if (!confirm(I18nManager.t('msg_confirm_delete_attachment') || '정말 이 첨부파일을 삭제하시겠습니까?')) return;
+        
+        // 목록에서 제거
+        this.attachedFiles = this.attachedFiles.filter(f => f.filename !== filename);
+        
+        // 세션 중에 새로 추가한 파일이면 서버에서도 삭제
+        if (this.sessionFiles.has(filename)) {
+            try {
+                await API.deleteAttachment(filename);
+                this.sessionFiles.delete(filename);
+            } catch (err) {
+                console.error(`[Editor] Failed to delete session file ${filename}:`, err);
+            }
+        }
+        
+        // UI 갱신
+        this.refreshAttachmentUI();
     },
 
     bindDropEvent(wrapperSelector, onDropComplete) {

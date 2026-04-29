@@ -55,6 +55,7 @@
     "msg_auth_failed": "Invalid credentials. Please try again.",
     "msg_network_error": "Network instability or server error occurred.",
     "msg_confirm_discard": "Discard all current content and delete uploaded files from the server?",
+    "msg_confirm_delete_attachment": "Are you sure you want to delete this attachment?",
     "msg_alert_password_required": "A password is required to encrypt this knowledge.",
     "msg_session_expired": "⌛ Session expired. Please log in again for security.",
     "msg_draft_restore_confirm": "📝 There is an auto-saved draft.\nTitle: \"{title}\"\nWould you like to restore it?",

@@ -1,7 +1,18 @@
 {
-    "version": "8.3.0",
-    "release_date": "2026-04-29",
+    "version": "8.3.1",
+    "release_date": "2026-04-30",
     "history": [
+        {
+            "version": "8.3.1",
+            "date": "2026-04-30",
+            "title": "Attachment Management Improvements",
+            "changes": [
+                "기능 개선: 메모 작성 및 수정 중 첨부된 파일을 개별적으로 삭제할 수 있는 기능 추가 (새로 업로드한 파일은 즉시 영구 삭제, 기존 파일은 저장 시 연결 해제)"
+            ],
+            "changes_en": [
+                "Feature: Added ability to delete individual attachments during memo creation and editing (New files are permanently deleted immediately, existing files are unlinked upon saving)."
+            ]
+        },
         {
             "version": "8.3.0",
             "date": "2026-04-29",
