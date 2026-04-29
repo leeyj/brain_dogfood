@@ -160,6 +160,7 @@ export const ComposerManager = {
             status: this.isDoneStatus ? 'done' : 'active',
             tags: this.DOM.tags.value.split(',').map(t => t.trim()).filter(t => t),
             password: this.DOM.password.value.trim(),
+            is_encrypted: this.DOM.encryptionToggle.dataset.locked === 'true',
             attachment_filenames: EditorManager.getAttachedFilenames(),
             due_date: this.DOM.dueDate ? this.DOM.dueDate.value : null
         };
