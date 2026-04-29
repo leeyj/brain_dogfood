@@ -1,7 +1,18 @@
 {
-    "version": "8.2.0",
-    "release_date": "2026-04-27",
+    "version": "8.3.0",
+    "release_date": "2026-04-29",
     "history": [
+        {
+            "version": "8.3.0",
+            "date": "2026-04-29",
+            "title": "Bugfix: Memo Encryption",
+            "changes": [
+                "버그 수정: 신규 메모 작성 시 암호화 기능(자물쇠)이 동작하지 않고 평문으로 저장되던 치명적 결함(is_encrypted 플래그 누락) 해결"
+            ],
+            "changes_en": [
+                "Bug Fix: Fixed a critical issue where the encryption flag (is_encrypted) was missing when creating a new memo, causing it to be saved as plaintext despite a password being set."
+            ]
+        },
         {
             "version": "8.2.0",
             "date": "2026-04-27",
