@@ -1,7 +1,37 @@
 {
-    "version": "8.3.1",
-    "release_date": "2026-04-30",
+    "version": "8.3.3",
+    "release_date": "2026-05-04",
     "history": [
+        {
+            "version": "8.3.3",
+            "date": "2026-05-04",
+            "title": "Frontend Modularization & Orphan Uploads Cleanup",
+            "changes": [
+                "프론트엔드 모듈화: ThemeManager, AppService, Visualizer 해체 및 분리 (SettingsManager, ThemeEngine, FilterService 등 신설)",
+                "버그 수정: 메모 작성 취소 시 업로드된 임시 파일이 삭제되지 않고 누적되는 메모리 릭 해결 및 서버 재시작 시 자동 청소 기능 도입"
+            ],
+            "changes_en": [
+                "Frontend Modularization: Decoupled ThemeManager, AppService, and Visualizer into specialized modules (SettingsManager, ThemeEngine, FilterService, etc.).",
+                "Bugfix: Resolved an orphan file leak where canceled uploads during memo creation were not deleted; added automatic cleanup on server restart."
+            ]
+        },
+        {
+            "version": "8.3.2",
+            "date": "2026-05-03",
+            "title": "Core Module Refactoring & Modularization",
+            "changes": [
+                "ComposerManager & RelationManager 모듈화: 기능별 서브 모듈 분리 (UI, 보안, 단축키, 분석, 렌더링)",
+                "MemoCardParts 모듈화: CardBase, Header, Meta, Body, Actions 서브 모듈 분리",
+                "ShortcutManager 리팩토링: CommandRegistry 도입 및 데이터 기반 단축키 처리",
+                "전역 날짜 유틸리티(DateUtils) 신설: Weekly/Heatmap 중복 로직 통합 및 코드 최적화"
+            ],
+            "changes_en": [
+                "Modularization of ComposerManager & RelationManager into functional sub-modules (UI, Security, Shortcuts, Analyzer, Renderer).",
+                "Modularization of MemoCardParts into sub-modules (CardBase, Header, Meta, Body, Actions).",
+                "ShortcutManager Refactoring: Implemented CommandRegistry for data-driven shortcut handling.",
+                "Global DateUtils: Centralized date calculation and formatting logic across WeeklyManager and HeatmapManager."
+            ]
+        },
         {
             "version": "8.3.1",
             "date": "2026-04-30",

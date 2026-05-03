@@ -8,12 +8,15 @@
 
 | 모듈 (Component) | 역할 | 주요 호출 (Callee) |
 | :--- | :--- | :--- |
-| `AppService.js` | **Central Engine** | `API`, `UI`, `WeeklyManager`, `SidebarManager` |
-| `UI.js` | **Orchestrator** | `LayoutManager`, `ThemeManager`, `ModalManager`, `VisualLinker` |
+| `AppService.js` | **Facade Engine** | `AppState`, `FilterService`, `UI`, `WeeklyManager`, `SidebarManager` |
+| `AppState.js` | **State Store** | 순수 데이터 보관 (의존성 없음) |
+| `FilterService.js` | **Data Logic** | `API`, `AppState` |
+| `UI.js` | **Orchestrator** | `LayoutManager`, `SettingsManager`, `ThemeEngine`, `ModalManager`, `VisualLinker` |
 | `WeeklyManager.js` | **Weekly View** | `AppService.setFilter()`, `HeatmapManager` (Data 참조) |
 | `LayoutManager.js` | **Layout System** | `MasonryLayout`, `ListLayout`, `MemoCard` |
 | `VisualLinker.js` | **Wiring Engine** | `AppService`, `RelationManager`, `UI` |
 | `ModalManager.js` | **Modal UI** | `API.decryptMemo()`, `AppService.refreshData()` |
+| `Visualizer.js` | **Coordinator** | `GraphAnalyzer`, `GraphRenderer` |
 
 ---
 

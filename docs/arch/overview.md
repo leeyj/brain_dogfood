@@ -11,8 +11,11 @@
 ```mermaid
 graph TD
     subgraph "Core Service Layer"
-        AS[AppService] -- "중앙 상태 및 데이터 제어" --> API[API Module]
+        AS[AppService (Facade)] -- "상태 읽기/쓰기" --> AST[AppState]
+        AS -- "데이터 Fetch/필터" --> FS[FilterService]
+        FS --> API[API Module]
         AS -- "UI 갱신 트리거" --> UI[UI Module]
+        TE[ThemeEngine & SettingsManager]
     end
 
     subgraph "Feature Manager Layer"
@@ -22,9 +25,13 @@ graph TD
         AS --> WM[WeeklyManager]
         AS --> HM[HeatmapManager]
         AS --> CM[CalendarManager]
+        AS --> CMG[ComposerManager]
     end
 
     subgraph "Visual & Relation Layer"
+        AS --> VZ[Visualizer]
+        VZ --> GA[GraphAnalyzer]
+        VZ --> GR[GraphRenderer]
         AS --> RM[RelationManager]
         AS --> VL[VisualLinker]
     end
@@ -44,14 +51,14 @@ graph TD
 
 ## 2. 핵심 모듈별 역할 및 입출력 정의
 
-### 🛰️ AppService (The Engine)
-- **부모**: 없음 (애플리케이션의 엔트리 포인트)
-- **자식**: `API`, `UI`, 모든 `Managers`
-- **역할**: 전역 상태(`state`)를 보유하며, 데이터 로딩, 필터 변경, 세션 관리 등 핵심 비즈니스 로직을 오케스트레이션합니다.
-- **주요 데이터**: `filters`, `allMemosCache`, `unlockedMemos`
+### 🛰️ Core Services (AppService, AppState, FilterService)
+- **AppState**: 애플리케이션의 반응형 전역 상태(`currentFilterGroup`, `offset`, `allMemos`)를 보유하는 단순 데이터 저장소입니다.
+- **FilterService**: 백엔드 통신 및 데이터 필터링, 페이지네이션(무한 스크롤) 로직을 전담합니다.
+- **AppService (Facade)**: 외부 모듈들이 `AppState`와 `FilterService`를 직접 의존하지 않도록 일관된 인터페이스를 제공하는 파사드 패턴의 엔트리 포인트입니다.
+- **ThemeEngine & SettingsManager**: 시스템 테마, 다크모드 설정 및 UI 관련 전역 설정 상태를 관리합니다.
 
 ### 📞 API (Data Provider)
-- **부모**: `AppService`
+- **부모**: `FilterService`, `AppService`
 - **역할**: 백엔드 API 엔드포인트와 직접 통신하며, HTTP 요청을 수행하고 JSON 결과를 반환합니다.
 - **입력**: URL, 요청 Payload
 - **출력**: 성공 시 JSON 객체, 실패 시 Error 객체
@@ -66,8 +73,9 @@ graph TD
 ### 🧩 Feature Managers (Specialized Tools)
 - **WeeklyManager**: 주간 뷰 렌더링 및 날짜 필터 제어.
 - **HeatmapManager**: 사용자 활동량(Heatmap) 시각화 및 데이터 동기화.
-- **RelationManager**: 메모 간의 연결(Relation) 강조 및 화살표 시각화.
-- **ModalManager**: 상세 보기, 설정, 카테고리 관리 등 각종 모달의 생명주기 관리.
+- **RelationManager**: 메모 간의 직접적인 연결선 및 관계 관리 로직.
+- **Visualizer**: 메모 간의 관계 데이터를 가공(`GraphAnalyzer`)하고 SVG 시뮬레이션으로 렌더링(`GraphRenderer`)하는 시각화 코디네이터.
+- **ComposerManager**: 메모 작성 및 편집기 모달의 생명주기 제어 및 서브 컴포넌트 조율.
 
 ---
 

@@ -29,12 +29,16 @@
 - **External API Layer**: 외부 앱 전용 모듈형 패키지(`external/`)를 통해 데이터 마샬링 및 API Key 보안 계층을 별도로 운영.
 
 ### 2.2 Frontend: Manager-Component Pattern (v8.1+)
-- **AppService (The Engine)**: 애플리케이션의 유일한 **상태 저장소(Single Source of Truth)**입니다. 모든 데이터와 필터링 상태를 관리하며, 상태 변경 시 각 매니저에게 렌더링 명령을 하달합니다.
-- **Manager Objects**: 특정 UI 영역을 전담하며, DOM 조작 로직을 컴포넌트 단위로 분리하여 관리합니다 (예: `WeeklyManager`, `SidebarManager`).
+- **AppState**: 애플리케이션의 반응형 전역 상태(`state`)를 보관하는 순수 데이터 저장소입니다.
+- **FilterService**: 백엔드 통신 및 데이터 필터링 로직을 전담합니다.
+- **AppService (Facade)**: 외부 모듈들이 `AppState`와 `FilterService`를 직접 의존하지 않도록 일관된 인터페이스를 제공하는 파사드 객체입니다. 모든 상태 변경은 이 파사드를 통합니다.
+- **ThemeEngine & SettingsManager**: 테마 제어 및 전역 설정, 다크모드를 담당합니다.
+- **Visualizer & GraphAnalyzer**: 데이터 분석과 SVG 렌더링을 분리한 시각화 엔진 계층입니다.
+- **Manager Objects**: 특정 UI 영역을 전담하며, DOM 조작 로직을 컴포넌트 단위로 분리하여 관리합니다 (예: `WeeklyManager`, `SidebarManager`, `ComposerManager`).
 - **UI Components**: `MemoCard`와 같이 독립적으로 렌더링 가능한 최소 단위의 UI 조각들입니다.
 
 ### 2.3 Unidirectional Data Flow (단방향 데이터 흐름)
-UI 컴포넌트에서 발생한 이벤트는 항상 `AppService`를 통해 상태를 변경하고, 변경된 상태가 다시 UI로 내려와 렌더링을 수행하는 구조를 지향합니다. 이는 복잡한 지식 네트워크 환경에서도 상태 정합성을 완벽하게 유지하게 해줍니다.
+UI 컴포넌트에서 발생한 이벤트는 항상 `AppService` 파사드와 `FilterService`를 통해 `AppState`를 변경하고, 변경된 상태가 다시 UI로 내려와 렌더링을 수행하는 구조를 지향합니다. 이는 복잡한 지식 네트워크 환경에서도 상태 정합성을 완벽하게 유지하게 해줍니다.
 
 ---
 

@@ -17,7 +17,7 @@ export const VersionManager = {
             const localData = await API.fetchLocalVersion();
             this.state.localVersion = localData.version;
             
-            // 💡 버전 표시 DOM 업데이트 (ThemeManager보다 늦게 초기화될 경우 대비)
+            // 💡 버전 표시 DOM 업데이트 (SettingsManager보다 늦게 초기화될 경우 대비)
             const verDisplay = document.getElementById('currentVerDisplay');
             if (verDisplay) verDisplay.innerText = `v${this.state.localVersion}`;
 

@@ -35,26 +35,43 @@
 
 ### 1.2 `tags` (정규화된 태그 정보)
 메모에 포함된 해시태그(`#tag`)를 관리합니다.
-- `memo_id`: 대상 메모의 ID (FK)
-- `name`: 태그 이름 (유니크하지 않음)
-- `source`: 생성 출처 (`user`: 사용자 입력, `ai`: AI 자동 추출)
+
+| Column | Type | Description |
+| :--- | :--- | :--- |
+| `id` | INTEGER | Primary Key, 자동 증가 |
+| `memo_id` | INTEGER | 대상 메모의 ID (Foreign Key, CASCADE) |
+| `name` | TEXT | 태그 이름 (유니크하지 않음) |
+| `source` | TEXT | 생성 출처 (`user`: 사용자 입력, `ai`: AI 자동 추출) |
 
 ### 1.3 `attachments` (첨부파일 정보)
 메모에 연결된 파일 및 이미지 정보를 관리합니다.
-- `memo_id`: 소속된 메모 ID (삭제 시 NULL 처리될 수 있음)
-- `filename`: 서버 내 물리 파일명
-- `original_name`: 업로드 당시의 원본 파일명
-- `file_type`: 파일 종류 (`image`, `file` 등)
-- `size`: 파일 크기 (Bytes)
+
+| Column | Type | Description |
+| :--- | :--- | :--- |
+| `id` | INTEGER | Primary Key, 자동 증가 |
+| `memo_id` | INTEGER | 소속된 메모 ID (Foreign Key, SET NULL) |
+| `filename` | TEXT | 서버 내 물리 파일명 (UUID 기반) |
+| `original_name` | TEXT | 업로드 당시의 원본 파일명 |
+| `file_type` | TEXT | 파일 종류 (`image`, `file` 등) |
+| `size` | INTEGER | 파일 크기 (Bytes) |
+| `created_at` | TIMESTAMP | 레코드 생성 일시 |
 
 ### 1.4 `memo_links` (메모 간 상호 연결)
 본문 내 `[[#ID]]` 형식의 링크를 분석하여 저장한 관계 테이블입니다.
-- `source_id`: 링크를 보낸 메모 (Source)
-- `target_id`: 링크 대상이 된 메모 (Target)
+
+| Column | Type | Description |
+| :--- | :--- | :--- |
+| `id` | INTEGER | Primary Key, 자동 증가 |
+| `source_id` | INTEGER | 링크를 보낸 메모 ID (Source, Foreign Key) |
+| `target_id` | INTEGER | 링크 대상이 된 메모 ID (Target, Foreign Key) |
 
 ---
 
-## 🌐 2. API 엔드포인트 명세
+## 🌐 2. 내부 API 엔드포인트 명세 (Internal UI API)
+
+> [!NOTE]
+> 이 섹션에 기술된 모든 `/api/*` 엔드포인트는 뇌사료 **웹 UI 전용**이며, 브라우저의 **내부 세션 쿠키(Session Cookie) 기반**으로 작동합니다 (`@auth.login_required`). 
+> 타 개발자분들께서는 스크립트나 외부 앱에서 연동하실 때 이곳의 API가 아닌, API Key 기반으로 동작하는 하단의 [3. 외부 연동 API (External API)](#-3-외부-연동-api-external-api---api-key-required) 섹션을 참고하시어 혼동이 없으시길 바랍니다.
 
 ### 2.1 Memos & Search
 - **`GET /api/memos`**: 필터링된 메모 목록 조회.

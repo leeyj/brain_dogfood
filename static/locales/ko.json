@@ -206,5 +206,17 @@
     "update_success": "업데이트 완료! 서버를 재시작하여 적용하세요.",
     "update_changelog_title": "신규 변경 사항",
     "update_no_new": "최신 버전을 사용 중입니다.",
-    "update_manual_notice": "업데이트는 각 설치 환경에 맞춰 수동으로 진행해 주세요."
+    "update_manual_notice": "업데이트는 각 설치 환경에 맞춰 수동으로 진행해 주세요.",
+    "backup_title": "📦 백업 및 내보내기",
+    "backup_desc": "데이터 손실 방지를 위해 서버 데이터를 안전하게 백업하거나 외부 앱(Obsidian 등)과 연동하기 위해 메모를 내보낼 수 있습니다.",
+    "backup_opt_full_title": "전체 시스템 백업 (AES 암호화)",
+    "backup_opt_full_desc": "DB, 첨부파일, 환경설정(.env) 전체를 하나의 압축 파일로 다운로드합니다. 복구에 필수적인 백업입니다.",
+    "backup_pwd_placeholder": "백업 ZIP 비밀번호 설정",
+    "backup_pwd_warning": "비밀번호를 분실하면 백업을 풀 수 없습니다!",
+    "backup_opt_export_title": "일반 메모 내보내기 (Markdown)",
+    "backup_opt_export_desc": "암호화되지 않은 메모들을 개별 .md 파일(Frontmatter 포함)로 묶어 다운로드합니다. 외부 앱 연동에 적합합니다.",
+    "backup_cancel": "취소",
+    "backup_execute": "다운로드 실행",
+    "backup_export_desc": "데이터 백업 및 마크다운 내보내기",
+    "backup_btn": "Backup / Export"
 }

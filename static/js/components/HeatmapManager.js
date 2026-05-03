@@ -1,4 +1,5 @@
 import { I18nManager } from '../utils/I18nManager.js';
+import { DateUtils } from '../utils/DateUtils.js';
 
 /**
  * 지식 성장 히트맵(Heatmap) 관리 모듈
@@ -91,9 +92,8 @@ export const HeatmapManager = {
         startDate.setDate(today.getDate() - (this.currentRange - 1));
         
         // 요일 맞추기 (일요일 시작 기준)
-        const dayOfWeek = startDate.getDay();
-        const adjustedStartDate = new Date(startDate);
-        adjustedStartDate.setDate(startDate.getDate() - dayOfWeek);
+        const range = DateUtils.getWeekRange(startDate);
+        const adjustedStartDate = range.start;
 
         const rangeLabel = I18nManager.t(`heatmap_ranges.${this.currentRange}`) || I18nManager.t('label_select_range');
 
@@ -107,21 +107,13 @@ export const HeatmapManager = {
                 <div class="heatmap-grid" id="heatmapGrid">
         `;
 
-        const formatDate = (date) => {
-            const y = date.getFullYear();
-            const m = String(date.getMonth() + 1).padStart(2, '0');
-            const d = String(date.getDate()).padStart(2, '0');
-            return `${y}-${m}-${d}`;
-        };
-
-        // 전체 표시 일수 (범위 + 요일 보정)
-        const totalCells = this.currentRange + dayOfWeek + (6 - today.getDay());
+        const totalCells = this.currentRange + DateUtils.getDayOfWeek(startDate) + (6 - DateUtils.getDayOfWeek(today));
         
         for (let i = 0; i < totalCells; i++) {
             const currentDate = new Date(adjustedStartDate);
             currentDate.setDate(adjustedStartDate.getDate() + i);
             
-            const dateStr = formatDate(currentDate);
+            const dateStr = DateUtils.format(currentDate);
             const count = dataMap.get(dateStr) || 0;
             const level = this.calculateLevel(count);
             

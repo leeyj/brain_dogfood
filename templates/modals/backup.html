@@ -1,0 +1,54 @@
+<!-- Backup & Export Modal -->
+<div id="backupModal" class="modal">
+    <div class="modal-content glass-panel" style="max-width: 450px; padding: 25px;">
+        <h2 style="margin-bottom: 20px; font-weight: 800; background: linear-gradient(135deg, #10b981, #059669); -webkit-background-clip: text; -webkit-text-fill-color: transparent;" data-i18n="backup_title">📦 백업 및 내보내기</h2>
+        
+        <p style="font-size: 0.9rem; color: #cbd5e1; margin-bottom: 20px; line-height: 1.5;" data-i18n="backup_desc">
+            데이터 손실 방지를 위해 서버 데이터를 안전하게 백업하거나 외부 앱(Obsidian 등)과 연동하기 위해 메모를 내보낼 수 있습니다.
+        </p>
+
+        <div style="display: flex; flex-direction: column; gap: 15px; margin-bottom: 25px;">
+            <!-- Option 1: Full Backup -->
+            <label class="backup-option" style="display: flex; align-items: flex-start; gap: 10px; background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px; cursor: pointer; border: 1px solid rgba(255,255,255,0.05);">
+                <input type="radio" name="backup_type" value="full" checked style="margin-top: 3px;">
+                <div>
+                    <strong style="color: #38bdf8;" data-i18n="backup_opt_full_title">전체 시스템 백업 (AES 암호화)</strong>
+                    <div style="font-size: 0.8rem; color: #94a3b8; margin-top: 5px;" data-i18n="backup_opt_full_desc">DB, 첨부파일, 환경설정(.env) 전체를 하나의 압축 파일로 다운로드합니다. 복구에 필수적인 백업입니다.</div>
+                    
+                    <div id="backupPasswordContainer" style="margin-top: 15px;">
+                        <input type="password" id="backupPassword" class="meta-field" data-i18n-placeholder="backup_pwd_placeholder" placeholder="백업 ZIP 비밀번호 설정" style="width: 100%; box-sizing: border-box; background: rgba(0,0,0,0.3); border: 1px solid #38bdf8;">
+                        <div style="font-size: 0.75rem; color: #ef4444; margin-top: 5px;" data-i18n="backup_pwd_warning">비밀번호를 분실하면 백업을 풀 수 없습니다!</div>
+                    </div>
+                </div>
+            </label>
+
+            <!-- Option 2: Export Memos -->
+            <label class="backup-option" style="display: flex; align-items: flex-start; gap: 10px; background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px; cursor: pointer; border: 1px solid rgba(255,255,255,0.05);">
+                <input type="radio" name="backup_type" value="export" style="margin-top: 3px;">
+                <div>
+                    <strong style="color: #10b981;" data-i18n="backup_opt_export_title">일반 메모 내보내기 (Markdown)</strong>
+                    <div style="font-size: 0.8rem; color: #94a3b8; margin-top: 5px;" data-i18n="backup_opt_export_desc">암호화되지 않은 메모들을 개별 .md 파일(Frontmatter 포함)로 묶어 다운로드합니다. 외부 앱 연동에 적합합니다.</div>
+                </div>
+            </label>
+        </div>
+
+        <div class="settings-actions">
+            <button id="cancelBackupBtn" class="action-btn" data-i18n="backup_cancel">취소</button>
+            <button id="executeBackupBtn" class="primary-btn" style="background: linear-gradient(135deg, #10b981, #059669);"><i class="fas fa-download"></i> <span data-i18n="backup_execute">다운로드 실행</span></button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Radio button logic for showing/hiding password field
+    document.querySelectorAll('input[name="backup_type"]').forEach(radio => {
+        radio.addEventListener('change', (e) => {
+            const pwdContainer = document.getElementById('backupPasswordContainer');
+            if (e.target.value === 'full') {
+                pwdContainer.style.display = 'block';
+            } else {
+                pwdContainer.style.display = 'none';
+            }
+        });
+    });
+</script>

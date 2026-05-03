@@ -5,6 +5,7 @@
  */
 import { AppService } from '../AppService.js';
 import { I18nManager } from '../utils/I18nManager.js';
+import { DateUtils } from '../utils/DateUtils.js';
 
 export const WeeklyManager = {
     /**
@@ -73,9 +74,10 @@ export const WeeklyManager = {
     render() {
         if (!this.container) return;
 
-        const week = this._getCurrentWeek(this.state.currentDate);
-        const start = week[0];
-        const end = week[6];
+        const range = DateUtils.getWeekRange(this.state.currentDate);
+        const week = this._getWeekDays(range.start);
+        const start = range.start;
+        const end = range.end;
         
         // 현재 앱의 필터링 상태가 특정 날짜 또는 범위에 고정되어 있는지 확인
         const isDateFiltered = AppService.state.currentFilterDate !== null || AppService.state.currentStartDate !== null;
@@ -136,7 +138,7 @@ export const WeeklyManager = {
      * @returns {string} 개별 날짜 HTML 문자열
      */
     _renderDayItem(date) {
-        const dateStr = this._formatDate(date);
+        const dateStr = DateUtils.format(date);
         const isToday = date.toDateString() === new Date().toDateString();
         const isSelected = AppService.state.currentFilterDate === dateStr;
         
@@ -176,8 +178,8 @@ export const WeeklyManager = {
      * @param {boolean} isDateFiltered - 현재 필터링 적용 여부
      */
     _bindEvents(start, end, isDateFiltered) {
-        const startStr = this._formatDate(start);
-        const endStr = this._formatDate(end);
+        const startStr = DateUtils.format(start);
+        const endStr = DateUtils.format(end);
 
         // 날짜 클릭: 단일 날짜 필터 적용 또는 주간 전체 보기로 전환
         this.container.querySelectorAll('.wk-item').forEach(el => {
@@ -229,17 +231,15 @@ export const WeeklyManager = {
     },
 
     /**
-     * 기준 날짜가 포함된 주의 일요일부터 토요일까지의 Date 객체 배열을 생성합니다.
+     * 특정 시작일부터 7일간의 Date 객체 배열을 생성합니다.
      * @private
-     * @param {Date} baseDate - 기준 날짜
+     * @param {Date} startDate - 시작일 (일요일)
      * @returns {Array<Date>} 7일간의 Date 객체 배열
      */
-    _getCurrentWeek(baseDate) {
-        const curr = new Date(baseDate);
-        const first = curr.getDate() - curr.getDay();
+    _getWeekDays(startDate) {
         const week = [];
         for (let i = 0; i < 7; i++) {
-            week.push(new Date(curr.getFullYear(), curr.getMonth(), first + i));
+            week.push(new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate() + i));
         }
         return week;
     },
@@ -258,18 +258,6 @@ export const WeeklyManager = {
         return 4;
     },
 
-    /**
-     * Date 객체를 YYYY-MM-DD 형식의 문자열로 변환합니다.
-     * @private
-     * @param {Date} date - 변환할 날짜 객체
-     * @returns {string} 포맷팅된 날짜 문자열
-     */
-    _formatDate(date) {
-        const y = date.getFullYear();
-        const m = String(date.getMonth() + 1).padStart(2, '0');
-        const d = String(date.getDate()).padStart(2, '0');
-        return `${y}-${m}-${d}`;
-    },
 
     /**
      * 다국어 설정을 반영하여 'YYYY년 M월' 형태의 문자열을 반환합니다.

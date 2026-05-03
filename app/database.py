@@ -34,6 +34,21 @@ def init_db():
         for row in rows:
             new_uuid = str(uuid.uuid4())
             c.execute("UPDATE memos SET uuid = ? WHERE id = ?", (new_uuid, row[0]))
+            
+    # 서버 재시작 시 고아 파일(작성 중 새로고침/브라우저 종료로 누락된 파일) 자동 정리 로직
+    try:
+        c.execute("SELECT filename FROM attachments WHERE memo_id IS NULL")
+        orphans = c.fetchall()
+        if orphans:
+            uploads_dir = os.path.join(os.path.dirname(__file__), '..', 'static', 'uploads')
+            for (fname,) in orphans:
+                fpath = os.path.join(uploads_dir, fname)
+                if os.path.exists(fpath):
+                    os.remove(fpath)
+            c.execute("DELETE FROM attachments WHERE memo_id IS NULL")
+            print(f"[DB Init] Cleaned up {len(orphans)} orphaned attachments.")
+    except Exception as e:
+        print(f"[DB Init] Orphan cleanup failed: {e}")
     
     conn.commit()
     conn.close()

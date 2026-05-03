@@ -2,7 +2,7 @@
  * 작성기 카테고리/핀 UI 렌더링 엔진
  */
 import { I18nManager } from '../../utils/I18nManager.js';
-import { ThemeManager } from '../ThemeManager.js';
+import { ThemeEngine } from '../ThemeEngine.js';
 
 export const ComposerCategoryUI = {
     /**
@@ -11,7 +11,7 @@ export const ComposerCategoryUI = {
     render(container, selectedCategory, isDoneStatus, handlers) {
         if (!container) return;
         
-        const settings = ThemeManager.settings || {};
+        const settings = ThemeEngine.settings || {};
         const slots = settings.pinned_categories || [];
         
         container.innerHTML = '';
@@ -66,7 +66,7 @@ export const ComposerCategoryUI = {
      * 슬롯 인덱스 기반으로 어떤 카테고리를 토글할지 결정
      */
     getCategoryBySlot(index) {
-        const settings = ThemeManager.settings || {};
+        const settings = ThemeEngine.settings || {};
         const slots = settings.pinned_categories || [];
         return slots[index - 1] || null;
     }
