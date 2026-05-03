@@ -4,7 +4,7 @@
  * 실제 구현은 LayoutManager, SidebarManager 등 세부 모듈에 위임하며, 무한 스크롤 및 설정 초기화와 같은 공통 UI 로직을 담당합니다.
  */
 import { VisualLinker } from './components/VisualLinker.js';
-import { ThemeManager } from './components/ThemeManager.js';
+import { SettingsManager } from './components/SettingsManager.js';
 import { I18nManager } from './utils/I18nManager.js';
 import { LayoutManager } from './components/LayoutManager.js';
 import { SidebarManager } from './components/SidebarManager.js';
@@ -47,7 +47,7 @@ export const UI = {
      * @returns {Promise<Object>} 서버 설정 데이터
      */
     async initSettings() {
-        return await ThemeManager.initSettings();
+        return await SettingsManager.initSettings();
     },
 
     /**

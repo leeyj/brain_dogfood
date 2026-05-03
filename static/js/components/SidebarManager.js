@@ -4,7 +4,7 @@
 import { Constants as S } from '../utils/Constants.js';
 import { SidebarUI } from './SidebarUI.js';
 import { SidebarFooter } from './SidebarFooter.js';
-import { ThemeManager } from './ThemeManager.js';
+import { ThemeEngine } from './ThemeEngine.js';
 
 export const SidebarManager = {
     ui: new SidebarUI(),
@@ -91,13 +91,13 @@ export const SidebarManager = {
         }
 
         // 2. 카테고리 렌더링 및 동기화 (Pinned Categories)
-        const pinnedCategories = ThemeManager.settings?.pinned_categories || [];
+        const pinnedCategories = ThemeEngine.settings?.pinned_categories || [];
         const categoryNav = document.querySelector(S.SELECTORS.CATEGORY_NAV);
         this.ui.renderCategoryList(categoryNav, pinnedCategories, activeCategory, onCategoryClick);
         
         // 3. 카테고리 섹션 가시성 제어
         if (DOM.categorySection) {
-            const isCategoryEnabled = ThemeManager.settings?.enable_categories;
+            const isCategoryEnabled = ThemeEngine.settings?.enable_categories;
             DOM.categorySection.style.display = isCategoryEnabled ? 'block' : 'none';
         }
     },

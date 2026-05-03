@@ -12,6 +12,11 @@
     - **이중 보안**: 메모별 개별 암호화 및 미디어 보안 실드.
     - **AI 구조화**: Gemini 2.0 Flash 기반 자동 요약 및 지능형 태깅.
 
+## ✨ What's New in v8.3.3
+- **Secure Backup & Export**: 환경설정에서 전체 시스템 데이터(DB, 첨부파일, .env)를 **AES-256 암호화된 ZIP** 파일로 안전하게 백업하거나, 일반 메모들을 옵시디언(Obsidian) 등 외부 앱에 완벽 호환되는 **Frontmatter 마크다운(.md)**으로 일괄 내보낼 수 있는 기능 추가. (대용량 메모리 스트리밍 처리 적용)
+- **Offline Decryption Tool (`ex_tools`)**: 뇌사료 웹 서버가 없어도 로컬 PC에서 즉각적으로 DB를 추출하고 암호화된 메모들을 영리하게 해독해 내는 스탠드얼론 재난 복구 스크립트(`offline_exporter.py`) 추가 배포.
+- **System Stabilization**: 프론트엔드 모듈화 리팩토링 과정에서 발생한 잔존 버그 수정 및 파일 업로드 누락 이슈 해결.
+
 ## ✨ What's New in v1.5
 - **Advanced Category Toggle**: 라이트 유저를 위해 카테고리 기능을 숨기거나 켤 수 있는 옵션 도입.
 - **i18n Stabilization**: 한국어/영어 전환 시 히트맵, 달력 등 동적 컴포넌트까지 완벽하게 자가 교정 및 번역 반영.
@@ -29,4 +34,4 @@
 7. [**단축키 가이드 (Shortcuts Guide)**](shortcuts.md): **[업무 효율 극대화]** 탐색 및 편집 단축키 총정리
 
 ---
-*Last Updated: 2026-04-27 (v1.6 UUID Release)*
+*Last Updated: 2026-05-04 (v8.3.3 Release)*

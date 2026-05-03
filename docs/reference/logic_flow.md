@@ -15,6 +15,10 @@
 - **세션 검증**: 이미지 및 파일 다운로드 요청 시 `auth.login_required` 데코레이터를 통해 유효한 세션 쿠키를 가진 사용자만 접근을 허용합니다.
 - **동적 경로 보정**: 본문 내 이미지 경로가 상대 경로(`uploads/file.png`)인 경우, 렌더링 시 `fixImagePaths` 유틸리티가 `/api/download/file.png`로 자동 변환하여 403 에러를 방지합니다.
 
+### 1.3 첨부파일 생명주기 및 고아 파일 자동 정리 (Attachment Lifecycle & Cleanup)
+- **개별 삭제 및 세션 관리**: 작성 도중 업로드한 파일들은 프론트엔드에서 `sessionFiles`로 추적되며, 작성 취소 시 즉각적으로 서버 삭제 요청을 보내 잉여 파일을 방지합니다.
+- **서버 자동 청소 (Garbage Collection)**: 브라우저 강제 종료 등으로 인해 미처 지워지지 못한 고아 파일(작성 중단 파일)은 서버 백엔드 기동(`init_db`) 시점에 DB의 `memo_id IS NULL` 레코드를 스캔하여 물리적 파일과 함께 완전히 삭제됩니다.
+
 ---
 
 ## 🌌 2. 지식 관계 시각화 (Visual Graph Logic)
@@ -33,8 +37,8 @@
 
 ### 3.1 AppService 중심의 단방향 흐름
 1.  **UI Event**: 사용자가 필터를 변경하거나 데이터를 요청합니다.
-2.  **Service Action**: `AppService`가 `setFilter()`를 통해 중앙 상태를 변경하고 `API`를 호출합니다.
-3.  **Broadcasting**: 데이터 로드가 완료되면 `AppService`는 등록된 모든 매니저(Weekly, Sidebar, Layout 등)의 `render()` 메서드를 순차적으로 실행합니다.
+2.  **Service Action**: `AppService` 파사드가 `FilterService.setFilter()`를 호출하여 `AppState`를 변경하고 `API`와 통신합니다.
+3.  **Broadcasting**: 데이터 로드가 완료되면 `AppService`는 등록된 모든 매니저(Weekly, Sidebar, Layout 등)의 렌더링 콜백을 순차적으로 실행합니다.
 
 ### 3.2 지능형 필터 초기화
 - **영역 우선순위**: 사이드바의 주요 그룹(별표, 완료 등)을 클릭하면 세부 필터(날짜, 카테고리)는 초기화되지만, 검색어(`query`)는 유지하여 사용자가 현재 보던 맥락에서 검색을 이어갈 수 있도록 합니다.

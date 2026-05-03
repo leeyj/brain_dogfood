@@ -1,0 +1,157 @@
+{
+    "version": "8.3.2",
+    "release_date": "2026-05-03",
+    "history": [
+        {
+            "version": "8.3.2",
+            "date": "2026-05-03",
+            "title": "Core Module Refactoring & Modularization",
+            "changes": [
+                "ComposerManager & RelationManager 모듈화: 기능별 서브 모듈 분리 (UI, 보안, 단축키, 분석, 렌더링)",
+                "MemoCardParts 모듈화: CardBase, Header, Meta, Body, Actions 서브 모듈 분리",
+                "ShortcutManager 리팩토링: CommandRegistry 도입 및 데이터 기반 단축키 처리",
+                "전역 날짜 유틸리티(DateUtils) 신설: Weekly/Heatmap 중복 로직 통합 및 코드 최적화"
+            ],
+            "changes_en": [
+                "Modularization of ComposerManager & RelationManager into functional sub-modules (UI, Security, Shortcuts, Analyzer, Renderer).",
+                "Modularization of MemoCardParts into sub-modules (CardBase, Header, Meta, Body, Actions).",
+                "ShortcutManager Refactoring: Implemented CommandRegistry for data-driven shortcut handling.",
+                "Global DateUtils: Centralized date calculation and formatting logic across WeeklyManager and HeatmapManager."
+            ]
+        },
+        {
+            "version": "8.3.1",
+            "date": "2026-04-30",
+            "title": "Attachment Management Improvements",
+            "changes": [
+                "기능 개선: 메모 작성 및 수정 중 첨부된 파일을 개별적으로 삭제할 수 있는 기능 추가 (새로 업로드한 파일은 즉시 영구 삭제, 기존 파일은 저장 시 연결 해제)"
+            ],
+            "changes_en": [
+                "Feature: Added ability to delete individual attachments during memo creation and editing (New files are permanently deleted immediately, existing files are unlinked upon saving)."
+            ]
+        },
+        {
+            "version": "8.3.0",
+            "date": "2026-04-29",
+            "title": "Bugfix: Memo Encryption",
+            "changes": [
+                "버그 수정: 신규 메모 작성 시 암호화 기능(자물쇠)이 동작하지 않고 평문으로 저장되던 치명적 결함(is_encrypted 플래그 누락) 해결"
+            ],
+            "changes_en": [
+                "Bug Fix: Fixed a critical issue where the encryption flag (is_encrypted) was missing when creating a new memo, causing it to be saved as plaintext despite a password being set."
+            ]
+        },
+        {
+            "version": "8.2.0",
+            "date": "2026-04-27",
+            "title": "Expanded External API & Modularization",
+            "changes": [
+                "외부 API 모듈화: external/ 패키지 구조 도입 및 기능별 모듈 분리",
+                "통합 테스트 환경 강화: 고도화된 외부 API 검증 스크립트(test_external_api.py) 및 APITester 도입",
+                "휴지통 관리 고도화: 삭제된 메모 전용 UI(Grayscale/Blur) 및 복원/영구삭제 기능 구현",
+                "옵시디언 연동 제어: config.json 설정을 통한 내보내기 버튼 활성화/비활성화 기능 추가",
+                "시스템 안정성 개선: config.json 문법 오류 감지 강화 및 프론트엔드 상태 참조 안전장치 적용",
+                "버그 수정: 메모 카드 내 누락되었던 백링크(언급됨) 렌더링 복구"
+            ],
+            "changes_en": [
+                "External API Modularization: Packages under external/ for better maintenance",
+                "Enhanced Testing Environment: Advanced external API verification script (test_external_api.py) & APITester",
+                "Advanced Trash Management: Grayscale/Blur UI and Restore/Permanent Delete functionality",
+                "Obsidian Export Control: Toggle export button visibility via config.json settings",
+                "System Stability: Enhanced config error handling and frontend state safety checks",
+                "Bug Fix: Restored missing backlink (Mentioned in) rendering on memo cards"
+            ]
+        },
+        {
+            "version": "8.1.0",
+            "date": "2026-04-24",
+            "title": "Update Notification System",
+            "changes": [
+                "GitHub 연동 지능형 업데이트 감지 및 알림 배지 시스템 도입",
+                "신규 변경 사항(Changelog) 확인 및 로그 뷰어 모달 구현",
+                "수동 업데이트 안내 시스템 강화 (Native/Docker 가이드)",
+                "구조화된 버전 관리 체계(version.json) 구축"
+            ],
+            "changes_en": [
+                "Intelligent Update Detection via GitHub integration with notification badges",
+                "New Changelog Viewer modal to review updates within the app",
+                "Manual update guide implementation (Native/Docker instructions)",
+                "Structured versioning infrastructure (version.json) implemented"
+            ]
+        },
+        {
+            "version": "8.0.0",
+            "date": "2026-04-23",
+            "title": "Premium Help Revamp",
+            "changes": [
+                "프리미엄 도움말 시스템 전면 개편 (16개 고해상도 이미지 통합 가이드)",
+                "글래스모피즘 테마 및 애니메이션 카드를 적용한 현대적인 도움말 UI",
+                "하단 탭 바 고정 레이아웃 적용 (Sticky Tabs)으로 사용성 개선",
+                "활성 탭에 따른 모달 헤더 제목 동적 전환 및 다국어 최적화",
+                "도움말 유지보수 및 자동 이미지 추출 가이드 구축"
+            ],
+            "changes_en": [
+                "Premium Help Revamp with 16 high-resolution guide images",
+                "Modern UI with Glassmorphism themes and interactive animated cards",
+                "Improved usability with Sticky Tab navigation",
+                "Dynamic header titles based on active tab with full I18n optimization",
+                "New maintenance guide and automated image extraction workflow"
+            ]
+        },
+        {
+            "version": "7.0.0",
+            "date": "2026-04-23",
+            "title": "Deadline & Compact Update",
+            "changes": [
+                "통합 기한 관리 시스템(Deadline Management) 및 D-Day 배지 도입",
+                "슬래시 명령어(/기한)를 통한 퀵 데이트 피커 지원",
+                "주간 달력 내 마감일 레드 펄스 배지(Red Pulse Dot) 시각화",
+                "노트북 환경을 위한 울트라 콤팩트(Ultra Compact) 레이아웃 적용",
+                "MemoCard 및 SlashCommand 대규모 리팩토링 및 모듈화"
+            ],
+            "changes_en": [
+                "Integrated Deadline Management system and D-Day badges",
+                "Quick date picker support via slash command (/deadline)",
+                "Visual Red Pulse Dot on calendar for upcoming deadlines",
+                "Ultra Compact layout optimization for laptop environments",
+                "Major refactoring and modularization of MemoCard and SlashCommand"
+            ]
+        },
+        {
+            "version": "6.0.0",
+            "date": "2026-04-23",
+            "title": "Relation Insight Update",
+            "changes": [
+                "관계 포커스 모드(Relation Focus Mode) 및 SVG 화살표 시각화 도입",
+                "비주얼 노드 링커(Alt+Click)를 통한 직관적인 지식 와이어링",
+                "멀티링크 에코시스템 구축 및 고속 편집(Instant Edit) 기능 강화",
+                "드래그 앤 드롭을 통한 지식 참조 링크 삽입 지원"
+            ],
+            "changes_en": [
+                "Relation Focus Mode with dynamic SVG arrow visualization",
+                "Intuitive Visual Node Linker via Alt+Click wiring",
+                "Multi-link ecosystem and enhanced Instant Edit functionality",
+                "Drag & Drop support for embedding knowledge references"
+            ]
+        },
+        {
+            "version": "5.0.0",
+            "date": "2026-04-22",
+            "title": "Weekly Review & Layout Update",
+            "changes": [
+                "메인 영역 슬롯화 및 레이아웃 엔진(Grid/List) 도입",
+                "주간 매니저(Weekly View) 및 고밀도 리스트 레이아웃 추가",
+                "지능형 필터 및 API 호출 최적화 (날짜 범위 검색 지원)",
+                "비주얼 링커 좌표 동기화 및 암호 마스킹 보안 강화",
+                "스타일 격리(wk- namespace)를 통한 UI 통일성 확보"
+            ],
+            "changes_en": [
+                "Main area slotting and real-time Grid/List layout engine",
+                "New Weekly View manager and high-density List layout",
+                "Intelligent filtering and API optimization (Date range support)",
+                "Visual Linker coordinate synchronization and password masking security",
+                "Style isolation (wk- namespace) for visual consistency"
+            ]
+        }
+    ]
+}

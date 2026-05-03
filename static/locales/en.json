@@ -206,5 +206,17 @@
     "update_success": "Update successful! Restart the server to apply.",
     "update_changelog_title": "What's New",
     "update_no_new": "You are using the latest version.",
-    "update_manual_notice": "Please perform the update manually according to your environment."
+    "update_manual_notice": "Please perform the update manually according to your environment.",
+    "backup_title": "📦 Backup & Export",
+    "backup_desc": "Safely backup server data to prevent data loss or export memos to integrate with external apps (like Obsidian).",
+    "backup_opt_full_title": "Full System Backup (AES Encrypted)",
+    "backup_opt_full_desc": "Downloads DB, attachments, and settings (.env) as a single compressed file. Essential for recovery.",
+    "backup_pwd_placeholder": "Set backup ZIP password",
+    "backup_pwd_warning": "If you lose this password, the backup cannot be unlocked!",
+    "backup_opt_export_title": "Export Memos (Markdown)",
+    "backup_opt_export_desc": "Downloads non-encrypted memos as individual .md files (including Frontmatter). Ideal for external app integration.",
+    "backup_cancel": "Cancel",
+    "backup_execute": "Execute Download",
+    "backup_export_desc": "Data backup and Markdown export",
+    "backup_btn": "Backup / Export"
 }

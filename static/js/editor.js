@@ -30,6 +30,7 @@ export const EditorManager = {
             initialEditType: 'wysiwyg',
             previewStyle: isMobile ? 'tab' : 'vertical',
             theme: 'dark',
+            usageStatistics: false,
             placeholder: I18nManager.t('composer_placeholder'),
             plugins: plugins,
             toolbarItems: isMobile ? [

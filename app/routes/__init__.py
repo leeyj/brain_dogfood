@@ -10,6 +10,7 @@ def register_blueprints(app):
     from .stats import stats_bp
     from .external import external_bp
     from .system import system_bp
+    from .backup import backup_bp
     
     app.register_blueprint(main_bp)
     app.register_blueprint(auth_bp)
@@ -20,3 +21,4 @@ def register_blueprints(app):
     app.register_blueprint(stats_bp)
     app.register_blueprint(external_bp)
     app.register_blueprint(system_bp)
+    app.register_blueprint(backup_bp)

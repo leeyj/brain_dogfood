@@ -3,7 +3,8 @@
  */
 import { API } from '../api.js';
 import { I18nManager } from '../utils/I18nManager.js';
-import { ThemeManager } from './ThemeManager.js';
+import { ThemeEngine } from './ThemeEngine.js';
+import { SettingsManager } from './SettingsManager.js';
 
 export const CategoryManager = {
     DOM: {},
@@ -32,7 +33,7 @@ export const CategoryManager = {
 
     async open() {
         // 모달을 열 때 최신 설정을 서버에서 다시 불러옴
-        await ThemeManager.initSettings();
+        await SettingsManager.initSettings();
         this.render();
         this.DOM.modal.classList.add('active');
         this.DOM.input.focus();
@@ -43,7 +44,7 @@ export const CategoryManager = {
     },
 
     async render() {
-        const settings = ThemeManager.settings || {};
+        const settings = ThemeEngine.settings || {};
         const categories = settings.categories || [];
         const pinned = settings.pinned_categories || [];
 
@@ -86,7 +87,7 @@ export const CategoryManager = {
             return;
         }
 
-        const settings = { ...ThemeManager.settings };
+        const settings = { ...ThemeEngine.settings };
         if (!settings.categories) settings.categories = [];
         if (!settings.pinned_categories) settings.pinned_categories = [];
 
@@ -107,7 +108,7 @@ export const CategoryManager = {
     },
 
     async togglePin(cat) {
-        const settings = { ...ThemeManager.settings };
+        const settings = { ...ThemeEngine.settings };
         if (!settings.pinned_categories) settings.pinned_categories = [];
         
         const idx = settings.pinned_categories.indexOf(cat);
@@ -129,7 +130,7 @@ export const CategoryManager = {
     async deleteCategory(cat) {
         if (!confirm(I18nManager.t('msg_confirm_delete_category'))) return;
 
-        const settings = { ...ThemeManager.settings };
+        const settings = { ...ThemeEngine.settings };
         settings.categories = settings.categories.filter(c => c !== cat);
         settings.pinned_categories = settings.pinned_categories.filter(c => c !== cat);
 
@@ -141,7 +142,7 @@ export const CategoryManager = {
         try {
             await API.saveSettings(settings);
             // 전역 세팅 업데이트 및 UI 리프레시
-            ThemeManager.settings = settings;
+            ThemeEngine.settings = settings;
             if (this.onUpdateCallback) this.onUpdateCallback();
         } catch (err) {
             alert("Save failed: " + err.message);
