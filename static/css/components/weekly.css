@@ -10,10 +10,10 @@
 }
 
 .wk-container {
-    background: rgba(var(--bg-card-rgb, 30, 30, 35), 0.7);
+    background: var(--card);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(128, 128, 128, 0.2);
     padding: 8px 14px;
     border-radius: 20px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
@@ -50,7 +50,7 @@
 .wk-info {
     font-size: 0.95rem;
     font-weight: 700;
-    color: var(--text-main);
+    color: var(--text);
     white-space: nowrap;
     min-width: 110px;
     text-align: center;
@@ -64,9 +64,9 @@
 }
 
 .wk-nav-btn, .wk-full-btn {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    color: var(--text-muted);
+    background: rgba(128, 128, 128, 0.1);
+    border: 1px solid rgba(128, 128, 128, 0.2);
+    color: var(--muted);
     cursor: pointer;
     border-radius: 12px;
     display: flex;
@@ -93,9 +93,9 @@
     justify-content: stretch !important;
     gap: 0 !important;
     width: 100%;
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(128, 128, 128, 0.2);
     border-radius: 14px;
-    background: rgba(0, 0, 0, 0.2);
+    background: rgba(128, 128, 128, 0.05);
 }
 
 .wk-item {
@@ -106,7 +106,7 @@
     padding: 10px 5px 8px;
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
-    border-right: 1px solid rgba(255, 255, 255, 0.05);
+    border-right: 1px solid rgba(128, 128, 128, 0.15);
     background: transparent;
     position: relative;
     box-sizing: border-box;
@@ -146,13 +146,13 @@
 }
 
 .wk-item.active .wk-number {
-    color: var(--text-main);
+    color: var(--text);
     transform: scale(1.15);
 }
 
 .wk-label {
     font-size: 0.65rem;
-    color: var(--text-muted);
+    color: var(--muted);
     margin-bottom: 4px;
     font-weight: 700;
     position: relative;
@@ -184,7 +184,7 @@
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(128, 128, 128, 0.3);
     transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
@@ -193,7 +193,7 @@
 }
 
 /* 히트맵 레벨 색상 (더 선명하고 일관성 있게 조절) */
-.wk-dot.lvl-0 { background: rgba(255, 255, 255, 0.05); }
+.wk-dot.lvl-0 { background: rgba(128, 128, 128, 0.2); }
 .wk-dot.lvl-1 { background: #38bdf84d !important; }
 .wk-dot.lvl-2 { background: #38bdf899 !important; }
 .wk-dot.lvl-3 { background: #38bdf8e6 !important; }

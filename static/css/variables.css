@@ -1,15 +1,15 @@
 html { font-size: 15px; }
 
 :root {
-    --bg: #0f172a;
-    --sidebar: rgba(30, 41, 59, 0.7);
-    --card: rgba(30, 41, 59, 0.85);
-    --text: #f8fafc;
-    --muted: #94a3b8;
-    --accent: #38bdf8;
-    --accent-hover: #0ea5e9;
-    --ai-accent: #8b5cf6;
-    --encrypted-border: #00f3ff;
+    --bg: #f8fafc;
+    --sidebar: #f1f5f9;
+    --card: #ffffff;
+    --text: #1e293b;
+    --muted: #64748b;
+    --accent: #475569;
+    --accent-hover: #334155;
+    --ai-accent: #64748b;
+    --encrypted-border: #cbd5e1;
     --sidebar-width: 260px;
     --sidebar-collapsed-width: 70px;
     --font: 'Inter', sans-serif;

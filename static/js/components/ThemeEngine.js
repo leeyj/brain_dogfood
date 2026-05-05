@@ -4,8 +4,30 @@ import { SessionHeartbeat } from '../utils/SessionHeartbeat.js';
 export const ThemeEngine = {
     settings: {},
 
+    THEME_PRESETS: {
+        dark: {
+            bg_color: "#0f172a",
+            sidebar_color: "rgba(30, 41, 59, 0.7)",
+            card_color: "rgba(30, 41, 59, 0.85)",
+            encrypted_border: "#00f3ff",
+            ai_accent: "#8b5cf6"
+        },
+        white: {
+            bg_color: "#f8fafc",
+            sidebar_color: "#f1f5f9",
+            card_color: "#ffffff",
+            encrypted_border: "#cbd5e1",
+            ai_accent: "#64748b"
+        }
+    },
+
     async applyTheme(settings) {
         this.settings = settings;
+
+        if (settings.theme_preset && this.THEME_PRESETS[settings.theme_preset]) {
+            const preset = this.THEME_PRESETS[settings.theme_preset];
+            settings = { ...settings, ...preset };
+        }
 
         const mapping = {
             'bg_color': '--bg',
@@ -119,18 +141,12 @@ export const ThemeEngine = {
         const handleThemeChange = (e) => {
             const isDark = e.matches;
             const theme = isDark ? {
-                bg_color: "#0f172a",
-                sidebar_color: "rgba(30, 41, 59, 0.7)",
-                card_color: "rgba(30, 41, 59, 0.85)",
-                encrypted_border: "#00f3ff",
-                ai_accent: "#8b5cf6",
+                ...this.THEME_PRESETS.dark,
+                theme_preset: "dark",
                 lang: "ko"
             } : {
-                bg_color: "#f8fafc",
-                sidebar_color: "rgba(241, 245, 249, 0.8)",
-                card_color: "#ffffff",
-                encrypted_border: "#0ea5e9",
-                ai_accent: "#6366f1",
+                ...this.THEME_PRESETS.white,
+                theme_preset: "white",
                 lang: "ko"
             };
             this.applyTheme(theme);

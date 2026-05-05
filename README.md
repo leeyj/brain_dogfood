@@ -39,7 +39,13 @@
 
 ---
 
-### 🛠️ 최신 패치 노트 (2026-05-04) - v8.3.3 (Secure Backup & Export)
+### 🛠️ 최신 패치 노트 (2026-05-06) - v8.3.4 (Theme & Visibility Refactoring)
+*   **신규 테마 도입**: '화이트 & 그레이' 프리셋 추가 및 커스텀 테마 연동 강화.
+*   **CSS 리팩토링**: 전역 스타일 및 HTML 인라인의 하드코딩 제거, 테마 변수(var) 전면 적용.
+*   **시인성 고도화**: 암호화 메모 해독 버튼, 도움말 가이드, 사이드바 탐색기 버튼 등의 가독성 및 대비 대폭 강화.
+*   **UI 최적화**: 환경설정 모달 너비 최적화(500px) 및 다크 모드 고대비 색상 적용.
+
+### 🛠️ 이전 패치 노트 (2026-05-04) - v8.3.3 (Secure Backup & Export)
 *   **Secure Backup & Export**: 전체 시스템 데이터(DB, 첨부파일, .env)를 **AES-256 암호화된 ZIP** 파일로 안전하게 백업 및 일반 메모를 **Frontmatter 마크다운(.md)**으로 일괄 내보내는 기능 추가.
 *   **Offline Decryption Tool**: 뇌사료 서버 없이도 로컬 PC에서 즉각적으로 DB를 추출하고 암호화된 메모들을 해독해 내는 스탠드얼론 복구 스크립트(`ex_tools/offline_exporter.py`) 배포.
 *   **안정성 고도화**: 프론트엔드 모듈화 리팩토링 및 파일 업로드 누락 이슈 해결.
@@ -196,6 +202,12 @@ We provide a security model where user data is practically undecipherable. Built
 - **Multi-Link Support**: Insert multiple internal links (`[[#ID]]`) to create clusters of networked thought.
 - **Instant Edit (e-key)**: Hover over a memo and press `e` to jump straight into editing mode. Zero-click productivity.
 - **Drag & Drop Workflow**: Drag memo cards into the composer to instantly insert a semantic reference.
+
+### 🛠️ Patch Notes (2026-05-06) - v8.3.4 (Theme & Visibility Refactoring)
+*   **New Theme**: Added 'White & Gray' preset and enhanced custom theme integration.
+*   **CSS Refactoring**: Removed hardcoded colors from global styles and HTML inlines, fully implemented theme variables.
+*   **Visibility Boost**: Significantly improved contrast for encrypted memo buttons, help guides, and sidebar explorer buttons.
+*   **UI Optimization**: Optimized settings modal width (500px) and improved high-contrast colors in dark mode.
 
 ### 🛠️ Patch Notes (2026-05-04) - v8.3.3 (Secure Backup & Export)
 *   **Secure Backup & Export**: Safely backup full system data (DB, attachments, .env) as an **AES-256 encrypted ZIP** file, and bulk export plaintext memos as **Frontmatter Markdown (.md)**.

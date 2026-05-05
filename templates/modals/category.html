@@ -1,14 +1,14 @@
 <!-- Category Management Modal -->
 <div id="categoryModal" class="modal">
-    <div class="modal-content glass-panel" style="max-width: 420px; padding: 18px 22px; background: var(--bg); border: 1px solid rgba(255,255,255,0.1);">
-        <div class="modal-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 12px;">
-            <h2 style="margin: 0; font-size: 1.15rem; color: white;" data-i18n="nav_category_manage">Manage Categories</h2>
+    <div class="modal-content glass-panel" style="max-width: 420px; padding: 18px 22px; background: var(--bg); border: 1px solid rgba(128, 128, 128, 0.2);">
+        <div class="modal-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 1px solid rgba(128, 128, 128, 0.1); padding-bottom: 12px;">
+            <h2 style="margin: 0; font-size: 1.15rem; color: var(--text);" data-i18n="nav_category_manage">Manage Categories</h2>
             <button id="closeCategoryBtn" style="background: none; border: none; color: var(--muted); font-size: 1.35rem; cursor: pointer; line-height: 1;">&times;</button>
         </div>
         <div class="modal-body">
             <div style="display: flex; gap: 8px; margin-bottom: 15px;">
                 <input type="text" id="newCategoryInput" data-i18n-placeholder="prompt_category_name" 
-                       style="flex: 1; padding: 10px; border-radius: 8px; background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.1); color: white; outline: none; font-size: 0.9rem;">
+                       style="flex: 1; padding: 10px; border-radius: 8px; background: var(--card); border: 1px solid rgba(128, 128, 128, 0.2); color: var(--text); outline: none; font-size: 0.9rem;">
                 <button id="addCategoryBtn" class="primary-btn" style="padding: 0 15px; height: 38px;">+</button>
             </div>
             <div id="categoryListContainer" style="max-height: 320px; overflow-y: auto; padding-right: 5px;">
