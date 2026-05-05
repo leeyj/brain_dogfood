@@ -126,7 +126,7 @@
 .sidebar.collapsed .nav li { padding: 0.8rem 0; justify-content: center; background: none !important; border: none !important; }
 .sidebar.collapsed .nav li.active { color: var(--accent); }
 .sidebar.collapsed .nav li .icon { font-size: 1.2rem; margin: 0; font-style: normal; display: block; }
-.sidebar.collapsed .section-title { padding: 0.5rem 0; text-align: center; border-top: 1px solid rgba(255,255,255,0.05); height: 1px; overflow: hidden; }
+.sidebar.collapsed .section-title { padding: 0.5rem 0; text-align: center; border-top: 1px solid rgba(128, 128, 128, 0.1); height: 1px; overflow: hidden; }
 .sidebar.collapsed .sub-item { padding-left: 0 !important; }
 
 /* Hide redundant sections in collapsed state */
@@ -147,7 +147,7 @@
     padding: 10px 0 !important;
 }
 
-.sidebar.collapsed .sidebar-footer { padding: 10px 0; justify-content: center; display: flex; flex-direction: column; align-items: center; border-top: 1px solid rgba(255,255,255,0.05);}
+.sidebar.collapsed .sidebar-footer { padding: 10px 0; justify-content: center; display: flex; flex-direction: column; align-items: center; border-top: 1px solid rgba(128, 128, 128, 0.1);}
 .sidebar.collapsed #logoutBtn { padding: 8px !important; justify-content: center; }
 .sidebar.collapsed #settingsBtn { background: none !important; border: none !important; }
 
@@ -159,7 +159,7 @@
     left: 80px;
     top: 50%;
     transform: translateY(-50%);
-    background: rgba(15, 23, 42, 0.9);
+    background: var(--card);
     color: white;
     padding: 6px 12px;
     border-radius: 6px;
@@ -169,7 +169,7 @@
     pointer-events: none;
     transition: all 0.2s ease;
     z-index: 1000;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(128, 128, 128, 0.2);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 .sidebar.collapsed [data-tooltip]:hover::after {

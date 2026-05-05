@@ -7,14 +7,14 @@
     max-width: 240px;
     max-height: 280px;
     overflow-y: auto;
-    background: rgba(15, 23, 42, 0.95);
+    background: var(--card);
     backdrop-filter: blur(12px);
     border: 1px solid rgba(56, 189, 248, 0.2);
     border-radius: 10px;
     padding: 6px;
     box-shadow: 
-        0 8px 32px rgba(0, 0, 0, 0.5),
-        0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+        0 8px 32px rgba(128, 128, 128, 0.4),
+        0 0 0 1px rgba(128, 128, 128, 0.1) inset;
     animation: slashPopupIn 0.15s ease-out;
 }
 
@@ -53,8 +53,8 @@
     justify-content: center;
     width: 28px;
     height: 28px;
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(128, 128, 128, 0.1);
+    border: 1px solid rgba(128, 128, 128, 0.15);
     border-radius: 6px;
     font-size: 0.8rem;
     color: var(--accent, #38bdf8);
@@ -64,7 +64,7 @@
 
 .slash-label {
     font-size: 0.82rem;
-    color: rgba(255, 255, 255, 0.85);
+    color: var(--text);
     font-weight: 500;
     font-family: var(--font, 'Inter', sans-serif);
 }

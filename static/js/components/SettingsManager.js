@@ -13,9 +13,25 @@ export const SettingsManager = {
         const resetThemeBtn = document.getElementById('resetThemeBtn');
         const pickers = settingsModal ? settingsModal.querySelectorAll('input[type="color"]') : [];
 
+        const toggleColorPickers = (presetVal) => {
+            const isCustom = presetVal === 'custom';
+            pickers.forEach(picker => {
+                picker.disabled = !isCustom;
+                picker.style.opacity = isCustom ? '1' : '0.4';
+                picker.style.cursor = isCustom ? 'pointer' : 'not-allowed';
+            });
+        };
+
         try {
             const settings = await API.fetchSettings();
             await ThemeEngine.applyTheme(settings);
+            const presetSelect = document.getElementById('set-theme-preset');
+            if (presetSelect && settings.theme_preset) {
+                presetSelect.value = settings.theme_preset;
+            } else if (presetSelect) {
+                presetSelect.value = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'white';
+            }
+            if (presetSelect) toggleColorPickers(presetSelect.value);
             if (Object.keys(settings).length === 0) {
                 ThemeEngine.initSystemThemeDetection();
             }
@@ -58,6 +74,25 @@ export const SettingsManager = {
             closeSettingsBtn.onclick = () => settingsModal.classList.remove('active');
         }
         
+        const presetSelect = document.getElementById('set-theme-preset');
+        if (presetSelect) {
+            presetSelect.onchange = (e) => {
+                const presetVal = e.target.value;
+                toggleColorPickers(presetVal);
+                if (ThemeEngine.THEME_PRESETS[presetVal]) {
+                    const preset = ThemeEngine.THEME_PRESETS[presetVal];
+                    Object.keys(preset).forEach(key => {
+                        const pickerId = 'set-' + key.split('_')[0];
+                        const picker = document.getElementById(pickerId);
+                        if (picker) {
+                            picker.value = ThemeEngine.rgbaToHex(preset[key]);
+                            picker.dispatchEvent(new Event('input'));
+                        }
+                    });
+                }
+            };
+        }
+
         window.addEventListener('click', (e) => {
             if (settingsModal && e.target === settingsModal) settingsModal.classList.remove('active');
         });
@@ -73,6 +108,10 @@ export const SettingsManager = {
         if (saveThemeBtn) {
             saveThemeBtn.onclick = async () => {
                 const data = {};
+                const presetSelect = document.getElementById('set-theme-preset');
+                if (presetSelect) {
+                    data['theme_preset'] = presetSelect.value;
+                }
                 const mapping = {
                     'set-bg': 'bg_color',
                     'set-sidebar': 'sidebar_color',
@@ -125,12 +164,15 @@ export const SettingsManager = {
         if (resetThemeBtn) {
             resetThemeBtn.onclick = () => {
                 if (confirm(I18nManager.t('msg_reset_theme') || '모든 색상을 기본값으로 되돌릴까요?')) {
+                    const presetSelect = document.getElementById('set-theme-preset');
+                    const presetVal = presetSelect && presetSelect.value !== 'custom' ? presetSelect.value : 'white';
+                    if (presetSelect) {
+                        presetSelect.value = presetVal;
+                        toggleColorPickers(presetVal);
+                    }
                     const defaults = {
-                        bg_color: "#0f172a",
-                        sidebar_color: "rgba(30, 41, 59, 0.7)",
-                        card_color: "rgba(30, 41, 59, 0.85)",
-                        encrypted_border: "#00f3ff",
-                        ai_accent: "#8b5cf6",
+                        ...ThemeEngine.THEME_PRESETS[presetVal],
+                        theme_preset: presetVal,
                         lang: "ko",
                         enable_categories: false,
                         session_timeout: 60

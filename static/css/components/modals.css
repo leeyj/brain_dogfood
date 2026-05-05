@@ -1,15 +1,15 @@
 /* Modals & Special Overlay Components */
 
 /* Asset Manager / Library */
-.asset-card { 
-    transition: transform 0.2s, background 0.2s; 
-    border: 1px solid transparent; 
+.asset-card {
+    transition: transform 0.2s, background 0.2s;
+    border: 1px solid transparent;
 }
 
-.asset-card:hover { 
-    transform: scale(1.02); 
-    background: rgba(255,255,255,0.1) !important; 
-    border-color: var(--accent); 
+.asset-card:hover {
+    transform: scale(1.02);
+    background: rgba(128, 128, 128, 0.15) !important;
+    border-color: var(--accent);
 }
 
 /* Settings Modal Specifics */
@@ -21,18 +21,30 @@
     padding: 10px 0;
 }
 
-.settings-grid label { font-size: 0.95rem; font-weight: 600; color: #cbd5e1; }
+.settings-grid label {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text);
+}
 
 .settings-grid input[type="color"] {
-    width: 50px; height: 32px; padding: 0;
-    border: 2px solid rgba(255,255,255,0.1); border-radius: 6px;
-    background: transparent; cursor: pointer; outline: none;
+    width: 50px;
+    height: 32px;
+    padding: 0;
+    border: 2px solid rgba(128, 128, 128, 0.2);
+    border-radius: 6px;
+    background: transparent;
+    cursor: pointer;
+    outline: none;
 }
 
 .settings-actions {
-    display: flex; justify-content: flex-end; gap: 10px;
-    margin-top: 25px; padding-top: 15px;
-    border-top: 1px solid rgba(255,255,255,0.05);
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 25px;
+    padding-top: 15px;
+    border-top: 1px solid rgba(128, 128, 128, 0.1);
 }
 
 /* Universal Modal Close Button */
@@ -61,7 +73,7 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(128, 128, 128, 0.15);
     color: var(--muted);
     font-size: 0.7rem;
     font-weight: 800;
@@ -74,7 +86,7 @@
 
 .explorer-chip:hover .chip-count {
     background: var(--accent);
-    color: #0f172a;
+    color: var(--bg);
 }
 
 /* AI Disabled State */
@@ -95,7 +107,7 @@ body.ai-disabled .ai-loading-overlay {
     gap: 12px;
     margin-bottom: 12px;
     font-size: 0.95rem;
-    color: #cbd5e1;
+    color: var(--text);
 }
 
 .shortcut-item i {
@@ -106,12 +118,19 @@ body.ai-disabled .ai-loading-overlay {
     opacity: 0.8;
 }
 
+.shortcut-item:hover {
+    background: rgba(128, 128, 128, 0.05);
+    border-radius: 8px;
+    color: var(--accent);
+}
+
+
 kbd {
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.05) 100%);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-bottom: 3px solid rgba(0, 0, 0, 0.4);
+    background: linear-gradient(180deg, rgba(128, 128, 128, 0.15) 0%, rgba(128, 128, 128, 0.05) 100%);
+    border: 1px solid rgba(128, 128, 128, 0.2);
+    border-bottom: 3px solid rgba(128, 128, 128, 0.3);
     border-radius: 6px;
-    box-shadow: 0 4px 0 rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 0 rgba(128, 128, 128, 0.1), inset 0 1px 0 rgba(128, 128, 128, 0.1);
     color: var(--accent);
     display: inline-block;
     font-family: inherit;
@@ -135,17 +154,20 @@ kbd:active {
 
 /* Help Modal Tab System (Excel Style) */
 #shortcutModal .modal-content {
-    overflow: hidden !important; /* 내부에서 스크롤을 처리하므로 외부 스크롤 제거 */
+    overflow: hidden !important;
+    /* 내부에서 스크롤을 처리하므로 외부 스크롤 제거 */
     display: flex;
     flex-direction: column;
-    max-height: 90vh; /* 조금 더 크게 설정 */
+    max-height: 90vh;
+    /* 조금 더 크게 설정 */
 }
 
 #shortcutModal .modal-body {
     padding: 0;
     display: flex;
     flex-direction: column;
-    flex: 1; /* 남은 공간 모두 차지 */
+    flex: 1;
+    /* 남은 공간 모두 차지 */
     overflow: hidden;
 }
 
@@ -163,42 +185,61 @@ kbd:active {
 
 .help-tab-bar {
     display: flex;
-    background: rgba(30, 41, 59, 0.95); /* 더 어둡고 불투명하게 */
-    border-top: 2px solid rgba(255, 255, 255, 0.1);
+    background: rgba(128, 128, 128, 0.05);
+    /* 중립적인 배경으로 교체 */
+    border-top: 1px solid rgba(128, 128, 128, 0.15);
     padding: 0 20px;
-    gap: 5px; /* 간격 넓힘 */
+    gap: 5px;
+    /* 간격 넓힘 */
     z-index: 100;
 }
 
 .help-tab {
     padding: 10px 20px;
-    background: rgba(255, 255, 255, 0.03);
+    background: rgba(128, 128, 128, 0.05);
     color: var(--muted);
     font-size: 0.85rem;
     font-weight: 600;
     cursor: pointer;
-    border-radius: 0 0 8px 8px; /* 위는 막혀있고 아래가 둥근 엑셀 시트 느낌 */
+    border-radius: 0 0 8px 8px;
+    /* 위는 막혀있고 아래가 둥근 엑셀 시트 느낌 */
     margin-bottom: 5px;
     transition: all 0.2s;
     border: 1px solid transparent;
     border-top: none;
     position: relative;
-    top: -1px; /* 상단 경계선에 걸치게 함 */
+    top: -1px;
+    /* 상단 경계선에 걸치게 함 */
 }
 
 .help-tab:hover {
-    background: rgba(255, 255, 255, 0.08);
+    background: rgba(128, 128, 128, 0.1);
     color: var(--text);
 }
 
 .help-tab.active {
     background: var(--card);
     color: var(--accent);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-top: 2px solid var(--accent); /* 활성 탭은 위에 강조선 */
+    border: 1px solid rgba(128, 128, 128, 0.2);
+    border-top: 2px solid var(--accent);
     border-bottom: none;
     border-radius: 0 0 4px 4px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 10px rgba(128, 128, 128, 0.1);
+}
+
+.help-content-area img {
+    max-width: 100%;
+    border-radius: 12px;
+    border: 1px solid rgba(128, 128, 128, 0.15);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    margin: 15px 0;
+}
+
+.help-content-area h3 {
+    color: var(--text);
+    margin-top: 25px;
+    margin-bottom: 12px;
+    font-weight: 800;
 }
 
 .help-sheet {
@@ -256,8 +297,15 @@ kbd:active {
 }
 
 @keyframes slideUp {
-    from { transform: translateY(10px); opacity: 0; }
-    to { transform: translateY(0); opacity: 1; }
+    from {
+        transform: translateY(10px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
 }
 
 /* --- System Update UI --- */
@@ -266,15 +314,26 @@ kbd:active {
 }
 
 @keyframes pulse {
-    0% { transform: scale(0.95); opacity: 0.7; }
-    50% { transform: scale(1.15); opacity: 1; }
-    100% { transform: scale(0.95); opacity: 0.7; }
+    0% {
+        transform: scale(0.95);
+        opacity: 0.7;
+    }
+
+    50% {
+        transform: scale(1.15);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(0.95);
+        opacity: 0.7;
+    }
 }
 
 .update-log-item {
     margin-bottom: 25px;
     padding-bottom: 20px;
-    border-bottom: 1px solid rgba(255,255,255,0.05);
+    border-bottom: 1px solid rgba(128, 128, 128, 0.1);
 }
 
 .update-log-item:last-child {
@@ -313,7 +372,19 @@ kbd:active {
     margin: 0;
     padding-left: 20px;
     list-style: disc;
-    color: #cbd5e1;
+    color: var(--text);
+    /* var(--text)를 사용하여 시인성 확보 */
+}
+
+.update-log-item {
+    margin-bottom: 25px;
+    padding: 15px;
+    /* 내부 여백 추가 */
+    background: var(--bg);
+    /* 배경을 조금 더 대비되는 색상으로 */
+    border-radius: 12px;
+    border: 1px solid rgba(128, 128, 128, 0.15);
+    color: var(--text);
 }
 
 .update-log-list li {
@@ -324,7 +395,7 @@ kbd:active {
     display: inline-block;
     width: 16px;
     height: 16px;
-    border: 2px solid rgba(255,255,255,0.3);
+    border: 2px solid rgba(128, 128, 128, 0.3);
     border-top-color: #fff;
     border-radius: 50%;
     animation: spin 1s linear infinite;
@@ -333,5 +404,21 @@ kbd:active {
 }
 
 @keyframes spin {
-    to { transform: rotate(360deg); }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* --- Form Elements Accessibility --- */
+.modal-content select,
+.modal-content input[type="text"],
+.modal-content input[type="password"],
+.modal-content input[type="number"] {
+    background-color: var(--card);
+    color: var(--text);
+}
+
+select option {
+    background-color: var(--card);
+    color: var(--text);
 }

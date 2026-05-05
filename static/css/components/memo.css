@@ -60,8 +60,27 @@
 .memo-card.compact::after { display: none; }
 
 .memo-card.encrypted {
-    border: 1px solid var(--encrypted-border) !important;
-    box-shadow: 0 0 15px rgba(0, 243, 255, 0.15), inset 0 0 5px rgba(0, 243, 255, 0.05);
+    border: 2px solid var(--encrypted-border);
+    box-shadow: 0 0 15px rgba(128, 128, 128, 0.2);
+    background: rgba(128, 128, 128, 0.05); /* 옅은 회색 배경 추가 */
+}
+
+.unlock-btn {
+    background: var(--ai-accent);
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+
+.unlock-btn:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.1);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
 }
 
 /* Fade-out for long content */
@@ -100,9 +119,9 @@
 /* Meta & Badges */
 .memo-meta { margin-bottom: 12px; display: flex; flex-wrap: wrap; gap: 5px; }
 .tag-badge { padding: 2px 8px; border-radius: 12px; font-size: 0.75rem; font-weight: bold; }
-.tag-user { background: rgba(56, 189, 248, 0.2); color: var(--accent); }
+.tag-user { background: rgba(56, 189, 248, 0.2); color: #38bdf8; } /* 글자색을 고대비 Cyan으로 명시 */
 .tag-ai { background: rgba(139, 92, 246, 0.2); color: #c084fc; border: 1px solid rgba(139, 92, 246, 0.3); }
-.group-badge { background: rgba(255,255,255,0.05); color: #cbd5e1; padding: 2px 8px; border-radius: 12px; font-size: 0.75rem; font-weight: bold; }
+.group-badge { background: rgba(128, 128, 128, 0.1); color: var(--text); padding: 2px 8px; border-radius: 12px; font-size: 0.75rem; font-weight: bold; }
 
 /* Links & Actions */
 .memo-backlinks { margin-top: 12px; padding-top: 8px; border-top: 1px solid rgba(128,128,128,0.1); font-size: 0.8rem; color: var(--muted); }
@@ -126,7 +145,7 @@
 .memo-attachments {
     margin-top: 15px;
     padding-top: 10px;
-    border-top: 1px solid rgba(255,255,255,0.05);
+    border-top: 1px solid rgba(128, 128, 128, 0.1);
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
@@ -136,19 +155,19 @@
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,255,255,0.1);
+    background: rgba(128, 128, 128, 0.1);
+    border: 1px solid rgba(128, 128, 128, 0.15);
     border-radius: 6px;
     padding: 6px 12px;
     font-size: 0.8rem;
-    color: #cbd5e1;
+    color: var(--text);
     cursor: pointer;
     transition: all 0.2s;
     text-decoration: none;
 }
 
 .file-chip:hover {
-    background: rgba(255,255,255,0.1);
+    background: rgba(128, 128, 128, 0.15);
     border-color: var(--accent);
     color: white;
     transform: translateY(-1px);
@@ -161,7 +180,7 @@
     width: 16px;
     height: 16px;
     border-radius: 50%;
-    background: rgba(255,255,255,0.1);
+    background: rgba(128, 128, 128, 0.15);
     color: #ef4444;
     font-size: 0.85rem;
     line-height: 1;
@@ -181,9 +200,9 @@
     -webkit-appearance: none;
     width: 1.15rem;
     height: 1.15rem;
-    border: 2px solid rgba(255, 255, 255, 0.4);
+    border: 2px solid rgba(128, 128, 128, 0.5);
     border-radius: 4px;
-    background: rgba(30, 41, 59, 0.5);
+    background: rgba(128, 128, 128, 0.1);
     cursor: pointer;
     position: relative;
     vertical-align: middle;
@@ -205,7 +224,7 @@
     left: 50%;
     font-family: Arial, sans-serif;
     transform: translate(-50%, -50%);
-    color: #0f172a;
+    color: var(--bg);
     font-size: 0.85rem;
     font-weight: 900;
 }
@@ -278,7 +297,7 @@ body.linker-active .copy-id-btn {
 .memo-card.deleted {
     opacity: 0.5;
     filter: grayscale(1) blur(0.5px);
-    background: rgba(0, 0, 0, 0.15);
+    background: rgba(128, 128, 128, 0.1);
     border: 1px dashed rgba(128, 128, 128, 0.3) !important;
     pointer-events: auto; /* 액션 버튼 클릭은 허용 */
 }

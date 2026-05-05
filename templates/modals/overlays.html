@@ -1,19 +1,18 @@
 <!-- AI Loading Overlay (Optional but nice) -->
-<div id="loadingOverlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); backdrop-filter:blur(5px); z-index:2000; flex-direction:column; justify-content:center; align-items:center;">
+<div id="loadingOverlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(128,128,128,0.4); backdrop-filter:blur(5px); z-index:2000; flex-direction:column; justify-content:center; align-items:center;">
     <div class="spinner"></div>
     <p style="margin-top:20px; font-weight:800; color:var(--accent);" data-i18n="msg_ai_loading">AI is analyzing the memo...</p>
 </div>
 
 <!-- Sidebar Overlay for mobile -->
-<!-- Sidebar Overlay for mobile -->
-<div id="sidebarOverlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.4); z-index:900; backdrop-filter:blur(2px);"></div>
+<div id="sidebarOverlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(128,128,128,0.3); z-index:900; backdrop-filter:blur(2px);"></div>
 
 <!-- ⌨️ Shortcut Help Modal -->
 <div id="shortcutModal" class="modal">
     <div class="modal-content glass-panel" style="max-width: 800px; position: relative; padding: 0; overflow: hidden;">
         <button class="close-modal-btn" onclick="document.getElementById('shortcutModal').classList.remove('active')">&times;</button>
-        <div class="modal-header" style="display: flex; align-items: center; gap: 12px; border-bottom: 1px solid rgba(255,255,255,0.05); padding: 20px 25px; background: rgba(255,255,255,0.02);">
-            <h2 style="margin: 0; display: flex; align-items: center; gap: 10px; font-size: 1.4rem;">
+        <div class="modal-header" style="display: flex; align-items: center; gap: 12px; border-bottom: 1px solid rgba(128,128,128,0.15); padding: 20px 25px; background: rgba(128,128,128,0.05);">
+            <h2 style="margin: 0; display: flex; align-items: center; gap: 10px; font-size: 1.4rem; color: var(--text);">
                 <span data-i18n="title_shortcuts">Keyboard Shortcuts (v2.2)</span>
             </h2>
         </div>

@@ -1,7 +1,26 @@
 {
-    "version": "8.3.3",
-    "release_date": "2026-05-04",
+    "version": "8.3.4",
+    "release_date": "2026-05-06",
     "history": [
+        {
+            "version": "8.3.4",
+            "date": "2026-05-06",
+            "title": "Theme Engine Refactoring & Visibility Enhancement",
+            "changes": [
+                "신규 테마 도입: '화이트 & 그레이' 프리셋 추가 및 커스텀 테마 연동 강화",
+                "CSS 리팩토링: 전역 스타일 및 HTML 인라인의 하드코딩 제거, 테마 변수(var) 전면 적용",
+                "시인성 고도화: 암호화 메모 카드 해독 버튼, 도움말 가이드, 사이드바 탐색기 버튼 등의 가독성 및 대비 대폭 강화",
+                "UI 최적화: 환경설정 모달 너비 조정(500px) 및 폼 요소(Select, Input) 테마 대응 개선",
+                "버그 수정: 다크 모드에서 일부 버튼 및 태그 글자가 배경에 묻히던 현상 해결"
+            ],
+            "changes_en": [
+                "New Theme: Added 'White & Gray' preset and enhanced custom theme integration.",
+                "CSS Refactoring: Removed hardcoded colors from global styles and HTML inlines, fully implemented theme variables.",
+                "Visibility Boost: Significantly improved contrast for encrypted memo buttons, help guides, and sidebar explorer buttons.",
+                "UI Optimization: Optimized settings modal width (500px) and improved form element theme compatibility.",
+                "Bug Fix: Fixed visibility issues where button text and tags were blended with backgrounds in dark mode."
+            ]
+        },
         {
             "version": "8.3.3",
             "date": "2026-05-04",
@@ -11,8 +30,8 @@
                 "버그 수정: 메모 작성 취소 시 업로드된 임시 파일이 삭제되지 않고 누적되는 메모리 릭 해결 및 서버 재시작 시 자동 청소 기능 도입"
             ],
             "changes_en": [
-                "Frontend Modularization: Decoupled ThemeManager, AppService, and Visualizer into specialized modules (SettingsManager, ThemeEngine, FilterService, etc.).",
-                "Bugfix: Resolved an orphan file leak where canceled uploads during memo creation were not deleted; added automatic cleanup on server restart."
+                "Frontend Modularization: Decoupled ThemeManager, AppService, and Visualizer into SettingsManager, ThemeEngine, FilterService, etc.",
+                "Bug Fix: Resolved orphan upload leak when cancelling memo creation; implemented automated server-side cleanup on restart."
             ]
         },
         {

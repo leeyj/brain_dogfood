@@ -1,9 +1,16 @@
 <!-- Settings Modal -->
 <div id="settingsModal" class="modal">
-    <div class="modal-content glass-panel" style="max-width: 400px; padding: 25px;">
+    <div class="modal-content glass-panel" style="max-width: 500px; padding: 25px;">
         <h2 style="margin-bottom: 20px; font-weight: 800; background: linear-gradient(135deg, #38bdf8, #8b5cf6); -webkit-background-clip: text; -webkit-text-fill-color: transparent;" data-i18n="settings_title">⚙️ Settings</h2>
         
         <div class="settings-grid">
+            <label style="font-weight: 800; color: var(--accent);">테마 프리셋</label>
+            <select id="set-theme-preset" class="meta-field" style="width: 100%;">
+                <option value="white">화이트 & 그레이</option>
+                <option value="dark">다크</option>
+                <option value="custom">커스텀 (사용자 지정)</option>
+            </select>
+            
             <label data-i18n="settings_bg">전체 배경색</label>
             <input type="color" id="set-bg" data-var="--bg">
             
@@ -40,8 +47,8 @@
         <div class="settings-divider" style="height: 1px; background: rgba(255,255,255,0.05); margin: 20px 0;"></div>
         
         <!-- Backup & Export Section -->
-        <div id="backupSection" style="display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.2); padding: 10px 15px; border-radius: 8px; margin-bottom: 10px;">
-            <div style="font-size: 0.8rem; opacity: 0.8; color: #cbd5e1;" data-i18n="backup_export_desc">
+        <div id="backupSection" style="display: flex; justify-content: space-between; align-items: center; background: rgba(128,128,128,0.1); padding: 10px 15px; border-radius: 8px; margin-bottom: 10px;">
+            <div style="font-size: 0.8rem; color: var(--text);" data-i18n="backup_export_desc">
                 데이터 백업 및 마크다운 내보내기
             </div>
             <button id="openBackupModalBtn" class="premium-btn" style="padding: 5px 12px; font-size: 0.75rem; border-radius: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.3); background: linear-gradient(135deg, #10b981, #059669);">
@@ -50,8 +57,8 @@
         </div>
 
         <!-- System Update Section -->
-        <div id="updateSection" style="display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.2); padding: 10px 15px; border-radius: 8px;">
-            <div style="font-size: 0.8rem; opacity: 0.8; color: #cbd5e1;">
+        <div id="updateSection" style="display: flex; justify-content: space-between; align-items: center; background: rgba(128,128,128,0.1); padding: 10px 15px; border-radius: 8px;">
+            <div style="font-size: 0.8rem; color: var(--text);">
                 <span data-i18n="update_current_version">Version</span>: <span id="currentVerDisplay">8.0.0</span>
             </div>
             <button id="checkUpdateBtn" class="premium-btn" style="padding: 5px 12px; font-size: 0.75rem; border-radius: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.3);">
