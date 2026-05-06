@@ -18,6 +18,7 @@ export const ComposerManager = {
     DOM: {},
     selectedCategory: null,
     isDoneStatus: false,
+    isSaving: false,
 
     init(onSaveSuccess) {
         // 1. 서브 모듈 초기화
@@ -158,6 +159,9 @@ export const ComposerManager = {
         if (!data.title && !data.content) { this.close(); return; }
         if (data.is_encrypted && !data.password) { alert(I18nManager.t('msg_alert_password_required')); return; }
 
+        if (this.isSaving) return;
+        this.isSaving = true;
+
         try {
             await API.saveMemo(data, this.DOM.id.value);
             EditorManager.sessionFiles.clear();
@@ -165,7 +169,11 @@ export const ComposerManager = {
             if (callback) await callback();
             this.clear();
             this.close();
-        } catch (err) { alert(err.message); }
+        } catch (err) { 
+            alert(err.message); 
+        } finally {
+            this.isSaving = false;
+        }
     },
 
     close() {
