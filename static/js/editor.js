@@ -86,6 +86,8 @@ export const EditorManager = {
         editorEl.addEventListener('keydown', (e) => {
             // 1. Ctrl+Enter → 저장
             if (onCtrlEnter && e.ctrlKey && !e.shiftKey && (e.key === 'Enter' || e.keyCode === 13)) {
+                e.preventDefault();
+                e.stopPropagation();
                 onCtrlEnter();
                 return;
             }
