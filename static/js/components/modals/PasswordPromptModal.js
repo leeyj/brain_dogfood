@@ -37,8 +37,14 @@ export const PasswordPromptModal = {
             dom.closePasswordBtn.onclick = handleCancel;
             
             dom.passwordPromptInput.onkeydown = (e) => {
-                if (e.key === 'Enter') handleConfirm();
-                if (e.key === 'Escape') handleCancel();
+                if (e.key === 'Enter') {
+                    e.stopPropagation();
+                    handleConfirm();
+                }
+                if (e.key === 'Escape') {
+                    e.stopPropagation();
+                    handleCancel();
+                }
             };
         });
     }

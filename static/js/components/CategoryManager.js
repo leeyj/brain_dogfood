@@ -9,6 +9,7 @@ import { SettingsManager } from './SettingsManager.js';
 export const CategoryManager = {
     DOM: {},
     onUpdateCallback: null,
+    isProcessing: false,
 
     init(onUpdateCallback) {
         this.onUpdateCallback = onUpdateCallback;
@@ -81,7 +82,8 @@ export const CategoryManager = {
 
     async handleAdd() {
         const name = this.DOM.input.value.trim();
-        if (!name) return;
+        if (!name || this.isProcessing) return;
+        
         if (name.length > 20) {
             alert("Name too long (max 20)");
             return;
@@ -96,18 +98,25 @@ export const CategoryManager = {
             return;
         }
 
-        settings.categories.push(name);
-        // 공간이 있으면 자동 핀 고정
-        if (settings.pinned_categories.length < 3) {
-            settings.pinned_categories.push(name);
-        }
+        this.isProcessing = true;
+        try {
+            settings.categories.push(name);
+            // 공간이 있으면 자동 핀 고정
+            if (settings.pinned_categories.length < 3) {
+                settings.pinned_categories.push(name);
+            }
 
-        await this.save(settings);
-        this.DOM.input.value = '';
-        this.render();
+            await this.save(settings);
+            this.DOM.input.value = '';
+            this.render();
+        } finally {
+            this.isProcessing = false;
+        }
     },
 
     async togglePin(cat) {
+        if (this.isProcessing) return;
+        
         const settings = { ...ThemeEngine.settings };
         if (!settings.pinned_categories) settings.pinned_categories = [];
         
@@ -123,19 +132,29 @@ export const CategoryManager = {
             settings.pinned_categories.push(cat);
         }
 
-        await this.save(settings);
-        this.render();
+        this.isProcessing = true;
+        try {
+            await this.save(settings);
+            this.render();
+        } finally {
+            this.isProcessing = false;
+        }
     },
 
     async deleteCategory(cat) {
-        if (!confirm(I18nManager.t('msg_confirm_delete_category'))) return;
+        if (this.isProcessing || !confirm(I18nManager.t('msg_confirm_delete_category'))) return;
 
         const settings = { ...ThemeEngine.settings };
         settings.categories = settings.categories.filter(c => c !== cat);
         settings.pinned_categories = settings.pinned_categories.filter(c => c !== cat);
 
-        await this.save(settings);
-        this.render();
+        this.isProcessing = true;
+        try {
+            await this.save(settings);
+            this.render();
+        } finally {
+            this.isProcessing = false;
+        }
     },
 
     async save(settings) {

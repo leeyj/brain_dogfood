@@ -15,14 +15,15 @@
 ### [static/js/editor.js](file:///c:/project/my_util/memo_server/static/js/editor.js)
 - `Ctrl+Enter` 감지 시 `e.preventDefault()` 및 `e.stopPropagation()`을 호출하여 전역 핸들러로의 이벤트 전파를 차단함.
 
-### [static/js/components/ComposerManager.js](file:///c:/project/my_util/memo_server/static/js/components/ComposerManager.js)
-- `isSaving` 플래그를 도입하여 저장 프로세스가 진행 중인 경우 추가 요청을 무시하도록 가드 로직 추가.
-- `finally` 블록을 사용하여 성공/실패 여부와 관계없이 플래그를 초기화하도록 보장.
+### [static/js/components/CategoryManager.js](file:///c:/project/my_util/memo_server/static/js/components/CategoryManager.js)
+- `isProcessing` 플래그를 도입하여 카테고리 추가/삭제/핀 토글 시 중복 요청이 발생하지 않도록 방어 로직 추가.
+
+### [기타 컴포넌트]
+- **SlashCommand.js**, **RelationManager.js**, **PasswordPromptModal.js**: 주요 키보드 이벤트(`ESC`, `Enter`) 핸들러에 `e.stopPropagation()`을 추가하여 전역 핸들러와의 충돌 방지.
 
 ## 4. 영향도
-- **긍정적**: 단축키 사용 시 데이터 정합성 보장 및 서버 불필요 요청 감소.
-- **부작용 없음**: 기존의 마우스 클릭 저장 및 기타 단축키 기능은 그대로 유지됨.
+- **긍정적**: 시스템 전반의 UI 반응성 및 데이터 안정성 향상. 특히 빠른 조작 시에도 예상치 못한 동작(작성기 닫힘 등)이 발생하지 않음.
+- **부작용 없음**: 기존 로직의 흐름을 유지하면서 안전 장치만 추가됨.
 
 ## 5. 해결 사항
-- `Ctrl+Enter` 입력 시 메모가 정확히 한 번만 저장됨을 확인.
-- 저장 중 버튼 연타 시에도 중복 생성이 방지됨.
+- 모든 관련 지점에서 중복 요청 및 의도치 않은 이벤트 전파가 해결되었음을 확인.
