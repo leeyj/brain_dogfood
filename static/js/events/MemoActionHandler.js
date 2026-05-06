@@ -14,7 +14,7 @@ export const MemoActionHandler = {
             onEdit: async (id) => {
                 const memo = await API.fetchMemo(id);
                 if (memo && memo.status === 'deleted') {
-                    alert(I18nManager.t('msg_cannot_edit_deleted') || '삭제된 메모는 수정할 수 없습니다. 먼저 복원해 주세요.');
+                    window.ToastManager.warning(I18nManager.t('msg_cannot_edit_deleted') || '삭제된 메모는 수정할 수 없습니다. 먼저 복원해 주세요.');
                     return;
                 }
                 if (memo && memo.is_encrypted) {
@@ -39,7 +39,7 @@ export const MemoActionHandler = {
                         await API.deleteMemo(id, isDeleted); // isDeleted가 true이면 영구 삭제(permanent=true)
                         AppService.refreshData(updateSidebarCallback);
                     } catch (err) {
-                        alert(err.message);
+                        window.ToastManager.error(err.message);
                     }
                 }
             },
@@ -47,7 +47,7 @@ export const MemoActionHandler = {
                 try {
                     await API.restoreMemo(id);
                     AppService.refreshData(updateSidebarCallback);
-                } catch (err) { alert(err.message); }
+                } catch (err) { window.ToastManager.error(err.message); }
             },
             onAI: async (id) => {
                 const memo = await API.fetchMemo(id);
@@ -57,7 +57,7 @@ export const MemoActionHandler = {
                 try {
                     await API.triggerAI(id);
                     await AppService.refreshData(updateSidebarCallback);
-                } catch (err) { alert(err.message); }
+                } catch (err) { window.ToastManager.error(err.message); }
                 finally { UI.showLoading(false); }
             },
             onTogglePin: async (id) => {
@@ -88,7 +88,7 @@ export const MemoActionHandler = {
                     });
                     
                     AppService.refreshData(updateSidebarCallback);
-                } catch (err) { alert(err.message); }
+                } catch (err) { window.ToastManager.error(err.message); }
             }
         };
     }

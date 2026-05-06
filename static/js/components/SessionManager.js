@@ -121,7 +121,7 @@ export const SessionManager = {
     handleTimeout() {
         clearInterval(this.state.timerId);
         console.warn('⌛ Session expired. Logging out...');
-        alert(I18nManager.t('msg_session_expired') || '세션이 만료되었습니다. 다시 로그인해주세요.');
+        window.ToastManager.warning(I18nManager.t('msg_session_expired') || '세션이 만료되었습니다. 다시 로그인해주세요.');
         window.location.href = '/logout';
     }
 };

@@ -2,6 +2,7 @@
  * 전역 단축키 관리 모듈 (ShortcutManager)
  */
 import { CommandRegistry } from './CommandRegistry.js';
+import { FocusManager } from './FocusManager.js';
 
 export const ShortcutManager = {
     init(onUpdate) {
@@ -10,6 +11,12 @@ export const ShortcutManager = {
 
     handleKeyDown(e, onUpdate) {
         if (!e.key) return;
+
+        // 0. FocusManager에 등록된 활성 컴포넌트에게 먼저 기회 부여
+        if (FocusManager.dispatch(e)) {
+            // 하위 컴포넌트에서 이미 이벤트를 소비했으므로 여기서 중단
+            return;
+        }
         
         const isCtrl = e.ctrlKey || e.metaKey;
         const isAlt = e.altKey;

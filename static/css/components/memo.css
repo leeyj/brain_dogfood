@@ -52,12 +52,12 @@
 
 .memo-card:hover { transform: translateY(-4px); box-shadow: 0 8px 25px -5px rgba(0,0,0,0.3); }
 
-.memo-card.compact { max-height: 80px; background: var(--card); opacity: 0.8; border: 1px dashed rgba(128,128,128,0.2); }
-.memo-card.compact .memo-content, 
-.memo-card.compact .memo-ai-summary, 
-.memo-card.compact .memo-backlinks { display: none; }
-.memo-card.compact .memo-title { font-size: 0.9rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 0px; margin-right: 50px; }
-.memo-card.compact::after { display: none; }
+.memo-card.mode-compact { max-height: 80px; background: var(--card); opacity: 0.8; border: 1px dashed rgba(128,128,128,0.2); }
+.memo-card.mode-compact .memo-content, 
+.memo-card.mode-compact .memo-ai-summary, 
+.memo-card.mode-compact .memo-backlinks { display: none; }
+.memo-card.mode-compact .memo-title { font-size: 0.9rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 0px; margin-right: 50px; }
+.memo-card.mode-compact::after { display: none; }
 
 .memo-card.encrypted {
     border: 2px solid var(--encrypted-border);

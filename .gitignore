@@ -29,6 +29,10 @@ scratch/
 .idea/
 .vscode/
 
+# Node.js & Vite
+node_modules/
+static/dist/
+
 # System
 .DS_Store
 Thumbs.db

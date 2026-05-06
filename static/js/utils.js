@@ -88,7 +88,7 @@ export async function downloadFile(filename, originalName) {
     try {
         const res = await fetch(`/api/download/${filename}`);
         if (!res.ok) {
-            alert(res.status === 403 ? I18nManager.t('msg_permission_denied') : `${I18nManager.t('msg_download_failed')}: ${res.statusText}`);
+            window.ToastManager.error(res.status === 403 ? I18nManager.t('msg_permission_denied') : `${I18nManager.t('msg_download_failed')}: ${res.statusText}`);
             return;
         }
         const blob = await res.blob();
@@ -97,5 +97,5 @@ export async function downloadFile(filename, originalName) {
         a.href = url; a.download = originalName;
         document.body.appendChild(a); a.click();
         window.URL.revokeObjectURL(url); document.body.removeChild(a);
-    } catch (err) { alert(`${I18nManager.t('msg_download_error')}: ` + err.message); }
+    } catch (err) { window.ToastManager.error(`${I18nManager.t('msg_download_error')}: ` + err.message); }
 }

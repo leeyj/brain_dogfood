@@ -7,7 +7,7 @@ export const AppState = {
     currentSearchQuery: '',
     unlockedMemos: new Map(),
     offset: 0,
-    limit: 20,
+    limit: 40,
     hasMore: true,
     isLoading: false,
     autoLoadCount: 0,

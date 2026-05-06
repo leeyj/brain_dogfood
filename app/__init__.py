@@ -149,6 +149,34 @@ def create_app():
     def handle_options(path):
         return '', 200
 
+    # --- 📦 Vite Manifest 연동 ---
+    def vite_asset(filename):
+        # 개발 모드(DEBUG=True)인 경우 기존 static 경로 반환
+        if app.debug:
+            if filename == 'main.js': return '/static/app.js'
+            if filename == 'main.css': return None # 개발 모드에선 개별 link 태그 사용
+            return f'/static/{filename}'
+            
+        # 운영 모드인 경우 manifest.json 참조
+        manifest_path = os.path.join(app.static_folder, 'dist', '.vite', 'manifest.json')
+        if os.path.exists(manifest_path):
+            try:
+                with open(manifest_path, 'r') as f:
+                    manifest = json.load(f)
+                    asset_key = 'static/app.js'
+                    if asset_key in manifest:
+                        if filename == 'main.js':
+                            return f"/static/dist/{manifest[asset_key]['file']}"
+                        if filename == 'main.css' and 'css' in manifest[asset_key]:
+                            # 첫 번째 CSS 번들 반환
+                            return f"/static/dist/{manifest[asset_key]['css'][0]}"
+            except Exception as e:
+                app.logger.error(f"Vite manifest load error: {e}")
+        
+        return None
+
+    app.jinja_env.globals.update(vite_asset=vite_asset)
+
     # Register modular blueprints
     from .routes import register_blueprints
     register_blueprints(app)

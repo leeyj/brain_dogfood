@@ -6,6 +6,7 @@ import { EditorManager } from '../editor.js';
 import { I18nManager } from '../utils/I18nManager.js';
 import { Constants } from '../utils/Constants.js';
 import { AppService } from '../AppService.js';
+import { FocusManager } from '../events/FocusManager.js';
 
 // --- 서브 모듈 임포트 ---
 import { ComposerUI } from './composer/ComposerUI.js';
@@ -20,7 +21,11 @@ export const ComposerManager = {
     isDoneStatus: false,
     isSaving: false,
 
+    isSaving: false,
+    _onSaveSuccess: null,
+
     init(onSaveSuccess) {
+        this._onSaveSuccess = onSaveSuccess;
         // 1. 서브 모듈 초기화
         this.DOM = ComposerUI.init();
         ComposerSecurity.init(this.DOM);
@@ -55,7 +60,7 @@ export const ComposerManager = {
                         this.clear();
                         this.close();
                     } catch (err) {
-                        alert(err.message);
+                        window.ToastManager.error(err.message);
                     } finally {
                         this.isSaving = false;
                     }
@@ -118,6 +123,10 @@ export const ComposerManager = {
         }
 
         ComposerUI.show();
+        FocusManager.push({
+            name: 'composer',
+            handleKeyDown: (e) => this.handleKeyDown(e)
+        });
         if (this.DOM.deleteBtn) this.DOM.deleteBtn.style.display = 'none';
         this.renderCategoryChips();
         ComposerUI.focusTitle();
@@ -145,6 +154,10 @@ export const ComposerManager = {
         if (this.DOM.dueDate) this.DOM.dueDate.value = memo.due_date || '';
 
         ComposerUI.show();
+        FocusManager.push({
+            name: 'composer',
+            handleKeyDown: (e) => this.handleKeyDown(e)
+        });
         if (this.DOM.deleteBtn) this.DOM.deleteBtn.style.display = 'block';
         this.renderCategoryChips();
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -165,7 +178,7 @@ export const ComposerManager = {
         };
 
         if (!data.title && !data.content) { this.close(); return; }
-        if (data.is_encrypted && !data.password) { alert(I18nManager.t('msg_alert_password_required')); return; }
+        if (data.is_encrypted && !data.password) { window.ToastManager.warning(I18nManager.t('msg_alert_password_required')); return; }
 
         if (this.isSaving) return;
         this.isSaving = true;
@@ -178,7 +191,7 @@ export const ComposerManager = {
             this.clear();
             this.close();
         } catch (err) { 
-            alert(err.message); 
+            window.ToastManager.error(err.message); 
         } finally {
             this.isSaving = false;
         }
@@ -186,6 +199,7 @@ export const ComposerManager = {
 
     close() {
         ComposerUI.hide();
+        FocusManager.pop('composer');
     },
 
     forceClose() {
@@ -240,5 +254,22 @@ export const ComposerManager = {
                 }
             }
         );
+    },
+
+    handleKeyDown(e) {
+        // 작성이 진행 중일 때는 ESC키로 무조건 닫히는 것을 방지
+        if (e.key === 'Escape') {
+            this.DOM.discardBtn.click();
+            return true;
+        }
+
+        // Ctrl + Enter 또는 Ctrl + S 로컬 저장
+        if ((e.ctrlKey || e.metaKey) && (e.key === 'Enter' || e.key.toLowerCase() === 's')) {
+            e.preventDefault();
+            this.handleSave(this._onSaveSuccess);
+            return true;
+        }
+
+        return false;
     }
 };

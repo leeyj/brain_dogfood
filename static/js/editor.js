@@ -63,7 +63,7 @@ export const EditorManager = {
                             this.sessionFiles.add(filename);
                             this.refreshAttachmentUI();
                         }
-                    } catch (err) { alert(err.message); }
+                    } catch (err) { window.ToastManager.error(err.message); }
                 }
             }
         });
@@ -84,13 +84,6 @@ export const EditorManager = {
         };
 
         editorEl.addEventListener('keydown', (e) => {
-            // 1. Ctrl+Enter → 저장
-            if (onCtrlEnter && e.ctrlKey && !e.shiftKey && (e.key === 'Enter' || e.keyCode === 13)) {
-                e.preventDefault();
-                e.stopPropagation();
-                onCtrlEnter();
-                return;
-            }
 
             // 2. Ctrl+Shift+[Key] → toolbar 명령 실행
             if (e.ctrlKey && e.shiftKey) {

@@ -96,8 +96,8 @@ export const CalendarManager = {
         const daysInMonth = new Date(year, month + 1, 0).getDate();
         const prevDaysInMonth = new Date(year, month, 0).getDate();
 
-        const monthNames = I18nManager.t('calendar_months');
-        const dayLabels = I18nManager.t('calendar_days');
+        const monthNames = Array.isArray(I18nManager.t('calendar_months')) ? I18nManager.t('calendar_months') : ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        const dayLabels = Array.isArray(I18nManager.t('calendar_days')) ? I18nManager.t('calendar_days') : ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
         
         // 문화권에 맞는 날짜 포맷팅 (예: "April 2026" vs "2026년 4월")
         const monthYearHeader = I18nManager.t('date_month_year')

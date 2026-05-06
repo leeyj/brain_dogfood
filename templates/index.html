@@ -1,33 +1,38 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
+    <script>window.PERF_START = performance.now();</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title data-i18n="app_name">Brain Dogfood</title>
     <link rel="icon" type="image/png" href="/static/favicon.png">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
     
-    <!-- FontAwesome for Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Toast UI Editor -->
-    <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
-    <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/theme/toastui-editor-dark.min.css" />
-    <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
-    
-    <!-- TUI Color Picker & Color Syntax Plugin -->
-    <link rel="stylesheet" href="https://uicdn.toast.com/tui-color-picker/latest/tui-color-picker.min.css" />
-    <script src="https://uicdn.toast.com/tui-color-picker/latest/tui-color-picker.min.js"></script>
-    <link rel="stylesheet" href="https://uicdn.toast.com/editor-plugin-color-syntax/latest/toastui-editor-plugin-color-syntax.min.css" />
-    <script src="https://uicdn.toast.com/editor-plugin-color-syntax/latest/toastui-editor-plugin-color-syntax.min.js"></script>
-    
-    <!-- D3.js for Knowledge Nebula -->
-    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <!-- Core Assets Loading -->
+    {% if config.DEBUG %}
+        <!-- [Dev Mode] 개별 모듈 로드 -->
+        <script type="module" src="/static/app.js?v=2.3"></script>
+        <link rel="stylesheet" href="/static/lib/font-awesome/css/all.min.css">
+        <link rel="stylesheet" href="/static/lib/toastui/toastui-editor.min.css" />
+        <link rel="stylesheet" href="/static/lib/toastui/toastui-editor-dark.min.css" />
+        <link rel="stylesheet" href="/static/lib/toastui/tui-color-picker.min.css" />
+        <link rel="stylesheet" href="/static/lib/toastui/toastui-editor-plugin-color-syntax.min.css" />
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/components/weekly.css') }}?v=1.1">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/components/toast.css') }}?v=1.0">
+        <link rel="stylesheet" href="/static/style.css?v=1.5">
+    {% else %}
+        <!-- [Production Mode] Vite 번들 로드 -->
+        {% set bundled_css = vite_asset('main.css') %}
+        {% if bundled_css %}<link rel="stylesheet" href="{{ bundled_css }}">{% endif %}
+        <script type="module" src="{{ vite_asset('main.js') }}"></script>
+    {% endif %}
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/components/weekly.css') }}?v=1.1">
-    <link rel="stylesheet" href="/static/style.css?v=1.5">
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/dompurify/dist/purify.min.js"></script>
+    <!-- Common External Utilities (Always Deferred) -->
+    <script defer src="/static/lib/toastui/toastui-editor-all.min.js"></script>
+    <script defer src="/static/lib/toastui/tui-color-picker.min.js"></script>
+    <script defer src="/static/lib/toastui/toastui-editor-plugin-color-syntax.min.js"></script>
+    <script defer src="/static/lib/d3/d3.v7.min.js"></script>
+    <script defer src="/static/lib/marked/marked.min.js"></script>
+    <script defer src="/static/lib/dompurify/purify.min.js"></script>
 </head>
 <body>
     {% include 'components/sidebar.html' %}
@@ -48,6 +53,6 @@
     {% include 'modals/backup.html' %}
     {% include 'modals/overlays.html' %}
 
-    <script type="module" src="/static/app.js?v=2.3"></script>
+
 </body>
 </html>
