@@ -59,8 +59,16 @@ export const SlashCommand = {
             case 'ArrowDown': e.preventDefault(); this.navigate(1); break;
             case 'ArrowUp': e.preventDefault(); this.navigate(-1); break;
             case 'Enter':
-            case 'Tab': e.preventDefault(); this.executeSelected(); break;
-            case 'Escape': e.preventDefault(); this.hide(); break;
+            case 'Tab': 
+                e.preventDefault(); 
+                e.stopPropagation();
+                this.executeSelected(); 
+                break;
+            case 'Escape': 
+                e.preventDefault(); 
+                e.stopPropagation();
+                this.hide(); 
+                break;
             case 'Backspace':
                 if (this.filterText.length > 0) {
                     this.filterText = this.filterText.slice(0, -1);

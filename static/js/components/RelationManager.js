@@ -84,6 +84,7 @@ export const RelationManager = {
 
         this.onEscKey = (e) => {
             if (e.key === 'Escape') {
+                e.stopPropagation();
                 this.clearFocus();
             }
         };

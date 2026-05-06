@@ -44,13 +44,21 @@ export const ComposerManager = {
         if (this.DOM.deleteBtn) {
             this.DOM.deleteBtn.onclick = async () => {
                 const id = this.DOM.id.value;
-                if (!id) return;
+                if (!id || this.isSaving) return;
+                
                 if (confirm(I18nManager.t('msg_delete_confirm'))) {
-                    await API.deleteMemo(id);
-                    EditorManager.cleanupSessionFiles().catch(e => console.error(e));
-                    if (onSaveSuccess) onSaveSuccess();
-                    this.clear();
-                    this.close();
+                    this.isSaving = true;
+                    try {
+                        await API.deleteMemo(id);
+                        EditorManager.cleanupSessionFiles().catch(e => console.error(e));
+                        if (onSaveSuccess) onSaveSuccess();
+                        this.clear();
+                        this.close();
+                    } catch (err) {
+                        alert(err.message);
+                    } finally {
+                        this.isSaving = false;
+                    }
                 }
             };
         }
