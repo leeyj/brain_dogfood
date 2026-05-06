@@ -1,0 +1,91 @@
+/* Toast Notification Container */
+#toast-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    pointer-events: none; /* 클릭 통과 */
+}
+
+/* Toast Item */
+.toast-item {
+    min-width: 250px;
+    max-width: 350px;
+    background: var(--card);
+    color: var(--text);
+    padding: 12px 16px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 0.9rem;
+    pointer-events: auto; /* 토스트 자체는 클릭 가능 */
+    transform: translateX(100%);
+    opacity: 0;
+    animation: toast-slide-in 0.3s forwards cubic-bezier(0.4, 0, 0.2, 1);
+    border-left: 4px solid transparent;
+}
+
+/* 닫힐 때 애니메이션 클래스 */
+.toast-item.toast-fade-out {
+    animation: toast-fade-out 0.3s forwards;
+}
+
+/* 아이콘 컨테이너 */
+.toast-icon {
+    font-size: 1.2rem;
+}
+
+/* 메시지 텍스트 */
+.toast-message {
+    flex: 1;
+    line-height: 1.4;
+    word-break: break-word;
+}
+
+/* 타입별 스타일 */
+.toast-info { border-left-color: #3b82f6; }
+.toast-info .toast-icon { color: #3b82f6; }
+
+.toast-success { border-left-color: #10b981; }
+.toast-success .toast-icon { color: #10b981; }
+
+.toast-error { border-left-color: #ef4444; }
+.toast-error .toast-icon { color: #ef4444; }
+
+.toast-warning { border-left-color: #f59e0b; }
+.toast-warning .toast-icon { color: #f59e0b; }
+
+/* 다크 모드 특화 보정 (필요한 경우) */
+body.dark-mode .toast-item {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-left-width: 4px; /* 왼쪽 보더는 두껍게 유지 */
+}
+
+/* 애니메이션 키프레임 */
+@keyframes toast-slide-in {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes toast-fade-out {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}

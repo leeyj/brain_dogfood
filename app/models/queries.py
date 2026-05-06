@@ -63,7 +63,12 @@ class SchemaQueries:
         ("ALTER TABLE memos ADD COLUMN is_encrypted BOOLEAN DEFAULT 0", "OperationalError"),
         ("ALTER TABLE memos ADD COLUMN due_date TEXT", "OperationalError"),
         ("ALTER TABLE memos ADD COLUMN uuid TEXT", "OperationalError"),
-        ("CREATE UNIQUE INDEX IF NOT EXISTS idx_memos_uuid ON memos(uuid)", "OperationalError")
+        ("CREATE UNIQUE INDEX IF NOT EXISTS idx_memos_uuid ON memos(uuid)", "OperationalError"),
+        ("CREATE INDEX IF NOT EXISTS idx_memos_status_group ON memos(status, group_name)", "OperationalError"),
+        ("CREATE INDEX IF NOT EXISTS idx_memos_pinned_updated ON memos(is_pinned, updated_at DESC)", "OperationalError"),
+        ("CREATE INDEX IF NOT EXISTS idx_tags_memo_id ON tags(memo_id)", "OperationalError"),
+        ("CREATE INDEX IF NOT EXISTS idx_attachments_memo_id ON attachments(memo_id)", "OperationalError"),
+        ("CREATE INDEX IF NOT EXISTS idx_links_source_target ON memo_links(source_id, target_id)", "OperationalError")
     ]
 
 

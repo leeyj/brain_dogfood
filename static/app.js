@@ -1,30 +1,39 @@
 /**
  * 뇌사료 메인 엔트리 포인트 (v5.0 리팩토링 완료)
  */
+// --- 🎨 CSS Imports (for Vite Bundling) ---
+import './lib/font-awesome/css/all.min.css';
+import './lib/toastui/toastui-editor.min.css';
+import './lib/toastui/toastui-editor-dark.min.css';
+import './lib/toastui/tui-color-picker.min.css';
+import './lib/toastui/toastui-editor-plugin-color-syntax.min.css';
+import './css/components/weekly.css';
+import './css/components/toast.css';
+import './style.css';
+
 import { API } from './js/api.js';
 import { UI } from './js/ui.js';
 import { AppService } from './js/AppService.js';
 import { EditorManager } from './js/editor.js';
 import { ComposerManager } from './js/components/ComposerManager.js';
 import { CalendarManager } from './js/components/CalendarManager.js';
-import { Visualizer } from './js/components/Visualizer.js';
 import { HeatmapManager } from './js/components/HeatmapManager.js';
-import { VisualLinker } from './js/components/VisualLinker.js';
-import { DrawerManager } from './js/components/DrawerManager.js';
-import { CategoryManager } from './js/components/CategoryManager.js';
-import { BackupManager } from './js/components/BackupManager.js';
-import { ModalManager } from './js/components/ModalManager.js';
-import { WeeklyManager } from './js/components/WeeklyManager.js';
-import { I18nManager } from './js/utils/I18nManager.js';
 import { Constants } from './js/utils/Constants.js';
-import { SessionManager } from './js/components/SessionManager.js';
-import { VersionManager } from './js/components/VersionManager.js';
-import { helpModal } from './js/components/modals/HelpModal.js';
-import { ShortcutManager } from './js/events/ShortcutManager.js';
-import { MemoActionHandler } from './js/events/MemoActionHandler.js';
-import { UIEventBinder } from './js/events/UIEventBinder.js';
+import { ToastManager } from './js/components/ToastManager.js';
+import { I18nManager } from './js/utils/I18nManager.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
+    window.PerfLogger = {
+        marks: { 'HTML Head': window.PERF_START || 0, 'DOM Content Loaded': performance.now() },
+        mark(label) {
+            this.marks[label] = performance.now();
+            const time = (this.marks[label] - this.marks['HTML Head']).toFixed(2);
+            console.log(`%c[PERF] ${label}: ${time}ms`, 'color: #8b5cf6; font-weight: bold;');
+        }
+    };
+    window.PerfLogger.mark('JS Initialization Start');
+
+    ToastManager.init();
     UI.initSidebarToggle();
     
     // --- 🔹 Callbacks ---
@@ -50,23 +59,16 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     };
 
-    // --- 🔹 Initialization (After callbacks are defined) ---
-    await UI.initSettings(); 
+    // --- 🔹 Initialization (Parallelized for Performance) ---
+    window.PerfLogger.mark('Settings API Fetch Start');
+    const settingsPromise = UI.initSettings().then(data => {
+        window.PerfLogger.mark('Settings API Fetch End');
+        return data;
+    }); 
 
     // 💡 전역 참조를 위해 window 객체에 할당 (상호 참조 용도)
     window.HeatmapManager = HeatmapManager;
-    window.WeeklyManager = WeeklyManager;
     window.AppService = AppService;
-
-    // 달력 초기화 (I18n 로드 후 처리)
-    CalendarManager.init('calendarContainer', (date) => {
-        AppService.setFilter({ date }, updateSidebarCallback);
-    });
-
-    // 무한 스크롤 초기화
-    UI.initInfiniteScroll(() => {
-        AppService.loadMore(updateSidebarCallback);
-    });
 
     // 작성기 콜백
     const onSaveSuccess = () => AppService.refreshData(updateSidebarCallback);
@@ -86,11 +88,25 @@ document.addEventListener('DOMContentLoaded', async () => {
         AppService.setFilter({ date }, updateSidebarCallback);
     });
     
-    DrawerManager.init();
-    CategoryManager.init(onSaveSuccess);
-    BackupManager.init();
-    WeeklyManager.init('weeklyContainer', updateSidebarCallback);
-    Visualizer.init('graphContainer');
+    // 나머지 부가 기능 모듈들은 백그라운드에서 동적 로드
+    const loadSecondaryModules = async () => {
+        const [{ DrawerManager }, { CategoryManager }, { BackupManager }, { Visualizer }, { VersionManager }, { helpModal }] = await Promise.all([
+            import('./js/components/DrawerManager.js'),
+            import('./js/components/CategoryManager.js'),
+            import('./js/components/BackupManager.js'),
+            import('./js/components/Visualizer.js'),
+            import('./js/components/VersionManager.js'),
+            import('./js/components/modals/HelpModal.js')
+        ]);
+
+        DrawerManager.init();
+        CategoryManager.init(onSaveSuccess);
+        BackupManager.init();
+        Visualizer.init('graphContainer');
+        helpModal.init();
+        VersionManager.init();
+    };
+    loadSecondaryModules();
 
     // 드래그 앤 드롭 파일 탐지
     EditorManager.bindDropEvent('.composer-wrapper', (shouldOpen) => {
@@ -100,17 +116,47 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 
     // --- 🔹 모듈화된 이벤트 핸들러 초기화 ---
-    ShortcutManager.init(updateSidebarCallback);
-    MemoActionHandler.init(updateSidebarCallback);
-    UIEventBinder.init(updateSidebarCallback);
-    helpModal.init();
-    VersionManager.init(); // 🚀 버전 관리 초기화
+    const initEventHandlers = async () => {
+        const [{ ShortcutManager }, { MemoActionHandler }, { UIEventBinder }] = await Promise.all([
+            import('./js/events/ShortcutManager.js'),
+            import('./js/events/MemoActionHandler.js'),
+            import('./js/events/UIEventBinder.js')
+        ]);
+        ShortcutManager.init(updateSidebarCallback);
+        MemoActionHandler.init(updateSidebarCallback);
+        UIEventBinder.init(updateSidebarCallback);
+    };
+    initEventHandlers();
+    
     UI.initResizeHandler(updateSidebarCallback); // 📱 반응형 레이아웃 초기화
 
     // --- 🔹 App Start ---
-    AppService.refreshData(updateSidebarCallback);
-    VisualLinker.init(); // 💡 연결 도구 초기화
-    SessionManager.init(); // ⏱️ 세션 타이머 초기화 (종료/EXIT)
+    settingsPromise.then(async () => {
+        window.PerfLogger.mark('Component Rendering Start');
+        
+        const [{ WeeklyManager }, { SessionManager }, { VisualLinker }] = await Promise.all([
+            import('./js/components/WeeklyManager.js'),
+            import('./js/components/SessionManager.js'),
+            import('./js/components/VisualLinker.js')
+        ]);
+        window.WeeklyManager = WeeklyManager;
+
+        CalendarManager.init('calendarContainer', (date) => {
+            AppService.setFilter({ date }, updateSidebarCallback);
+        });
+        WeeklyManager.init('weeklyContainer', updateSidebarCallback);
+
+        window.PerfLogger.mark('Initial Data Fetch Start');
+        await AppService.refreshData(updateSidebarCallback);
+        
+        VisualLinker.init(); // 💡 연결 도구 초기화
+        SessionManager.init(); // ⏱️ 세션 타이머 초기화
+
+        // 🚀 첫 데이터 로드 후에만 무한 스크롤 감시 시작 (중복 요청 방지)
+        UI.initInfiniteScroll(() => {
+            AppService.loadMore(updateSidebarCallback);
+        });
+    });
 
 
     // 💡 전역 취소 리스너 (시각적 연결용)

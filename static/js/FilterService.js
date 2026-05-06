@@ -40,6 +40,7 @@ export const FilterService = {
             };
 
             const newMemos = await API.fetchMemos(filters);
+            if (window.PerfLogger) window.PerfLogger.mark('Initial Data Fetch End');
             
             if (newMemos.length < AppState.limit) {
                 AppState.hasMore = false;
@@ -56,6 +57,7 @@ export const FilterService = {
             
             UI.setHasMore(AppState.hasMore);
             UI.renderMemos(newMemos, {}, AppState.eventHandlers, isAppend);
+            if (window.PerfLogger && !isAppend) window.PerfLogger.mark('Initial Memo Render End');
             
             if (AppState.hasMore && AppState.autoLoadCount < 3) {
                 setTimeout(() => {

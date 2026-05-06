@@ -42,7 +42,7 @@ export const BackupManager = {
                     if (type === 'full') {
                         const pwd = document.getElementById('backupPassword').value;
                         if (!pwd) {
-                            alert('전체 백업을 위해 비밀번호를 입력해주세요.');
+                            window.ToastManager.warning('전체 백업을 위해 비밀번호를 입력해주세요.');
                             executeBtn.disabled = false;
                             executeBtn.innerHTML = originalHtml;
                             return;
@@ -53,7 +53,7 @@ export const BackupManager = {
                     }
                     modal.classList.remove('active');
                 } catch (err) {
-                    alert('백업/내보내기 실패: ' + err.message);
+                    window.ToastManager.error('백업/내보내기 실패: ' + err.message);
                 } finally {
                     executeBtn.disabled = false;
                     executeBtn.innerHTML = originalHtml;

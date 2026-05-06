@@ -5,6 +5,7 @@ import { API } from '../api.js';
 import { I18nManager } from '../utils/I18nManager.js';
 import { ThemeEngine } from './ThemeEngine.js';
 import { SettingsManager } from './SettingsManager.js';
+import { FocusManager } from '../events/FocusManager.js';
 
 export const CategoryManager = {
     DOM: {},
@@ -37,11 +38,22 @@ export const CategoryManager = {
         await SettingsManager.initSettings();
         this.render();
         this.DOM.modal.classList.add('active');
+        FocusManager.push({
+            name: 'categoryModal',
+            handleKeyDown: (e) => {
+                if (e.key === 'Escape') {
+                    this.close();
+                    return true;
+                }
+                return false;
+            }
+        });
         this.DOM.input.focus();
     },
 
     close() {
         this.DOM.modal.classList.remove('active');
+        FocusManager.pop('categoryModal');
     },
 
     async render() {
@@ -85,7 +97,7 @@ export const CategoryManager = {
         if (!name || this.isProcessing) return;
         
         if (name.length > 20) {
-            alert("Name too long (max 20)");
+            window.ToastManager.warning(I18nManager.t("msg_name_too_long") || "Name too long (max 20)");
             return;
         }
 
@@ -94,7 +106,7 @@ export const CategoryManager = {
         if (!settings.pinned_categories) settings.pinned_categories = [];
 
         if (settings.categories.includes(name)) {
-            alert("Already exists");
+            window.ToastManager.warning(I18nManager.t("msg_already_exists") || "Already exists");
             return;
         }
 
@@ -126,7 +138,7 @@ export const CategoryManager = {
             settings.pinned_categories.splice(idx, 1);
         } else {
             if (settings.pinned_categories.length >= 3) {
-                alert(I18nManager.t('msg_category_limit'));
+                window.ToastManager.warning(I18nManager.t('msg_category_limit'));
                 return;
             }
             settings.pinned_categories.push(cat);
@@ -164,7 +176,7 @@ export const CategoryManager = {
             ThemeEngine.settings = settings;
             if (this.onUpdateCallback) this.onUpdateCallback();
         } catch (err) {
-            alert("Save failed: " + err.message);
+            window.ToastManager.error((I18nManager.t("msg_save_failed") || "Save failed: ") + err.message);
         }
     }
 };

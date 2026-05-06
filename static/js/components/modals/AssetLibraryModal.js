@@ -57,7 +57,7 @@ export const AssetLibraryModal = {
                     }
                 };
             });
-        } catch (err) { alert(err.message); }
+        } catch (err) { window.ToastManager.error(err.message); }
         finally { if (loadingOverlay) loadingOverlay.style.display = 'none'; }
     }
 };

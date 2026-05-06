@@ -23,6 +23,11 @@ export const Visualizer = {
     async render(onNodeClick) {
         if (!this.container) return;
         
+        if (this.simulation) {
+            this.simulation.stop();
+            this.simulation = null;
+        }
+        
         let memos = [];
         try {
             const { API } = await import('../api.js');
@@ -59,5 +64,16 @@ export const Visualizer = {
         this.svg.attr('viewBox', `0 0 ${this.width} ${this.height}`);
         this.simulation.force('center', d3.forceCenter(this.width / 2, this.height / 2));
         this.simulation.alpha(0.3).restart();
+    },
+
+    stop() {
+        if (this.simulation) {
+            this.simulation.stop();
+            this.simulation = null;
+        }
+        if (this.container) {
+            this.container.innerHTML = '';
+        }
+        this.svg = null;
     }
 };

@@ -185,9 +185,8 @@ export const VisualLinker = {
             const memo = await API.fetchMemo(sourceId);
             if (!memo) return;
 
-            // 💡 암호화된 메모리 처리 방어
             if (memo.is_encrypted) {
-                alert(I18nManager.t('msg_permission_denied') || 'Encrypted memo linking is not supported in visual mode.');
+                window.ToastManager.warning(I18nManager.t('msg_permission_denied') || 'Encrypted memo linking is not supported in visual mode.');
                 return;
             }
 
@@ -219,7 +218,7 @@ export const VisualLinker = {
             }
         } catch (err) {
             console.error('[VisualLinker] Link error:', err);
-            alert(`${I18nManager.t('msg_network_error') || 'Failed to link memos'}: ${err.message}`);
+            window.ToastManager.error(`${I18nManager.t('msg_network_error') || 'Failed to link memos'}: ${err.message}`);
         }
     },
 

@@ -218,5 +218,11 @@
     "backup_cancel": "취소",
     "backup_execute": "다운로드 실행",
     "backup_export_desc": "데이터 백업 및 마크다운 내보내기",
-    "backup_btn": "Backup / Export"
+    "backup_btn": "Backup / Export",
+    "msg_name_too_long": "이름이 너무 깁니다 (최대 20자).",
+    "msg_already_exists": "이미 존재합니다.",
+    "msg_save_failed": "저장 실패: ",
+    "msg_backup_password_required": "전체 백업을 위해 비밀번호를 입력해주세요.",
+    "msg_backup_failed": "백업/내보내기 실패: ",
+    "msg_check_failed": "확인 실패: "
 }

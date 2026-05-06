@@ -3,6 +3,7 @@ import { UI } from '../ui.js';
 import { Visualizer } from '../components/Visualizer.js';
 import { DrawerManager } from '../components/DrawerManager.js';
 import { CategoryManager } from '../components/CategoryManager.js';
+import { FocusManager } from './FocusManager.js';
 
 export const UIEventBinder = {
     async init(updateSidebarCallback) {
@@ -15,7 +16,21 @@ export const UIEventBinder = {
                 // 💡 커맨드 트릭: ? 입력 시 도움말 모달 띄우기
                 if (val === '?') {
                     searchInput.value = ''; // 입력창 비우기
-                    document.getElementById('shortcutModal').classList.add('active');
+                    const shortcutModal = document.getElementById('shortcutModal');
+                    if (shortcutModal) {
+                        shortcutModal.classList.add('active');
+                        FocusManager.push({
+                            name: 'shortcutModal',
+                            handleKeyDown: (e) => {
+                                if (e.key === 'Escape') {
+                                    shortcutModal.classList.remove('active');
+                                    FocusManager.pop('shortcutModal');
+                                    return true;
+                                }
+                                return false;
+                            }
+                        });
+                    }
                     return;
                 }
                 
@@ -32,22 +47,42 @@ export const UIEventBinder = {
         if (openGraphBtn) {
             openGraphBtn.onclick = () => {
                 const graphModal = document.getElementById('graphModal');
-                if (graphModal) graphModal.classList.add('active');
+                if (graphModal) {
+                    graphModal.classList.add('active');
+                    FocusManager.push({
+                        name: 'graphModal',
+                        handleKeyDown: (e) => {
+                            if (e.key === 'Escape') {
+                                const closeBtn = document.getElementById('closeGraphBtn');
+                                if (closeBtn) closeBtn.click();
+                                return true;
+                            }
+                            return false;
+                        }
+                    });
+                }
                 setTimeout(() => {
                     Visualizer.render((id) => {
                         const gm = document.getElementById('graphModal');
-                        if (gm) gm.classList.remove('active');
+                        if (gm) {
+                            gm.classList.remove('active');
+                            FocusManager.pop('graphModal');
+                        }
+                        Visualizer.stop();
                         UI.openMemoModal(id);
                     });
                 }, 150);
             };
         }
 
-        const closeGraphBtn = document.getElementById('closeGraphBtn');
         if (closeGraphBtn) {
             closeGraphBtn.onclick = () => {
                 const graphModal = document.getElementById('graphModal');
-                if (graphModal) graphModal.classList.remove('active');
+                if (graphModal) {
+                    graphModal.classList.remove('active');
+                    FocusManager.pop('graphModal');
+                }
+                Visualizer.stop();
             };
         }
 

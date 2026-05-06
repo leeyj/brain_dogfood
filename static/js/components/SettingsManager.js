@@ -55,7 +55,7 @@ export const SettingsManager = {
                     await VersionManager.checkUpdate();
                     VersionManager.openUpdateModal();
                 } catch (err) {
-                    alert('Check failed: ' + err.message);
+                    window.ToastManager.error('Check failed: ' + err.message);
                 } finally {
                     checkUpdateBtn.disabled = false;
                     checkUpdateBtn.innerHTML = originalHtml;
@@ -138,7 +138,7 @@ export const SettingsManager = {
                 let sessionTimeout = timeoutInput ? parseInt(timeoutInput.value) : 60;
                 
                 if (sessionTimeout < 10) {
-                    alert(I18nManager.t('msg_session_timeout_min') || '세션 타임아웃은 최소 10분 이상이어야 합니다.');
+                    window.ToastManager.warning(I18nManager.t('msg_session_timeout_min') || '세션 타임아웃은 최소 10분 이상이어야 합니다.');
                     sessionTimeout = 10;
                     if(timeoutInput) timeoutInput.value = 10;
                     return;
@@ -149,15 +149,15 @@ export const SettingsManager = {
                     await API.saveSettings(data);
                     
                     if (this.initialLang && this.initialLang !== newLang) {
-                        alert(I18nManager.t('msg_settings_saved') || '설정이 저장되었습니다.');
+                        window.ToastManager.success(I18nManager.t('msg_settings_saved') || '설정이 저장되었습니다.');
                         window.location.reload();
                         return;
                     }
 
                     await ThemeEngine.applyTheme(data); 
-                    alert(I18nManager.t('msg_settings_saved') || '설정이 저장되었습니다.');
+                    window.ToastManager.success(I18nManager.t('msg_settings_saved') || '설정이 저장되었습니다.');
                     if (settingsModal) settingsModal.classList.remove('active');
-                } catch (err) { alert('저장 실패: ' + err.message); }
+                } catch (err) { window.ToastManager.error('저장 실패: ' + err.message); }
             };
         }
 
