@@ -142,6 +142,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             import('./js/components/VisualLinker.js')
         ]);
         window.WeeklyManager = WeeklyManager;
+        window.VisualLinker = VisualLinker;
 
         CalendarManager.init('calendarContainer', (date) => {
             AppService.setFilter({ date }, updateSidebarCallback);
@@ -163,16 +164,9 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // 💡 전역 취소 리스너 (시각적 연결용)
     window.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && VisualLinker.state.isActive) {
-            VisualLinker.cancel();
+        if (e.key === 'Escape' && window.VisualLinker?.state?.isActive) {
+            window.VisualLinker.cancel();
         }
     });
-    window.addEventListener('contextmenu', (e) => {
-        if (VisualLinker.state.isActive) {
-            e.preventDefault();
-            VisualLinker.cancel();
-        }
-    });
-
     // 💡 전역 클릭 슈퍼 디버깅 (어디가 클릭되는지 추적)
 });

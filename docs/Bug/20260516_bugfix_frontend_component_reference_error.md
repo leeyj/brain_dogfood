@@ -15,9 +15,12 @@
 - **메서드 위치 변경 미반영**: 최근 리팩토링 과정에서 `WeeklyManager`에 있던 날짜 유틸리티 기능들이 `DateUtils`로 이관되었으나, `app.js`의 콜백 로직에서는 여전히 `WeeklyManager`를 통해 호출하고 있었음.
 - **초기화 시점 문제**: `WeeklyManager`가 동적 임포트(Dynamic Import)로 로드되기 전이나 로드된 후에도 명시적인 메서드 정의가 없어 호출 시 오류 발생.
 
+- **참조 오류 (VisualLinker)**: `VisualLinker`가 비동기 로딩 전후에 전역 이벤트 리스너(Escape 키 등)에서 참조될 때 `ReferenceError` 발생 가능성 확인.
+
 ## 4. 수정 사항
 - **파일**: [app.js](file:///c:/project/my_util/memo_server/static/app.js)
     - `ModalManager` 및 `DateUtils` 임포트 구문 추가.
+    - `VisualLinker`를 `window` 전역 객체에 명시적으로 할당하여 스코프 문제 해결.
     - `updateSidebarCallback` 내 로직 수정:
         - `WeeklyManager.getCurrentWeek` -> `DateUtils.getWeekRange` (반환되는 `startStr`, `endStr` 활용)
         - `WeeklyManager.formatDate` -> `DateUtils.getTodayStr` 또는 `DateUtils.format`
