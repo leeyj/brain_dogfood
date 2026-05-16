@@ -21,6 +21,8 @@ import { HeatmapManager } from './js/components/HeatmapManager.js';
 import { Constants } from './js/utils/Constants.js';
 import { ToastManager } from './js/components/ToastManager.js';
 import { I18nManager } from './js/utils/I18nManager.js';
+import { ModalManager } from './js/components/ModalManager.js';
+import { DateUtils } from './js/utils/DateUtils.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
     window.PerfLogger = {
@@ -43,13 +45,13 @@ document.addEventListener('DOMContentLoaded', async () => {
                 ModalManager.openAssetLibrary((id) => UI.openMemoModal(id));
             } else if (newFilter === 'weekly') {
                 // 💡 "이번주 메모": group_name 매칭이 아닌 날짜 범위로 필터링
-                const week = WeeklyManager.getCurrentWeek(new Date());
-                const start_date = WeeklyManager.formatDate(week[0]);
-                const end_date = WeeklyManager.formatDate(week[6]);
+                const range = DateUtils.getWeekRange(new Date());
+                const start_date = range.startStr;
+                const end_date = range.endStr;
                 AppService.setFilter({ group: 'all', start_date, end_date }, updateSidebarCallback);
             } else if (newFilter === 'daily') {
                 // 💡 "오늘의 메모": 오늘 날짜 기반 필터링
-                const today = WeeklyManager.formatDate(new Date());
+                const today = DateUtils.getTodayStr();
                 AppService.setFilter({ group: 'all', date: today }, updateSidebarCallback);
             } else {
                 AppService.setFilter({ group: newFilter }, updateSidebarCallback);
