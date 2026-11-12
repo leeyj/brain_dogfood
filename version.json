@@ -1,7 +1,68 @@
 {
-    "version": "8.3.5",
-    "release_date": "2026-05-06",
+    "version": "8.4.2",
+    "release_date": "2026-11-13",
     "history": [
+        {
+            "version": "8.4.2",
+            "date": "2026-11-13",
+            "title": "Dark Theme Visibility Fix",
+            "changes": [
+                "버그 수정: 환경설정에서 다크 테마 선택 시 글자색이 갱신되지 않아 라벨이 배경에 묻히던 현상 해결 (미리보기·저장·복원 색상 로직 통합)",
+                "버그 수정: 환경설정에서 '화이트 & 그레이' 선택 시 배경·사이드바가 검게 미리보기되던 색상 변환 오류 해결",
+                "UX 개선: 저장하지 않고 설정 창을 닫으면(닫기·바깥 클릭·ESC) 미리보기 색상을 이전 테마로 자동 복원",
+                "시인성 강화: 강조색(--accent)과 강조색 위 글자색(--on-accent)을 테마 밝기에 맞춰 자동 조정, 다크 테마의 저장 버튼·라벨 대비 개선 (2.4:1 ➔ 7.0:1)",
+                "커스텀 테마 대응: 배경과 메모지 밝기가 다를 때 설정 창 글자가 보이지 않던 문제 해결"
+            ],
+            "changes_en": [
+                "Bug Fix: Fixed labels blending into the background when previewing the dark theme in Settings (unified preview/save/restore color logic).",
+                "Bug Fix: Fixed the 'White & Gray' preview turning the background and sidebar black due to a color conversion error.",
+                "UX: Closing Settings without saving (Close, outside click, ESC) now restores the previous theme colors.",
+                "Visibility: Accent color and on-accent text now adapt to theme brightness, improving dark theme Save button and label contrast (2.4:1 ➔ 7.0:1).",
+                "Custom Theme: Fixed unreadable Settings text when background and card brightness differ."
+            ]
+        },
+        {
+            "version": "8.4.1",
+            "date": "2026-11-13",
+            "title": "Build-free Frontend Architecture",
+            "changes": [
+                "아키텍처 전환: Vite/npm 빌드 폐지, 바닐라 ES 모듈을 그대로 배포 (개발·운영 코드 경로 통일)",
+                "로딩 최적화: 콘텐츠 해시 버전 URL·Import Map·Modulepreload로 모듈 병렬 로딩 및 1년 장기 캐시 적용 (재방문 시 정적 파일 재요청 41건 ➔ 0건)",
+                "서버 최적화: gzip 압축 적용 및 운영 서버를 Werkzeug 개발 서버에서 waitress로 전환",
+                "성능 향상: HTTPS/HTTP2 환경 기준 첫 방문 2.1s ➔ 1.4s, 재방문 1.4s ➔ 1.0s",
+                "버그 수정: 초기 로딩 시 이벤트 핸들러보다 메모 렌더링이 먼저 실행되어 목록이 간헐적으로 비어 보이던 레이스 컨디션 해결",
+                "버그 수정: 개발(DEBUG) 모드에서 CSS import로 인해 앱이 로드되지 않던 문제 해결"
+            ],
+            "changes_en": [
+                "Architecture: Removed the Vite/npm build; vanilla ES modules are deployed as-is (single code path for dev and production).",
+                "Loading: Hashed asset URLs, Import Map, and modulepreload enable parallel module loading and 1-year caching (static revalidations on revisit 41 ➔ 0).",
+                "Server: Added gzip compression and switched production from the Werkzeug dev server to waitress.",
+                "Performance: Over HTTPS/HTTP2, first visit 2.1s ➔ 1.4s and revisit 1.4s ➔ 1.0s.",
+                "Bug Fix: Fixed a race condition where memos rendered before event handlers loaded, intermittently leaving the list empty.",
+                "Bug Fix: Fixed the app failing to load in DEBUG mode due to CSS imports in app.js."
+            ]
+        },
+        {
+            "version": "8.4.0",
+            "date": "2026-11-13",
+            "title": "Claude Desktop MCP Integration & Security Hardening",
+            "changes": [
+                "신규 기능: Claude Desktop 연동 MCP 서버 추가 (메모 검색·조회·작성·덧붙이기·완료 처리, 암호화 메모 본문 비노출, 그룹 숨김·읽기 전용 옵션)",
+                "보안 강화: 모든 첨부파일 다운로드에 로그인 또는 API 토큰 인증 필수화, API 토큰 상수 시간 비교 적용",
+                "데이터 보호: 옵시디언 동기화 후 서버 재시작 시 첨부파일이 삭제될 수 있던 문제 해결",
+                "버그 수정: 주간 보기 종료일 메모 누락, 메모 수정 시 AI 태그 삭제, 영구 삭제 시 태그·링크·파일 잔존, 비밀번호 없는 암호화로 메모가 잠기던 문제 해결",
+                "외부 API: Raw Markdown 메모 생성 오류 수정 및 생성 시 태그·카테고리·마감일 지정 지원",
+                "배포 개선: deploy.py SSH 키 인증 전환, 호스트 키 검증, 업로드 대상 정리 및 --dry-run 지원"
+            ],
+            "changes_en": [
+                "New Feature: Added an MCP server for Claude Desktop (search, read, create, append, complete; encrypted memo content never exposed; hidden groups and read-only options).",
+                "Security: All attachment downloads now require login or an API token; API tokens are compared in constant time.",
+                "Data Protection: Fixed attachments potentially being deleted on server restart after Obsidian sync.",
+                "Bug Fixes: Fixed missing end-day memos in weekly view, AI tags lost on edit, leftover tags/links/files after permanent delete, and memos locked by encryption without a password.",
+                "External API: Fixed Raw Markdown memo creation and added tags/category/due date on create.",
+                "Deployment: Switched deploy.py to SSH key auth with host key verification, cleaned up upload targets, and added --dry-run."
+            ]
+        },
         {
             "version": "8.3.5",
             "date": "2026-05-06",

@@ -147,7 +147,12 @@ class MemoService:
         # 암호화 처리
         is_encrypted = data.get('is_encrypted')
         final_content = content.strip() if content is not None else None
-        
+
+        # 비밀번호 없이 암호화 플래그만 켜지면 평문이 '암호화됨'으로 표시되어
+        # 이후 복호화/삭제가 모두 불가능한 잠김 상태가 되므로 차단
+        if is_encrypted and not memo['is_encrypted'] and not password:
+            return None, "msg_encrypted_locked"
+
         if (is_encrypted or (is_encrypted is None and memo['is_encrypted'])) and password:
             if final_content is not None:
                 final_content = encrypt_content(final_content, password)

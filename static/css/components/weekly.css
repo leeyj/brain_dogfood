@@ -80,7 +80,7 @@
 
 .wk-nav-btn:hover, .wk-full-btn:hover, .wk-full-btn.active {
     background: var(--accent);
-    color: white;
+    color: var(--on-accent);
     border-color: var(--accent);
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(var(--accent-rgb), 0.3);

@@ -122,8 +122,10 @@ class MemoQueries:
     # Tags & Links
     INSERT_TAG = "INSERT INTO tags (memo_id, name, source) VALUES (?, ?, ?)"
     DELETE_TAGS_BY_MEMO = "DELETE FROM tags WHERE memo_id = ?"
+    DELETE_USER_TAGS_BY_MEMO = "DELETE FROM tags WHERE memo_id = ? AND (source = 'user' OR source IS NULL)"
     INSERT_LINK = "INSERT INTO memo_links (source_id, target_id) VALUES (?, ?)"
     DELETE_LINKS_BY_MEMO = "DELETE FROM memo_links WHERE source_id = ?"
+    DELETE_LINKS_BOTH_BY_MEMO = "DELETE FROM memo_links WHERE source_id = ? OR target_id = ?"
 
     # Stats/Meta
     SELECT_ALL_TAGS = "SELECT DISTINCT name FROM tags ORDER BY name ASC"

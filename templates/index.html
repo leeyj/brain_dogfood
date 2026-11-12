@@ -7,32 +7,37 @@
     <title data-i18n="app_name">Brain Dogfood</title>
     <link rel="icon" type="image/png" href="/static/favicon.png">
     
-    <!-- Core Assets Loading -->
-    {% if config.DEBUG %}
-        <!-- [Dev Mode] 개별 모듈 로드 -->
-        <script type="module" src="/static/app.js?v=2.3"></script>
-        <link rel="stylesheet" href="/static/lib/font-awesome/css/all.min.css">
-        <link rel="stylesheet" href="/static/lib/toastui/toastui-editor.min.css" />
-        <link rel="stylesheet" href="/static/lib/toastui/toastui-editor-dark.min.css" />
-        <link rel="stylesheet" href="/static/lib/toastui/tui-color-picker.min.css" />
-        <link rel="stylesheet" href="/static/lib/toastui/toastui-editor-plugin-color-syntax.min.css" />
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/components/weekly.css') }}?v=1.1">
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/components/toast.css') }}?v=1.0">
-        <link rel="stylesheet" href="/static/style.css?v=1.5">
-    {% else %}
-        <!-- [Production Mode] Vite 번들 로드 -->
-        {% set bundled_css = vite_asset('main.css') %}
-        {% if bundled_css %}<link rel="stylesheet" href="{{ bundled_css }}">{% endif %}
-        <script type="module" src="{{ vite_asset('main.js') }}"></script>
-    {% endif %}
+    <!-- Core Assets (빌드 없음: 해시 버전 URL은 app/assets.py가 생성, 1년 캐시) -->
+    {# import map은 모든 module/modulepreload보다 먼저 와야 함 #}
+    <script type="importmap">{{ asset_import_map() | tojson }}</script>
+
+    <link rel="stylesheet" href="{{ asset('lib/font-awesome/css/all.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('lib/toastui/toastui-editor.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('lib/toastui/toastui-editor-dark.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('lib/toastui/tui-color-picker.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('lib/toastui/toastui-editor-plugin-color-syntax.min.css') }}">
+    {# 이전 style.css의 @import 연쇄(순차 로딩)를 병렬 <link>로 펼침. 순서 = 우선순위이므로 유지 #}
+    {% for css in ['css/components/toast.css',
+                   'css/variables.css', 'css/layout.css', 'css/sidebar.css',
+                   'css/components/memo.css', 'css/components/editor.css', 'css/components/modals.css',
+                   'css/components/weekly.css', 'css/components/visualization.css', 'css/components/heatmap.css',
+                   'css/components/slash-command.css', 'css/mobile.css'] %}
+    <link rel="stylesheet" href="{{ asset(css) }}">
+    {% endfor %}
+
+    {# 앱 모듈 전체를 미리 병렬 다운로드 (import 연쇄 대기 제거) #}
+    {% for url in asset_preloads('app.js') %}
+    <link rel="modulepreload" href="{{ url }}">
+    {% endfor %}
+    <script type="module" src="{{ asset('app.js') }}"></script>
 
     <!-- Common External Utilities (Always Deferred) -->
-    <script defer src="/static/lib/toastui/toastui-editor-all.min.js"></script>
-    <script defer src="/static/lib/toastui/tui-color-picker.min.js"></script>
-    <script defer src="/static/lib/toastui/toastui-editor-plugin-color-syntax.min.js"></script>
-    <script defer src="/static/lib/d3/d3.v7.min.js"></script>
-    <script defer src="/static/lib/marked/marked.min.js"></script>
-    <script defer src="/static/lib/dompurify/purify.min.js"></script>
+    <script defer src="{{ asset('lib/toastui/toastui-editor-all.min.js') }}"></script>
+    <script defer src="{{ asset('lib/toastui/tui-color-picker.min.js') }}"></script>
+    <script defer src="{{ asset('lib/toastui/toastui-editor-plugin-color-syntax.min.js') }}"></script>
+    <script defer src="{{ asset('lib/d3/d3.v7.min.js') }}"></script>
+    <script defer src="{{ asset('lib/marked/marked.min.js') }}"></script>
+    <script defer src="{{ asset('lib/dompurify/purify.min.js') }}"></script>
 </head>
 <body>
     {% include 'components/sidebar.html' %}

@@ -88,6 +88,9 @@ def create_new_memo():
             user_uuid = data.get('uuid')
             group_name = data.get('group', 'default')
             attachment_filenames = data.get('attachment_filenames', [])
+            tags = data.get('tags') if isinstance(data.get('tags'), list) else []
+            category = data.get('category')
+            due_date = data.get('due_date')
         else:
             # Raw Markdown 방식
             markdown_text = request.data.decode('utf-8')
@@ -97,7 +100,9 @@ def create_new_memo():
             title = "New Memo from External"
             content = markdown_text
             user_uuid = None
-            
+            group_name = 'default'  # 누락 시 NameError로 Raw Markdown 생성이 항상 500 실패했음
+            tags, category, due_date = [], None, None
+
             fm_match = re.match(r'^---\s*\n(.*?)\n---\s*\n(.*)', markdown_text, re.DOTALL)
             if fm_match:
                 try:
@@ -115,6 +120,9 @@ def create_new_memo():
             'content': content,
             'uuid': user_uuid,
             'group_name': group_name,
+            'tags': [str(t) for t in tags],
+            'category': category,
+            'due_date': due_date,
             'attachment_filenames': attachment_filenames
         })
 
@@ -159,7 +167,11 @@ def update_memo_markdown(memo_uuid):
                 content = fm_match.group(2).strip()
             except Exception: pass
 
-        attachment_filenames = extract_attachment_filenames(markdown_text)
+        # 외부 앱(옵시디언 등)은 /api/download/ 링크를 로컬 위키링크(![[파일]])로 바꿔 저장하므로,
+        # 본문 링크만 기준으로 삼으면 기존 첨부가 모두 '미연결'로 풀리고 서버 재시작 시
+        # init_db 고아 정리에 의해 실제 파일이 삭제됨 → 기존 첨부는 유지하고 새 링크만 추가 연결.
+        existing = [a['filename'] for a in memo.get('attachments', [])]
+        attachment_filenames = list(dict.fromkeys(existing + extract_attachment_filenames(markdown_text)))
         success, message = MemoService.update_memo(memo['id'], {
             'title': title,
             'content': content,

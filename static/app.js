@@ -1,15 +1,8 @@
 /**
  * 뇌사료 메인 엔트리 포인트 (v5.0 리팩토링 완료)
  */
-// --- 🎨 CSS Imports (for Vite Bundling) ---
-import './lib/font-awesome/css/all.min.css';
-import './lib/toastui/toastui-editor.min.css';
-import './lib/toastui/toastui-editor-dark.min.css';
-import './lib/toastui/tui-color-picker.min.css';
-import './lib/toastui/toastui-editor-plugin-color-syntax.min.css';
-import './css/components/weekly.css';
-import './css/components/toast.css';
-import './style.css';
+// CSS는 templates/index.html에서 <link>로 병렬 로드합니다 (빌드 도구 없음).
+// 브라우저 ES 모듈은 CSS를 import할 수 없으므로 여기서 import하면 앱 전체가 로드 실패합니다.
 
 import { API } from './js/api.js';
 import { UI } from './js/ui.js';
@@ -128,8 +121,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         MemoActionHandler.init(updateSidebarCallback);
         UIEventBinder.init(updateSidebarCallback);
     };
-    initEventHandlers();
-    
+    // ⚠️ 첫 렌더링 전에 반드시 완료돼야 함: 카드 렌더러가 AppService.state.eventHandlers를 참조하는데,
+    // 이 모듈들이 메모 데이터보다 늦게 도착하면 null.onTogglePin 오류로 목록이 비어 보이는 레이스가 있었음
+    const eventHandlersReady = initEventHandlers();
+
     UI.initResizeHandler(updateSidebarCallback); // 📱 반응형 레이아웃 초기화
 
     // --- 🔹 App Start ---
@@ -148,6 +143,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             AppService.setFilter({ date }, updateSidebarCallback);
         });
         WeeklyManager.init('weeklyContainer', updateSidebarCallback);
+
+        await eventHandlersReady;
 
         window.PerfLogger.mark('Initial Data Fetch Start');
         await AppService.refreshData(updateSidebarCallback);

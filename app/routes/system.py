@@ -39,8 +39,15 @@ def check_update():
         local_v = local_info.get('version', '0.0.0')
         remote_v = remote_info.get('version', '0.0.0')
         
-        # 단순 문자열 비교 (더 정교한 비교가 필요할 경우 패키지 활용 가능)
-        has_update = remote_v > local_v
+        # 숫자 단위 비교 ("1.10.0" > "1.9.0" 이 문자열 비교에선 False가 되는 문제 방지)
+        def _ver_tuple(v):
+            parts = []
+            for p in str(v).lstrip('vV').split('.'):
+                digits = ''.join(ch for ch in p if ch.isdigit())
+                parts.append(int(digits) if digits else 0)
+            return tuple(parts)
+
+        has_update = _ver_tuple(remote_v) > _ver_tuple(local_v)
         
         return jsonify({
             "has_update": has_update,
@@ -73,7 +80,7 @@ def execute_update():
         
         if process.returncode != 0:
             return jsonify({
-                "success": false,
+                "success": False,
                 "error": "Git pull failed",
                 "message": stderr
             }), 500

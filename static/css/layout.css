@@ -74,8 +74,13 @@
     width: 90%; 
     max-width: 800px; 
     max-height: 85vh; 
-    overflow-y: auto; 
-    background: var(--bg); 
+    overflow-y: auto;
+    background: var(--bg);
+    /* 모달은 --bg 위에 그려지므로, 모달 내부에서는 글자색을 배경 기준 대비색으로 재정의
+       (커스텀 테마에서 배경은 밝고 메모지는 어두울 때 글자가 안 보이던 문제 방지) */
+    --text: var(--text-bg);
+    --muted: var(--muted-bg);
+    color: var(--text);
 }
 
 /* UI Utility Components */
@@ -92,7 +97,7 @@
 
 .primary-btn { 
     background: var(--accent); 
-    color: var(--bg); 
+    color: var(--on-accent); 
     font-weight: 700; 
     border: none; 
     padding: 0.5rem 1.2rem; 
@@ -114,7 +119,7 @@
     font-weight: bold; 
 }
 
-.action-btn:hover { background: var(--accent); color: white; border-color: var(--accent); }
+.action-btn:hover { background: var(--accent); color: var(--on-accent); border-color: var(--accent); }
 .btn-label { display: none; }
 .ai-btn:hover { background: var(--ai-accent); color: white; }
 

@@ -1,17 +1,4 @@
-# === 1단계: 프론트엔드 빌드 스테이지 (Node.js) ===
-FROM node:20-slim AS build-stage
-WORKDIR /build
-
-# 의존성 설치
-COPY package*.json ./
-RUN npm install
-
-# 소스 복사 및 빌드 실행 (static 폴더 내 자산 필요)
-COPY static/ ./static/
-COPY vite.config.js .
-RUN npm run build
-
-# === 2단계: 최종 실행 스테이지 (Python) ===
+# 프론트엔드 빌드 단계 없음 (바닐라 ES 모듈 + app/assets.py의 런타임 버전/프리로드)
 FROM python:3.10-slim
 WORKDIR /app
 
@@ -31,11 +18,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# 소스 코드 복사 (정적 파일 제외)
+# 소스 코드 복사
 COPY . .
-
-# 1단계에서 빌드된 최적화 파일(dist)만 가져오기
-COPY --from=build-stage /build/static/dist ./static/dist
 
 # 필수 디렉토리 생성
 RUN mkdir -p data logs static/uploads

@@ -86,7 +86,7 @@
 
 .explorer-chip:hover .chip-count {
     background: var(--accent);
-    color: var(--bg);
+    color: var(--on-accent);
 }
 
 /* AI Disabled State */
@@ -415,10 +415,10 @@ kbd:active {
 .modal-content input[type="password"],
 .modal-content input[type="number"] {
     background-color: var(--card);
-    color: var(--text);
+    color: var(--text-card);  /* 입력칸 배경은 --card이므로 카드 기준 글자색 */
 }
 
 select option {
     background-color: var(--card);
-    color: var(--text);
+    color: var(--text-card);
 }

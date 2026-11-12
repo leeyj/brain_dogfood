@@ -1,4 +1,5 @@
 import os
+import hmac
 import json
 import functools
 from flask import session, redirect, url_for, request, current_app, jsonify # type: ignore
@@ -23,28 +24,38 @@ def login_required(view):
         return view(**kwargs)
     return wrapped_view
 
+def has_bearer_header():
+    auth_header = request.headers.get('Authorization') or ''
+    return auth_header.startswith('Bearer ')
+
+
+def has_valid_api_token():
+    """Authorization: Bearer <token> 이 config.json의 external_api_token과 일치하는지 확인.
+    토큰이 비어 있으면(미설정) 항상 False. 타이밍 공격 방지를 위해 상수 시간 비교."""
+    if not has_bearer_header():
+        return False
+    token = request.headers.get('Authorization', '')[len('Bearer '):].strip()
+    if not token:
+        return False
+
+    config_path = os.path.join(os.getcwd(), 'config.json')
+    if not os.path.exists(config_path):
+        return False
+    try:
+        with open(config_path, 'r', encoding='utf-8') as f:
+            valid_token = json.load(f).get('external_api_token')
+    except Exception:
+        return False
+    return bool(valid_token) and hmac.compare_digest(token.encode(), str(valid_token).encode())
+
+
 def api_key_required(view):
     """외부 앱 연동을 위한 API Key (Bearer Token) 인증 데코레이터"""
     @functools.wraps(view)
     def wrapped_view(**kwargs):
-        auth_header = request.headers.get('Authorization')
-        if not auth_header or not auth_header.startswith('Bearer '):
+        if not has_bearer_header():
             return jsonify({'error': 'Unauthorized', 'message': 'API Key required'}), 401
-        
-        token = auth_header.split(' ')[1]
-        
-        # config.json에서 토큰 검증
-        config_path = os.path.join(os.getcwd(), 'config.json')
-        if os.path.exists(config_path):
-            try:
-                with open(config_path, 'r', encoding='utf-8') as f:
-                    config = json.load(f)
-                    valid_token = config.get('external_api_token')
-                    
-                    if valid_token and token == valid_token:
-                        return view(**kwargs)
-            except Exception:
-                pass
-        
+        if has_valid_api_token():
+            return view(**kwargs)
         return jsonify({'error': 'Forbidden', 'message': 'Invalid or missing API Key'}), 403
     return wrapped_view

@@ -6,6 +6,13 @@ html { font-size: 15px; }
     --card: #ffffff;
     --text: #1e293b;
     --muted: #64748b;
+    /* 카드(--card) 위 글자색 / 배경(--bg) 위 글자색 — ThemeEngine.applyColors가 각각 대비 계산 */
+    --text-card: #1e293b;
+    --muted-card: #64748b;
+    --text-bg: #1e293b;
+    --muted-bg: #64748b;
+    /* --accent 배경 위 글자색 (ThemeEngine이 밝기에 맞춰 --accent/--accent-hover와 함께 조정) */
+    --on-accent: #ffffff;
     --accent: #475569;
     --accent-hover: #334155;
     --ai-accent: #64748b;

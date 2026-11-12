@@ -1,3 +1,4 @@
+import os
 import datetime
 from ..database import get_db
 from .queries import MemoQueries, StatsQueries, FileQueries
@@ -54,8 +55,10 @@ class MemoRepository:
             where_clauses.append("(created_at LIKE ? OR due_date = ?)")
             params.extend([f"{date}%", date])
         elif start_date and end_date:
-            where_clauses.append("(created_at BETWEEN ? AND ? OR due_date BETWEEN ? AND ?)")
-            params.extend([f"{start_date} 00:00:00", f"{end_date} 23:59:59", start_date, end_date])
+            # created_at은 isoformat('YYYY-MM-DDTHH:MM:SS')이라 'end 23:59:59'와 문자열 비교 시
+            # 'T' > ' ' 때문에 종료일 당일 메모가 누락됨 → 날짜 부분만 비교
+            where_clauses.append("(substr(created_at, 1, 10) BETWEEN ? AND ? OR due_date BETWEEN ? AND ?)")
+            params.extend([start_date, end_date, start_date, end_date])
             
         # 4. 카테고리 필터링
         if category:
@@ -198,7 +201,8 @@ class MemoRepository:
             
             # 태그/링크 갱신
             if tags is not None:
-                c.execute(MemoQueries.DELETE_TAGS_BY_MEMO, (memo_id,))
+                # 사용자 태그만 교체 (AI 태그는 편집 화면에 표시되지 않으므로 보존)
+                c.execute(MemoQueries.DELETE_USER_TAGS_BY_MEMO, (memo_id,))
                 for tag in tags:
                     if tag.strip():
                         c.execute(MemoQueries.INSERT_TAG, (memo_id, tag.strip(), 'user'))
@@ -225,15 +229,35 @@ class MemoRepository:
     def permanent_delete(memo_id):
         """
         메모를 데이터베이스에서 영구적으로 삭제합니다. (Hard Delete)
-        연관된 태그, 링크는 CASCADE 설정에 의해 자동 삭제됩니다.
+        SQLite는 PRAGMA foreign_keys가 꺼져 있으면 CASCADE가 동작하지 않으므로
+        태그/링크/첨부파일을 명시적으로 정리합니다.
         """
         conn = get_db()
         c = conn.cursor()
         try:
-            # 첨부파일 정보 삭제 (파일 자체는 별도 청소 프로세스 권장)
+            c.execute(MemoQueries.SELECT_ATTACHMENTS_BY_MEMO, (memo_id,))
+            filenames = [r['filename'] for r in c.fetchall()]
+
             c.execute(FileQueries.DELETE_ATTACHMENTS_BY_MEMO, (memo_id,))
+            c.execute(MemoQueries.DELETE_TAGS_BY_MEMO, (memo_id,))
+            c.execute(MemoQueries.DELETE_LINKS_BOTH_BY_MEMO, (memo_id, memo_id))
             c.execute(MemoQueries.DELETE_BY_ID, (memo_id,))
             conn.commit()
+
+            # DB 커밋 후 물리 파일 삭제 (실패해도 DB 정합성에는 영향 없음)
+            try:
+                from flask import current_app
+                upload_dir = current_app.config.get('UPLOAD_FOLDER')
+            except RuntimeError:
+                upload_dir = None
+            if upload_dir:
+                for fname in filenames:
+                    fpath = os.path.join(upload_dir, os.path.basename(fname))
+                    try:
+                        if os.path.exists(fpath):
+                            os.remove(fpath)
+                    except OSError:
+                        pass
             return True
         except Exception as e:
             conn.rollback()

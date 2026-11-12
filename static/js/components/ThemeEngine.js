@@ -21,32 +21,61 @@ export const ThemeEngine = {
         }
     },
 
-    async applyTheme(settings) {
-        this.settings = settings;
+    COLOR_VARS: {
+        'bg_color': '--bg',
+        'sidebar_color': '--sidebar',
+        'card_color': '--card',
+        'encrypted_border': '--encrypted-border',
+        'ai_accent': '--ai-accent'
+    },
 
+    /**
+     * 색상만 적용 (CSS 변수 + 색상 피커 + 글자색 대비 + 에디터 테마).
+     * 저장(applyTheme)·설정 모달 미리보기·미저장 닫기 시 복원이 모두 이 함수를 공유합니다.
+     * (이전에는 미리보기가 배경색만 바꾸고 글자색(--text)을 재계산하지 않아
+     *  화이트→다크 미리보기 시 어두운 배경에 어두운 글자가 남았음)
+     */
+    applyColors(settings) {
         if (settings.theme_preset && this.THEME_PRESETS[settings.theme_preset]) {
-            const preset = this.THEME_PRESETS[settings.theme_preset];
-            settings = { ...settings, ...preset };
+            settings = { ...settings, ...this.THEME_PRESETS[settings.theme_preset] };
         }
 
-        const mapping = {
-            'bg_color': '--bg',
-            'sidebar_color': '--sidebar',
-            'card_color': '--card',
-            'encrypted_border': '--encrypted-border',
-            'ai_accent': '--ai-accent'
-        };
-
-        for (const [key, variable] of Object.entries(mapping)) {
+        for (const [key, variable] of Object.entries(this.COLOR_VARS)) {
             if (settings[key]) {
                 document.documentElement.style.setProperty(variable, settings[key]);
-                const pickerId = 'set-' + key.split('_')[0];
-                const picker = document.getElementById(pickerId);
-                if (picker) {
-                    picker.value = settings[key].startsWith('rgba') ? this.rgbaToHex(settings[key]) : settings[key];
-                }
+                const picker = document.getElementById('set-' + key.split('_')[0]);
+                if (picker) picker.value = this.toHex(settings[key]);
             }
         }
+
+        const root = document.documentElement.style;
+        const mutedFor = text => (text === '#0f172a' ? '#64748b' : '#94a3b8');
+        if (settings.card_color) {
+            const textColor = this.getContrastColor(settings.card_color);
+            root.setProperty('--text', textColor);
+            root.setProperty('--muted', mutedFor(textColor));
+            root.setProperty('--text-card', textColor);
+            root.setProperty('--muted-card', mutedFor(textColor));
+            this.updateEditorTheme(textColor !== '#0f172a');
+        }
+        if (settings.bg_color) {
+            // 모달 등 --bg 위에 그려지는 영역용 (layout.css .modal-content에서 사용)
+            const bgText = this.getContrastColor(settings.bg_color);
+            root.setProperty('--text-bg', bgText);
+            root.setProperty('--muted-bg', mutedFor(bgText));
+
+            // 강조색도 배경 밝기에 맞춤: 고정 #475569는 어두운 배경에서 글자(2.3:1)·저장 버튼(2.4:1)이 거의 안 보였음
+            const darkBg = bgText !== '#0f172a';
+            root.setProperty('--accent', darkBg ? '#94a3b8' : '#475569');
+            root.setProperty('--accent-hover', darkBg ? '#cbd5e1' : '#334155');
+            root.setProperty('--on-accent', darkBg ? '#0f172a' : '#ffffff');
+        }
+        return settings;
+    },
+
+    async applyTheme(settings) {
+        this.settings = settings;
+        settings = this.applyColors(settings);
 
         const enableAI = (settings.enable_ai !== false); 
         document.body.classList.toggle('ai-disabled', !enableAI);
@@ -76,16 +105,6 @@ export const ThemeEngine = {
                 SessionManager.updateTimeout(sessionTimeout);
             }
         });
-
-        if (settings.card_color) {
-            const textColor = this.getContrastColor(settings.card_color);
-            const mutedColor = textColor === '#0f172a' ? '#64748b' : '#94a3b8';
-            document.documentElement.style.setProperty('--text', textColor);
-            document.documentElement.style.setProperty('--muted', mutedColor);
-            
-            const isDark = textColor !== '#0f172a';
-            this.updateEditorTheme(isDark);
-        }
 
         SessionHeartbeat.start();
     },
@@ -126,7 +145,21 @@ export const ThemeEngine = {
         }).catch(() => {});
     },
 
+    /** '#abc' / '#aabbcc' / 'rgb(a)(...)' → '#rrggbb' (input[type=color] 용) */
+    toHex(color) {
+        if (!color) return '#0f172a';
+        const c = String(color).trim();
+        if (c.startsWith('#')) {
+            let hex = c.slice(1);
+            if (hex.length === 3) hex = hex.split('').map(ch => ch + ch).join('');
+            return /^[0-9a-fA-F]{6}$/.test(hex.slice(0, 6)) ? '#' + hex.slice(0, 6).toLowerCase() : '#0f172a';
+        }
+        return this.rgbaToHex(c);
+    },
+
     rgbaToHex(rgba) {
+        // hex가 들어오면 숫자만 뽑아 rgb로 오인하던 문제 방지 (#f1f5f9 → rgb(1,5,9) = 검정)
+        if (String(rgba).trim().startsWith('#')) return this.toHex(rgba);
         const parts = rgba.match(/[\d.]+/g);
         if (!parts || parts.length < 3) return '#0f172a';
         const r = parseInt(parts[0]);

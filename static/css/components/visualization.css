@@ -55,7 +55,7 @@
 }
 .calendar-day:hover { background: rgba(128, 128, 128, 0.1); color: var(--accent); }
 .calendar-day.today { color: var(--accent) !important; font-weight: 800; background: rgba(56, 189, 248, 0.1); }
-.calendar-day.selected { background: var(--accent) !important; color: white !important; box-shadow: 0 4px 10px rgba(56, 189, 248, 0.4); }
+.calendar-day.selected { background: var(--accent) !important; color: var(--on-accent) !important; box-shadow: 0 4px 10px rgba(56, 189, 248, 0.4); }
 .calendar-day.other-month { opacity: 0.25; }
 
 /* Activity Dots */

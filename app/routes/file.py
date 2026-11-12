@@ -7,7 +7,7 @@ from werkzeug.utils import secure_filename # type: ignore
 from urllib.parse import quote # type: ignore
 from ..database import get_db
 from ..models.queries import FileQueries
-from ..auth import login_required
+from ..auth import login_required, has_valid_api_token
 from ..security import encrypt_file, decrypt_file
 
 file_bp = Blueprint('file', __name__)
@@ -57,42 +57,24 @@ def upload_file():
 
 @file_bp.route('/api/download/<filename>')
 def download_file_route(filename):
+    # 모든 첨부파일은 로그인 세션 또는 외부 API 토큰이 있어야 열람 가능
+    # (이전에는 비암호화 메모의 첨부파일·미연결 파일이 URL만 알면 인증 없이 내려받아졌음)
+    if not (session.get('logged_in') is True or has_valid_api_token()):
+        current_app.logger.warning(f"Access Denied: Unauthenticated download attempt: {filename}")
+        return jsonify({'error': 'Unauthorized', 'message': 'Login or API token required'}), 401
+
     filename = secure_filename(filename)
     filepath = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
-    
+
     if not os.path.exists(filepath):
         return jsonify({'error': 'File not found'}), 404
-        
-    # Check security status of parent memo
+
     conn = get_db()
     c = conn.cursor()
     c.execute(FileQueries.SELECT_ATTACHMENT_INFO, (filename,))
     row = c.fetchone()
     conn.close()
-    
-    # 외부 API 토큰 확인 (Authorization 헤더)
-    auth_header = request.headers.get('Authorization')
-    is_external_auth = False
-    if auth_header and auth_header.startswith('Bearer '):
-        token = auth_header.split(' ')[1]
-        config_path = os.path.join(os.getcwd(), 'config.json')
-        if os.path.exists(config_path):
-            import json
-            try:
-                with open(config_path, 'r', encoding='utf-8') as f:
-                    config = json.load(f)
-                    if config.get('external_api_token') == token:
-                        is_external_auth = True
-            except: pass
 
-    # 로그인 상태 또는 외부 API 인증 상태 확인
-    is_logged_in = (session.get('logged_in') is True) or is_external_auth
-    
-    # 만약 메모가 암호화되어 있고, 인증도 되어 있지 않다면 차단
-    if row and row['is_encrypted'] and not is_logged_in:
-        current_app.logger.warning(f"Access Denied: Unauthenticated access to encrypted file {filename}")
-        return jsonify({'error': 'Access denied. Please login to view this attachment.'}), 403
-        
     with open(filepath, 'rb') as f:
         data = f.read()
         

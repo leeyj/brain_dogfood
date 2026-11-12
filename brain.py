@@ -28,5 +28,17 @@ if __name__ == "__main__":
     print(f"📡 {'Windows' if is_windows else 'Linux'} 환경 감지")
     print(f"⚙️  설정 적용 - Port: {port}, Debug: {debug_mode}")
 
-    # 향후 Linux 서버 구축시 gunicorn / uwsgi 로 구동 권장
-    app.run(host="0.0.0.0", port=port, debug=debug_mode)
+    if debug_mode:
+        # 개발: Werkzeug (자동 리로드·디버거)
+        app.run(host="0.0.0.0", port=port, debug=True)
+    else:
+        # 운영: waitress (멀티스레드 프로덕션 WSGI 서버, 순수 Python이라 Windows/Linux 공통)
+        try:
+            from waitress import serve
+        except ImportError:
+            print("⚠️  waitress 미설치 → Werkzeug 개발 서버로 대체 구동합니다. (pip install waitress 권장)")
+            app.run(host="0.0.0.0", port=port, debug=False)
+        else:
+            threads = int(os.getenv("WAITRESS_THREADS", "8"))
+            print(f"🚀 waitress 구동 (threads={threads})")
+            serve(app, host="0.0.0.0", port=port, threads=threads)

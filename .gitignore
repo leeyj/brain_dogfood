@@ -29,9 +29,8 @@ scratch/
 .idea/
 .vscode/
 
-# Node.js & Vite
+# Node.js (obsidian plugin)
 node_modules/
-static/dist/
 
 # System
 .DS_Store
