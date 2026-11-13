@@ -1,7 +1,28 @@
 {
-    "version": "8.4.2",
+    "version": "8.4.3",
     "release_date": "2026-11-13",
     "history": [
+        {
+            "version": "8.4.3",
+            "date": "2026-11-13",
+            "title": "Release Pipeline & Privacy Hardening",
+            "changes": [
+                "배포 개선: 릴리스 폴더 + 심볼릭 링크 원자적 전환 방식 도입, 업로드 중에도 서버 무중단 (정지 시간 수 초)",
+                "안정성: 새 버전이 정상 응답하지 않으면 이전 버전으로 자동 롤백, 수동 롤백 명령 지원",
+                "헬스체크: 로그인 없이 상태·버전을 확인하는 /healthz 엔드포인트 추가",
+                "run.sh: 실행 위치와 무관하게 동작하도록 개선, 릴리스 구조에서 PID 파일 공유",
+                "개인정보 보호: 공개 저장소 내보내기를 허용 목록 기반으로 전환하고 다중 유출 검사(비밀값·개인 식별자·사설 IP·키 형식·DB·EXIF) 적용",
+                "저장소 정리: 과거 커밋에 포함됐던 개인 환경 식별자와 테스트용 DB 백업을 히스토리에서 제거 (기존 clone은 재clone 필요)"
+            ],
+            "changes_en": [
+                "Deploy: Release directories with atomic symlink switch; the server keeps running during upload (downtime of a few seconds).",
+                "Reliability: Automatic rollback to the previous release if the new one fails its health check; manual rollback command.",
+                "Health check: New /healthz endpoint reporting status and version without login.",
+                "run.sh: Works from any location and shares the PID file across releases.",
+                "Privacy: Public export now uses an allowlist with multi-layer leak scanning (secrets, personal identifiers, private IPs, key formats, databases, EXIF).",
+                "Repository cleanup: Removed personal environment identifiers and a test DB backup from past history (existing clones must re-clone)."
+            ]
+        },
         {
             "version": "8.4.2",
             "date": "2026-11-13",

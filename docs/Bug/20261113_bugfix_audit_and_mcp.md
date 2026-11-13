@@ -46,7 +46,7 @@ DELETE FROM memo_links WHERE source_id NOT IN (SELECT id FROM memos) OR target_i
 - 이미 연결이 풀린 파일이 있다면 재시작 전까지는 `attachments.memo_id IS NULL`로 남아 있으므로 확인 가능.
 
 ### deploy.py 키 인증 전환
-- 비밀번호 인증·평문 비밀번호 제거 → `~/.ssh/your-ssh-key` 키 (SSH_KEY_PATH로 변경 가능), ssh-agent 우선, passphrase 대화형.
+- 비밀번호 인증·평문 비밀번호 제거 → SSH 키 (.env의 DEPLOY_SSH_KEY), ssh-agent 우선, passphrase 대화형.
 - `AutoAddPolicy` → known_hosts 검증(`RejectPolicy`).
 - 순서 변경: 정지 → 정지 확인 → 정리 → 업로드 → `__pycache__` 소거 → 기동. 각 원격 명령 exit code 확인, 실패 단계 안내.
 - 업로드 제외 추가: `logs`(원격 로그 덮어쓰기 방지), `brain_dogfood_stable`, `obsidian-brainsryo-plugin`, `mcp_server`, `scratch`, `docs`, `*.db`, `*.bak`.

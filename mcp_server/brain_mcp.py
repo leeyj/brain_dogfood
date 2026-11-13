@@ -10,7 +10,7 @@
   - 삭제 도구는 의도적으로 제공하지 않습니다.
 
 환경 변수
-  BRAIN_URL              뇌사료 서버 주소 (예: http://your-server-ip:5093)          [필수]
+  BRAIN_URL              뇌사료 서버 주소 (예: http://<server-ip>:5093)          [필수]
   BRAIN_TOKEN            config.json의 external_api_token 값                     [필수]
   BRAIN_MCP_READ_ONLY    "true"면 생성/수정 도구를 등록하지 않음 (기본 false)
   BRAIN_MCP_HIDE_GROUPS  쉼표로 구분한 그룹명. 해당 그룹 메모는 Claude에 노출하지 않음

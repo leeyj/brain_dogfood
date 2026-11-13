@@ -3,15 +3,25 @@
 # --- 🧠 뇌사료 서버 관리 스크립트 ---
 
 APP_NAME="brain.py"
-PID_FILE="server.pid"
+
+# 어디서 호출하든 이 스크립트가 있는 앱 폴더 기준으로 동작
+# (릴리스 구조: <base>/current -> releases/<id>, 상태 파일은 <base>/shared)
+APP_DIR="$(cd "$(dirname "$0")" && pwd -P)"
+cd "$APP_DIR" || exit 1
+if [ -d "$APP_DIR/../../shared" ]; then
+    STATE_DIR="$(cd "$APP_DIR/../../shared" && pwd -P)"   # 모든 릴리스가 같은 PID 파일 공유
+else
+    STATE_DIR="$APP_DIR"                                    # 단일 폴더 설치 (기존 방식, Docker 등)
+fi
+PID_FILE="$STATE_DIR/server.pid"
 LOG_FILE="logs/console.log"
 
-# 로그 디렉토리 생성 확인
+# 로그 디렉토리 생성 확인 (릴리스 구조에선 shared/logs 를 가리키는 링크)
 mkdir -p logs
 
 start() {
-    if [ -f $PID_FILE ]; then
-        PID=$(cat $PID_FILE)
+    if [ -f "$PID_FILE" ]; then
+        PID=$(cat "$PID_FILE")
         if ps -p $PID > /dev/null; then
             echo "⚠️  서버가 이미 실행 중입니다. (PID: $PID)"
             return
@@ -23,15 +33,15 @@ start() {
     nohup python3 $APP_NAME > $LOG_FILE 2>&1 &
     
     # PID 저장
-    echo $! > $PID_FILE
+    echo $! > "$PID_FILE"
     echo "✅ 서버 기동 완료! (PID: $!)"
     echo "📝 콘솔 로그: $LOG_FILE"
 }
 
 stop() {
     # 1. PID 파일 기반 종료 시도
-    if [ -f $PID_FILE ]; then
-        PID=$(cat $PID_FILE)
+    if [ -f "$PID_FILE" ]; then
+        PID=$(cat "$PID_FILE")
         echo "🛑 PID 파일을 사용하여 서버 중지 시도... (PID: $PID)"
         if kill -0 $PID 2>/dev/null; then
             kill $PID 2>/dev/null
@@ -41,7 +51,7 @@ stop() {
                 sleep 1
             done
         fi
-        rm -f $PID_FILE
+        rm -f "$PID_FILE"
     fi
 
     # 2. 이름 기반 잔류 프로세스 정밀 소탕
@@ -57,8 +67,8 @@ stop() {
 }
 
 status() {
-    if [ -f $PID_FILE ]; then
-        PID=$(cat $PID_FILE)
+    if [ -f "$PID_FILE" ]; then
+        PID=$(cat "$PID_FILE")
         if ps -p $PID > /dev/null; then
             echo "🟢 서버가 현재 실행 중입니다. (PID: $PID)"
         else

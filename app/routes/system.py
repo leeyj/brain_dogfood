@@ -19,6 +19,19 @@ def get_local_version():
     except Exception:
         return {"version": "0.0.0", "history": []}
 
+@system_bp.route('/healthz', methods=['GET'])
+def healthz():
+    """배포 헬스체크용 (로그인 불필요). 버전은 이미 공개 정보.
+    배포 식별자(REVISION)는 서버 내부(127.0.0.1) 직접 요청에만 반환."""
+    body = {"status": "ok", "version": get_local_version().get("version", "0.0.0")}
+    is_local = request.remote_addr in ("127.0.0.1", "::1") and not request.headers.get("X-Forwarded-For")
+    if is_local:
+        rev_file = os.path.join(os.getcwd(), 'REVISION')
+        if os.path.exists(rev_file):
+            with open(rev_file, encoding='utf-8') as f:
+                body["revision"] = f.read().strip()
+    return jsonify(body)
+
 @system_bp.route('/api/system/version', methods=['GET'])
 @login_required
 def get_version():

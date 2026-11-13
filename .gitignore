@@ -35,3 +35,15 @@ node_modules/
 # System
 .DS_Store
 Thumbs.db
+
+# Local-only (main repo) — never commit
+brain_dogfood_stable/
+backups/
+.agent.md
+test_upload.txt
+server.pid
+*.local.*
+*.bundle
+
+# 배포 식별자 (deploy.py 가 서버에서 생성)
+REVISION
