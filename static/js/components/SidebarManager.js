@@ -64,12 +64,20 @@ export const SidebarManager = {
         const mobileBtn = document.getElementById('mobileMenuBtn');
         if (mobileBtn) mobileBtn.onclick = toggleSidebar;
 
-        if (DOM.sidebarOverlay) {
-            DOM.sidebarOverlay.onclick = () => {
-                DOM.sidebar.classList.remove('mobile-open');
-                DOM.sidebarOverlay.style.display = 'none';
-            };
-        }
+        const closeMobileDrawer = () => {
+            DOM.sidebar.classList.remove('mobile-open');
+            if (DOM.sidebarOverlay) DOM.sidebarOverlay.style.display = 'none';
+        };
+        if (DOM.sidebarOverlay) DOM.sidebarOverlay.onclick = closeMobileDrawer;
+
+        // 모바일: 메뉴·카테고리·탐색 버튼·달력 날짜를 고르면 서랍을 닫아 결과가 보이게 함
+        // (기존엔 선택 후에도 서랍이 내용 위를 계속 덮고 있었음). 각 항목의 원래 클릭 동작은 그대로 실행됨.
+        const DRAWER_CLOSE_TARGETS = '#systemNav li, #categoryNav li, #sidebarActionSection button, .calendar-day[data-date]';
+        DOM.sidebar.addEventListener('click', (e) => {
+            if (window.innerWidth > S.UI.MOBILE_BREAKPOINT) return;
+            if (!DOM.sidebar.classList.contains('mobile-open')) return;
+            if (e.target.closest(DRAWER_CLOSE_TARGETS)) closeMobileDrawer();
+        });
 
         // 4. 푸터 초기화
         this.footer.init();

@@ -5,7 +5,7 @@
     </div>
 
     <!-- Actual Composer -->
-    <form id="composer" class="glass-panel" style="display: none;">
+    <form id="composer" class="glass-panel" style="display: none;" novalidate>
         <input type="hidden" id="editingMemoId" value="">
         
         <div style="display: flex; gap:10px; align-items:center; margin-bottom: 10px;">
@@ -19,7 +19,8 @@
             
             <div class="meta-field-group" style="display: flex; align-items: center; gap: 8px; background: rgba(128,128,128,0.08); border: 1px solid var(--border); border-radius: 8px; padding: 0 10px; height: 34px; box-sizing: border-box;">
                 <i class="fas fa-calendar-check" style="font-size: 0.85rem; color: var(--muted); opacity: 0.8;"></i>
-                <input type="date" id="memoDueDate" class="meta-field" style="background: transparent; border: none; font-size: 0.85rem; color: var(--text); padding: 0; width: 115px; cursor: pointer; outline: none; -webkit-appearance: none;">
+                <span class="due-empty-label" data-i18n="composer_due">Due</span>
+                <input type="date" id="memoDueDate" class="meta-field" required style="background: transparent; border: none; font-size: 0.85rem; color: var(--text); padding: 0; width: 115px; cursor: pointer; outline: none; -webkit-appearance: none;">
                 <style>
                     /* 브라우저 기본 날짜 피커 아이콘 숨기기 (크롬/엣지) */
                     #memoDueDate::-webkit-calendar-picker-indicator {
@@ -35,6 +36,8 @@
                         width: auto;
                     }
                     /* 파이어폭스용 등 추가 대응이 필요할 수 있으나 우선 크롬 계열 중심 */
+                    /* 빈 기한 안내 (required + form novalidate → 비어 있으면 :invalid). 모바일에서만 표시 — mobile.css */
+                    .due-empty-label { display: none; }
                 </style>
             </div>
 

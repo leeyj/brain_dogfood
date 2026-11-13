@@ -1,3 +1,5 @@
+> ⚠️ **폐기됨 (2026-11-13)** — 이 문서의 개념은 더 이상 유효하지 않습니다. 현재 설계: [docs/obsidian_plugin_v2.md](obsidian_plugin_v2.md) (옵시디언 → 뇌사료 단방향 푸시)
+
 # [Implementation Plan v2] SQLite & UUID 기반 옵시디언 동기화 시스템
 
 ## 1. 목표

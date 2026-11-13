@@ -31,6 +31,7 @@
     "composer_attach_file": "Attach File",
     "composer_attach_label": "Add File",
     "composer_password": "Password",
+    "composer_due": "Due",
     "tooltip_fold": "Fold Window (Preserve Content)",
     "settings_title": "⚙️ Settings",
     "settings_bg": "Background Color",

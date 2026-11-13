@@ -31,6 +31,7 @@
     "composer_attach_file": "파일 첨부",
     "composer_attach_label": "파일추가",
     "composer_password": "비밀번호",
+    "composer_due": "기한",
     "tooltip_fold": "창 접기 (내용 보존)",
     "settings_title": "⚙️ 환경 설정",
     "settings_bg": "전체 배경색",

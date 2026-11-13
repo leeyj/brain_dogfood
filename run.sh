@@ -15,6 +15,9 @@ else
 fi
 PID_FILE="$STATE_DIR/server.pid"
 LOG_FILE="logs/console.log"
+# 전용 venv 가 있으면 사용 (테스트 서버 등). 프로세스 이름은 '.../python3 brain.py' 로 동일하게 유지
+PYTHON="python3"
+[ -x "$STATE_DIR/.venv/bin/python3" ] && PYTHON="$STATE_DIR/.venv/bin/python3"
 
 # 로그 디렉토리 생성 확인 (릴리스 구조에선 shared/logs 를 가리키는 링크)
 mkdir -p logs
@@ -30,7 +33,7 @@ start() {
 
     echo "🚀 서버를 백그라운드에서 시작합니다... (Port: 5093)"
     # nohup으로 실행하여 세션 종료 후에도 유지
-    nohup python3 $APP_NAME > $LOG_FILE 2>&1 &
+    nohup "$PYTHON" $APP_NAME > $LOG_FILE 2>&1 &
     
     # PID 저장
     echo $! > "$PID_FILE"

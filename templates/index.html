@@ -39,7 +39,8 @@
     <script defer src="{{ asset('lib/marked/marked.min.js') }}"></script>
     <script defer src="{{ asset('lib/dompurify/purify.min.js') }}"></script>
 </head>
-<body>
+{# 번역 파일도 내용 해시 URL 로 받음 (?v=<hash> 는 1년 immutable 캐시 → 고정 버전이면 번역 수정이 반영 안 됨) #}
+<body data-locale-ko="{{ asset('locales/ko.json') }}" data-locale-en="{{ asset('locales/en.json') }}">
     {% include 'components/sidebar.html' %}
     
     <main class="content">

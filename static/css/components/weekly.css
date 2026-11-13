@@ -229,11 +229,16 @@
 
 /* 모바일 대응 */
 @media (max-width: 768px) {
-    .wk-container { padding: 10px 8px; }
+    /* B4: 모바일 주간 달력 압축 (128px → 100px 이하) */
+    .wk-container { padding: 5px 6px; border-radius: 14px; }
+    .wk-header { margin-bottom: 4px; }
+    .wk-nav-group { gap: 6px; }
     .wk-days { border-radius: 10px; }
-    .wk-item { padding: 8px 2px; }
-    .wk-number { font-size: 0.95rem; }
+    .wk-item { padding: 4px 2px 3px; }
+    .wk-label { font-size: 0.6rem; }
+    .wk-number { font-size: 0.9rem; }
+    .wk-activity { height: 8px; }
     .wk-info { font-size: 0.85rem; min-width: 90px; }
-    .wk-nav-btn { width: 28px; height: 28px; }
-    .wk-full-btn { padding: 5px 10px; font-size: 0.75rem; }
+    .wk-nav-btn { width: 26px; height: 26px; }
+    .wk-full-btn { padding: 4px 8px; font-size: 0.72rem; }
 }

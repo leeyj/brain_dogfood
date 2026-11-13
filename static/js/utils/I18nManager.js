@@ -12,7 +12,11 @@ export const I18nManager = {
     async init(lang = 'en') {
         this.currentLang = lang;
         try {
-            const res = await fetch(`/static/locales/${lang}.json?v=2.3`);
+            // 서버가 <body data-locale-xx> 로 넘겨준 내용 해시 URL 사용 (?v=<hash> 는 1년 캐시라
+            // 고정 버전 문자열이면 번역을 고쳐도 기존 브라우저에 반영되지 않았음)
+            const key = 'locale' + lang.charAt(0).toUpperCase() + lang.slice(1);
+            const url = (document.body && document.body.dataset[key]) || `/static/locales/${lang}.json`;
+            const res = await fetch(url);
             if (!res.ok) throw new Error(`Locale ${lang} not found`);
             this.localeData = await res.json();
             console.log(`🌐 i18n: Language [${lang}] loaded successfully.`);
@@ -32,6 +36,11 @@ export const I18nManager = {
         // 객체 깊은 참조 지원 (예: "groups.done")
         const value = key.split('.').reduce((obj, k) => (obj && obj[k]), this.localeData);
         return value !== undefined ? value : key; // 없으면 키 자체 반환
+    },
+
+    /** 언어 팩이 로드됐는지 (로드 전 t()는 키를 그대로 반환하므로 화면 표시 전 확인용) */
+    isLoaded() {
+        return Object.keys(this.localeData).length > 0;
     },
 
     /**
@@ -61,5 +70,8 @@ export const I18nManager = {
             const key = el.dataset.i18nTooltip;
             el.setAttribute('data-tooltip', this.t(key));
         });
+
+        // 5. data-i18n 속성으로 처리할 수 없는 컴포넌트(에디터 등)에 알림
+        document.dispatchEvent(new CustomEvent('i18n:applied', { detail: { lang: this.currentLang } }));
     }
 };

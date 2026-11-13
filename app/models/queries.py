@@ -68,7 +68,10 @@ class SchemaQueries:
         ("CREATE INDEX IF NOT EXISTS idx_memos_pinned_updated ON memos(is_pinned, updated_at DESC)", "OperationalError"),
         ("CREATE INDEX IF NOT EXISTS idx_tags_memo_id ON tags(memo_id)", "OperationalError"),
         ("CREATE INDEX IF NOT EXISTS idx_attachments_memo_id ON attachments(memo_id)", "OperationalError"),
-        ("CREATE INDEX IF NOT EXISTS idx_links_source_target ON memo_links(source_id, target_id)", "OperationalError")
+        ("CREATE INDEX IF NOT EXISTS idx_links_source_target ON memo_links(source_id, target_id)", "OperationalError"),
+        # 옵시디언 동기화: 첨부 내용 해시 (같은 파일 재업로드 시 재사용)
+        ("ALTER TABLE attachments ADD COLUMN sha256 TEXT", "OperationalError"),
+        ("CREATE INDEX IF NOT EXISTS idx_attachments_sha256 ON attachments(sha256)", "OperationalError")
     ]
 
 

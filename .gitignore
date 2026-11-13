@@ -47,3 +47,7 @@ server.pid
 
 # 배포 식별자 (deploy.py 가 서버에서 생성)
 REVISION
+
+# E2E 산출물
+tests/e2e/_artifacts/
+.pytest_cache/

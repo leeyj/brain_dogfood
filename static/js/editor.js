@@ -31,7 +31,8 @@ export const EditorManager = {
             previewStyle: isMobile ? 'tab' : 'vertical',
             theme: 'dark',
             usageStatistics: false,
-            placeholder: I18nManager.t('composer_placeholder'),
+            // 에디터는 설정(언어) 로딩과 병렬로 초기화됨 → 로드 전이면 키 노출 대신 빈 값, 로드 후 i18n:applied 에서 갱신
+            placeholder: I18nManager.isLoaded() ? I18nManager.t('composer_placeholder') : '',
             plugins: plugins,
             toolbarItems: isMobile ? [
                 ['heading', 'bold', 'italic', 'strike'],
@@ -98,6 +99,14 @@ export const EditorManager = {
 
         // --- 슬래시 명령(/) 팝업 초기화 ---
         SlashCommand.init(this.editor, editorEl);
+
+        // --- 언어 팩 로드/변경 시 placeholder 갱신 (최초 1회만 등록) ---
+        if (!this._i18nBound) {
+            this._i18nBound = true;
+            document.addEventListener('i18n:applied', () => {
+                if (this.editor) this.editor.setPlaceholder(I18nManager.t('composer_placeholder'));
+            });
+        }
 
         return this.editor;
     },

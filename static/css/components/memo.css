@@ -94,9 +94,12 @@
 }
 
 /* Memo Content Elements */
-.memo-title { font-weight: 600; font-size: 1.0rem; margin-bottom: 0.5rem; color: var(--text); }
-.memo-content { font-size: 0.9rem; color: var(--text); opacity: 0.9; line-height: 1.6; }
-.memo-content img { max-width: 100%; border-radius: 8px; margin-top: 5px; }
+.memo-title { font-weight: 600; font-size: 1.0rem; margin-bottom: 0.5rem; color: var(--text); overflow-wrap: anywhere; }
+.memo-content { font-size: 0.9rem; color: var(--text); opacity: 0.9; line-height: 1.6; overflow-wrap: anywhere; }
+.memo-content img { max-width: 100%; height: auto; border-radius: 8px; margin-top: 5px; }
+/* 띄어쓰기 없는 긴 줄·URL·코드·표가 카드/모달 폭을 밀어내지 않도록 (모바일에서 카드가 화면 밖으로 잘리던 원인) */
+.memo-content pre, .memo-content table { display: block; max-width: 100%; overflow-x: auto; }
+.memo-content video, .memo-content iframe { max-width: 100%; }
 
 .memo-summary, .memo-ai-summary {
     font-size: 0.8rem; 

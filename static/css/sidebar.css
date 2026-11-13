@@ -1,6 +1,7 @@
 .sidebar { 
     width: var(--sidebar-width); 
     height: 100vh;
+    height: 100dvh; /* iOS/iPadOS Safari: 100vh 는 툴바가 접힌 최대 높이라 하단이 가려짐 → 실제 보이는 높이 */
     background: var(--sidebar); 
     backdrop-filter: blur(10px); 
     border-right: 1px solid rgba(128, 128, 128, 0.1); 

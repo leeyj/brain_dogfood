@@ -422,3 +422,17 @@ select option {
     background-color: var(--card);
     color: var(--text-card);
 }
+
+/* B6: 선택 상자는 브라우저 기본 모양을 끄고 테마 색으로 직접 그림.
+   (.meta-field 의 반투명 background !important 때문에 WebKit/iOS 가 기본 밝은 상자를 그리고
+    그 위에 밝은 글자가 올라가 읽을 수 없었음. 화살표는 SVG 로 대체) */
+.modal-content select.meta-field,
+.modal-content select {
+    -webkit-appearance: none;
+    appearance: none;
+    background: var(--card) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat right 10px center / 12px 8px !important;
+    color: var(--text-card) !important;
+    padding-right: 30px !important;
+    border-radius: 8px;
+    min-height: 34px;
+}

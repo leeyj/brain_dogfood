@@ -266,11 +266,14 @@ export const WeeklyManager = {
      * @returns {string} 현지화된 연/월 문자열
      */
     _formatMonthYear(date) {
+        // CalendarManager 와 동일하게 {month} 에는 월 '이름'을 넣음 (ko: "11월" → "2026년 11월", en: "November 2026")
+        // 숫자를 넣으면 ko 는 "2026년 11", en 은 "11 2026" 으로 표시되던 문제
         const year = date.getFullYear();
-        const month = date.getMonth() + 1;
+        const months = I18nManager.t('calendar_months');
+        const monthLabel = Array.isArray(months) ? months[date.getMonth()] : String(date.getMonth() + 1);
         return I18nManager.t('date_month_year')
             .replace('{year}', year)
-            .replace('{month}', month);
+            .replace('{month}', monthLabel);
     },
 
     /**

@@ -1,7 +1,64 @@
 {
-    "version": "8.4.3",
+    "version": "8.5.0",
     "release_date": "2026-11-13",
     "history": [
+        {
+            "version": "8.5.0",
+            "date": "2026-11-13",
+            "title": "Obsidian Push Sync API",
+            "changes": [
+                "신규: 옵시디언 플러그인 전용 동기화 API (/api/external/sync) — 옵시디언에서 쓴 노트를 뇌사료로 단방향 전송",
+                "충돌 보호: 웹에서 먼저 수정된 메모는 옵시디언의 옛 버전이 덮어쓰지 못하도록 차단 (고정·완료 등 메타 변경은 제외)",
+                "암호화 메모 보호: 동기화 API는 암호화 메모의 본문·암호문을 내려보내지 않고 수정도 거부",
+                "첨부 중복 방지: 같은 파일을 다시 올리면 기존 첨부를 재사용",
+                "옵시디언 플러그인 2.0 (Brain Dogfood Push) 전면 재작성 — 기존 파일럿 플러그인과 단방향 일괄 동기화 스크립트 폐기"
+            ],
+            "changes_en": [
+                "New: Sync API for the Obsidian plugin (/api/external/sync) — one-way push of notes from Obsidian to Brain Dogfood.",
+                "Conflict protection: An outdated Obsidian version can no longer overwrite a memo edited on the web (meta-only changes like pin/done are ignored).",
+                "Encrypted memos: The sync API never returns their content or ciphertext and refuses edits.",
+                "Attachments: Re-uploading the same file reuses the existing attachment.",
+                "Obsidian plugin 2.0 (Brain Dogfood Push) rewritten from scratch; the pilot plugin and one-way bulk sync script were retired."
+            ]
+        },
+        {
+            "version": "8.4.5",
+            "date": "2026-11-13",
+            "title": "iPad/iPhone Safari Viewport Fix",
+            "changes": [
+                "버그 수정: iPad/iPhone Safari에서 사이드바 하단의 로그아웃·도움말·설정 버튼이 탭·주소창 높이만큼 화면 밖으로 밀려 보이지 않던 문제 해결 (100vh → 100dvh)"
+            ],
+            "changes_en": [
+                "Fix: On iPad/iPhone Safari, the sidebar footer (Logout, Help, Settings) was pushed off-screen by the browser toolbars (100vh → 100dvh)."
+            ]
+        },
+        {
+            "version": "8.4.4",
+            "date": "2026-11-13",
+            "title": "Mobile UI Overhaul & Rendering Fixes",
+            "changes": [
+                "모바일 버그 수정: 카드가 화면보다 넓게 그려져 오른쪽(날짜·버튼)이 잘리던 문제 해결 (긴 줄·URL·표 자동 줄바꿈)",
+                "모바일 개선: 사이드바 서랍을 불투명하게 하고 뒤 화면을 어둡게 처리, 메뉴 선택 시 서랍 자동 닫힘",
+                "모바일 개선: 상단바를 [메뉴][검색][보기] 한 줄로 정리, 검색창 잘림 해결",
+                "모바일 개선: 글자·여백·버튼 크기 조정으로 첫 화면에 메모가 보이도록 개선 (주간 달력·작성기·카드 압축)",
+                "모바일 개선: 작성기 입력칸을 세 줄로 압축하고 iOS 입력 시 화면 확대 방지, 빈 기한 칸에 '기한' 표시",
+                "버그 수정: iOS/WebKit 설정 화면의 선택 상자 글자가 보이지 않던 문제 해결",
+                "보안·안정성: 메모 본문 HTML의 레이아웃 스타일·<style> 태그 제거 (메모 하나가 화면 전체를 가리거나 숨길 수 있던 문제)",
+                "버그 수정: 작성기 안내 문구가 번역 키(composer_placeholder)로 보이던 문제, 주간 보기 머리글 '2026년 11' 표기 오류 해결",
+                "버그 수정: 번역 파일이 1년간 캐시되어 번역 수정이 반영되지 않던 문제 해결"
+            ],
+            "changes_en": [
+                "Mobile: Fixed cards rendering wider than the screen and clipping dates/buttons (long lines, URLs and tables now wrap).",
+                "Mobile: Opaque sidebar drawer with dimmed background; the drawer closes after choosing a menu item.",
+                "Mobile: Single-row top bar [menu][search][views]; search box no longer truncated.",
+                "Mobile: Tighter type, spacing and buttons so memos appear on the first screen (compact weekly widget, composer and cards).",
+                "Mobile: Three-row composer, no iOS zoom on input focus, 'Due' hint on empty date fields.",
+                "Fix: Unreadable select boxes in Settings on iOS/WebKit.",
+                "Security/Stability: Memo HTML can no longer use layout styles or <style> tags to cover or hide the app.",
+                "Fix: Editor placeholder showing a raw i18n key; weekly header month label.",
+                "Fix: Translation files were cached for a year, so translation updates never reached returning browsers."
+            ]
+        },
         {
             "version": "8.4.3",
             "date": "2026-11-13",

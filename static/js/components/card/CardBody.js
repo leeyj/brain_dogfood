@@ -3,6 +3,7 @@
  */
 import { escapeHTML, parseInternalLinks, fixImagePaths, stripMetadata } from '../../utils.js';
 import { I18nManager } from '../../utils/I18nManager.js';
+import { sanitizeMemoHtml } from '../../utils/SafeHtml.js';
 
 export const CardBody = {
     createSummary(memo) {
@@ -51,7 +52,7 @@ export const CardBody = {
             `;
         } else {
             const displayContent = stripMetadata(memo.content || '');
-            let html = DOMPurify.sanitize(marked.parse(displayContent));
+            let html = sanitizeMemoHtml(marked.parse(displayContent));
             html = parseInternalLinks(html);
             html = fixImagePaths(html);
             container.innerHTML = html;

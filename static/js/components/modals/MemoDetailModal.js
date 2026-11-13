@@ -4,6 +4,7 @@
 import { API } from '../../api.js';
 import { escapeHTML } from '../../utils.js';
 import { I18nManager } from '../../utils/I18nManager.js';
+import { sanitizeMemoHtml } from '../../utils/SafeHtml.js';
 import { AppService } from '../../AppService.js';
 import { renderAttachmentBox } from '../AttachmentBox.js';
 
@@ -31,7 +32,7 @@ export const MemoDetailModal = {
         
         // 렌더링 시에는 태그와 그룹명을 시각적으로 가립니다 (원본 보존 정책)
         const displayContent = stripMetadata(memo.content || '');
-        let html = DOMPurify.sanitize(marked.parse(displayContent));
+        let html = sanitizeMemoHtml(marked.parse(displayContent));
 
         html = parseInternalLinks(html);
         html = fixImagePaths(html);
